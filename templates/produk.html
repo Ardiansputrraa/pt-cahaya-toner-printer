@@ -31,8 +31,8 @@
                           <div class="card-body">
                             <h6 class="card-title">${data[i]["merk"]}</h6>
                             <p class="card-text">Tipe: ${data[i]["tipe"]}</p>
-                            <p class="card-text">Harga Jual: ${data[i]["hargaJual"]}</p>
-                            <p class="card-text">Harga Sewa: ${data[i]["hargaSewa"]}/hari</p>
+                            <p class="card-text">Harga Jual: ${formatRupiah(data[i]["hargaJual"])}</p>
+                            <p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])}/hari</p>
                             <p class="card-text">Deskripsi: ${data[i]["deskripsi"]}</p>
                             <div class="d-flex justify-content-between">
                               <button class="btn btn-danger">Edit</button>
