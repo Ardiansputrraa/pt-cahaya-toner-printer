@@ -370,6 +370,10 @@ def delete_data(page):
         db.data_sewa.delete_one({'id': id})
         db.data_pendapatan.delete_one({'id': id})
         return jsonify({'msg': 'Data sewa berhasil dihapus!'})
+    elif page == "produk":
+        id = request.form['id']
+        db.data_produk.delete_one({'id': id})
+        return jsonify({'msg': 'Data produk berhasil dihapus!'})
     
 @app.route("/edit_data/form/<page>/<id>", methods=['GET', 'POST'])
 def edit_data(page, id):
