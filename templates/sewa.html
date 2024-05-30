@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.html" %}
+    <script>
+        $(document).ready(function () {
+            getData()
+            $('#search').on('input', function() {
+                let query = $(this).val().trim()
+                if(query === ''){
+                    window.location.reload()
+                } else {
+                    searchData(query)
+                }
+            })
+        })
+        function getData() {
+            $("#data-box").empty()
+            $.ajax({
+                type: "GET",
+                url: `/get_data/sewa`,
+                data: {},
+                success: function (response) {
+                    data = response["dataSewa"]
+                    for (let i = 0; i < data.length; i++) {
+                        let table_temp = `<tr>
+                            <th scope="row">${data[i]["id"]}</th>
+                            <td>${data[i]["tanggal"]}</td>
+                            <td>${data[i]["jam"]}</td>
+                            <td>${data[i]["tipe"]}</td>
+                            <td>${data[i]["kuantitas"]} unit</td>
+                            <td>${data[i]["namaPic"]}</td>
+                            <td>${data[i]["perusahaan"]}</td>
+                            <td>${data[i]["alamat"]}</td>
+                            <td>${data[i]["durasiSewa"]} hari</td>
+                            <td>${data[i]["metodePembayaran"]}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger m-2" onclick="window.location.href='/edit_data/form/sewa/${data[i]["id"]}'">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger m-2" onclick="deleteData('${data[i]["id"]}')">Hapus</button>
+                            </td>
+                        </tr>`
+                        $("#data-box").append(table_temp)
+                    }
+                }
+            })
+        }
+        
+        function deleteData(id) {
+            $.ajax({
+                type: "POST",
+                url: "/delete_data/sewa",
+                data: { id: id },
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response["msg"],
+                        icon: 'success',
+                        confirmButtonText: 'Oke',
+                        background: '#000000', 
+                        confirmButtonColor: '#EB1616',
+                        customClass: {
+                            icon: 'swal2-icon-dark', 
+                            content: 'swal2-content-dark' 
+                        }
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.reload()
+                        }
+                    })
+                }
+            })
+        }
+
+        function searchData(query) {
+            $.ajax({
+                url: '/search_data/sewa',
+                method: 'POST',
+                data: { query: query },
+                success: function(response) {
+                    $("#data-box").empty()
+                    data = response["dataSewa"]
+                    for (let i = 0; i < data.length; i++) {
+                        let table_temp = `<tr>
+                            <th scope="row">${data[i]["id"]}</th>
+                            <td>${data[i]["tanggal"]}</td>
+                            <td>${data[i]["jam"]}</td>
+                            <td>${data[i]["tipe"]}</td>
+                            <td>${data[i]["kuantitas"]} unit</td>
+                            <td>${data[i]["namaPic"]}</td>
+                            <td>${data[i]["perusahaan"]}</td>
+                            <td>${data[i]["alamat"]}</td>
+                            <td>${data[i]["durasiSewa"]} hari</td>
+                            <td>${data[i]["metodePembayaran"]}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger m-2" onclick="window.location.href='/edit_data/form/sewa/${data[i]["id"]}'">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger m-2" onclick="deleteData('${data[i]["id"]}')">Hapus</button>
+                            </td>
+                        </tr>`
+                        $("#data-box").append(table_temp)
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+
+        {% include "sidebar.html" %}
+
+        <!-- Content -->
+        <div class="content">
+            
+            {% include "navbar.html" %}
+
+            <!-- Data Sewa Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">  
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Data Sewa</h6>
+                                <div class="d-flex">
+                                    <input type="text" class="form-control m-2" placeholder="Search" id="search">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Tanggal</th>
+                                            <th scope="col">Jam</th>
+                                            <th scope="col">Tipe</th>
+                                            <th scope="col">Kuantitas</th>
+                                            <th scope="col">Nama Pic</th>
+                                            <th scope="col">Perusahaan</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Durasi Sewa</th>
+                                            <th scope="col">Metode Pembayaran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="data-box">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Data Sewa End -->
+
+            <!-- Move To Form Add Data -->
+            <a href="/add_data/form/sewa" class="btn btn-sm btn-danger m-2 btn-lg-square back-to-top"><i class="fas fa-plus"></i></a>
+            {% include "footer.html" %}
+
+</body>
+</html>

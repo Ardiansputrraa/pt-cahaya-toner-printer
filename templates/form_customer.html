@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.html" %}
+    <script>
+        function add() {
+            $("#form").action = "/add_data/form/customer"
+        }
+        function edit(id) {
+            $("#form").action =`/edit/form/customer/${id}`
+        }
+        function cancel() {
+            window.location.href='/customer'
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Form Customer -->
+        <div class="container-fluid">
+            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-7">
+                    <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                        <h6 class="mb-4">Data Customer</h6>
+                            <form method="post" enctype="multipart/form-data" id="form">
+                                {% if action == "tambah" %}
+                                <div class="mb-3">
+                                    <label for="inputPerusahaan" class="form-label">Perusahaan</label>
+                                    <input type="text" class="form-control" id="perusahaan" name="perusahaan" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputNama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTelpone" class="form-label">Telpone</label>
+                                    <input type="number" class="form-control" id="telpone" name="telpone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputAlamat" class="form-label">alamat</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat" required>
+                                </div> 
+                                <button type="submit" class="btn btn-danger" onclick="add()">Tambah</button>
+                                {% elif action == "edit" %}
+                                <input type="text" name="id" value="{{ dataCustomer[0].id }}" hidden>
+                                <div class="mb-3">
+                                    <label for="inputPerusahaan" class="form-label">Perusahaan</label>
+                                    <input type="text" class="form-control" id="perusahaan" name="perusahaan" value="{{ dataCustomer[0].perusahaan }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputNama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="{{ dataCustomer[0].namaLengkap }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ dataCustomer[0].email }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTelpone" class="form-label">Telpone</label>
+                                    <input type="number" class="form-control" id="telpone" name="telpone" value="{{ dataCustomer[0].telpone }}"required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputAlamat" class="form-label">alamat</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat" value="{{ dataCustomer[0].alamat }}" required>
+                                </div> 
+                                <button type="submit" class="btn btn-danger" onclick="edit('{{dataCustomer[0].id}}')">Edit</button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-outline-danger" onclick="cancel()">Cancel</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form Customer End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/lib/chart/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!--  Javascript -->
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+</body>
+
+</html>

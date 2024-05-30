@@ -1,0 +1,110 @@
+{% include "header.html" %}
+<script>
+    function submit() {
+        $("#form").action = "/add_data/form/karyawan"
+    }
+    function edit(id) {
+        $("#form").action =`/edit_data/form/karyawan/${id}`
+    }
+    function cancel() {
+        window.location.href='/karyawan'
+    }
+</script>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Form Karyawan -->
+        <div class="container-fluid">
+            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-7">
+                    <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                        <h6 class="mb-4">Data Karyawan</h6>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                {% if action == "tambah" %}
+                                <div class="mb-3">
+                                    <label for="inputNIK" class="form-label">NIK</label>
+                                    <input type="number" class="form-control" id="nik" name="nik" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputNama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPosisi" class="form-label">Posisi</label>
+                                    <input type="text" class="form-control" id="posisi" name="posisi" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTelpone" class="form-label">Telpone</label>
+                                    <input type="number" class="form-control" id="telpone" name="telpone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputGaji" class="form-label">Gaji</label>
+                                    <input type="text" class="form-control" id="gaji" name="gaji" required>
+                                </div>
+                                <button type="submit" class="btn btn-danger" onclick="add()">Tambah</button>
+                                {% elif action == "edit" %}
+                                <input type="text" name="id" value="{{ dataKaryawan[0].id }}" hidden>
+                                <div class="mb-3">
+                                    <label for="inputNIK" class="form-label">NIK</label>
+                                    <input type="number" class="form-control" id="nik" name="nik" value="{{ dataKaryawan[0].nik }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputNama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="{{ dataKaryawan[0].namaLengkap }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPosisi" class="form-label">Posisi</label>
+                                    <input type="text" class="form-control" id="posisi" name="posisi" value="{{ dataKaryawan[0].posisi }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"value="{{ dataKaryawan[0].email }}"  required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTelpone" class="form-label">Telpone</label>
+                                    <input type="number" class="form-control" id="telpone" name="telpone" value="{{ dataKaryawan[0].telpone }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputGaji" class="form-label">Gaji</label>
+                                    <input type="text" class="form-control" id="gaji" name="gaji" value="{{ dataKaryawan[0].gaji }}" required>
+                                </div>
+                                <button type="submit" class="btn btn-danger" onclick="edit('{{dataKaryawan[0].id}}')">Edit</button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-outline-danger" onclick="cancel()">Cancel</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form Karyawan End -->
+    </div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='assets/lib/chart/chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/lib/easing/easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/lib/waypoints/waypoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+<!--  Javascript -->
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+</body>
+
+</html>

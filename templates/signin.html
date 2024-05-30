@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.html" %}
+    <script>
+        function sign_in() {
+            let username = $("#username").val()
+            let password = $("#password").val()
+    
+            if (username === "") {
+              $("#helpUsername").text("Silahkan masukan username!");
+              $("#username").focus();
+              return
+            } else {
+              $("#helpUsername").text("")
+            }
+    
+            if (password === "") {
+              $("#helpPassword").text("Please input your password.");
+              $("#password").focus();
+              return;
+            } else {
+              $("#helpPassword").text("")
+            }
+    
+            console.log(username, password)
+            $.ajax({
+              type: "POST",
+              url: "/sign_in/check",
+              data: {
+                username: username,
+                password: password,
+              },
+              success: function (response) {
+                if (response["result"] === "success") {
+                  document.cookie = "mytoken=" + response["token"] + "; path=/";
+                  window.location.replace("/")
+                } else {
+                  Swal.fire({
+                    title: 'Login Failed!',
+                    text: response["msg"],
+                    icon: 'info',
+                    confirmButtonText: 'Oke',
+                    background: '#000000', 
+                    confirmButtonColor: '#EB1616',
+                    customClass: {
+                        icon: 'swal2-icon-dark', 
+                        content: 'swal2-content-dark' 
+                    }
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      $("#username").val("")
+                      $("#password").val("")
+                    }
+                  })
+                }
+              },
+            });
+          }
+    </script>
+</head>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sign In -->
+        <div class="container-fluid">
+            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-5">
+                    <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i></h3>
+                            <h3>Sign In</h3>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" placeholder="name@example.com">
+                            <label for="floatingInput">Username</label>
+                            <p id="helpUsername" class="help is-hidden"></p>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                            <p id="helpPassword" class="help is-hidden"></p>
+                        </div>
+                       
+                        <button type="submit" class="btn btn-danger py-3 w-100 mb-4" onclick="sign_in()">Sign In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sign In End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{url_for('static', filename='assets/lib/chart/chart.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/easing/easing.min.js')}}"></script>
+    <script src="{{url_for('static', filename='ssets/lib/waypoints/waypoints.min.js')}}a"></script>
+    <script src="{{url_for('static', filename='assets/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/tempusdominus/js/moment.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+    <!--  Javascript -->
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+</body>
+
+</html>

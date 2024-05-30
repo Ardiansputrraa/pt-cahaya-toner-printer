@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "header.html" %}
+    <script>
+      function is_nickname(asValue) {
+        var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+        return regExp.test(asValue);
+      }
+
+      function is_password(asValue) {
+        var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+        return regExp.test(asValue);
+      }
+
+      function sign_up() {
+        let username = $("#username").val();
+        let password = $("#password").val();
+        let conformPassword = $("#confirmPassword").val();
+        let isChecked = $('#checkAkun').prop('checked');
+        let akun = isChecked ? "owner" : "admin"
+        if (username === "") {
+          $("#helpUsername")
+            .text("Silahkan masukan username!")
+            .removeClass("is-safe")
+            .addClass("is-danger");
+          $("#username").focus();
+          return;
+        }
+        if (!is_nickname(username)) {
+          $("#helpUsername")
+            .text(
+              "Username menggunakan 2-10 karakter, angka, atau karakter khusus berikut (._-)!"
+            )
+            .removeClass("is-safe")
+            .addClass("is-danger");
+          $("#username").focus();
+          return;
+        }
+
+        if (password === "") {
+          $("#helpPassword")
+            .text("Silahkan masukan password!")
+            .removeClass("is-safe")
+            .addClass("is-danger");
+          $("#password").focus();
+          return;
+        } else if (!is_password(password)) {
+          $("#helpPassword")
+            .text(
+              "Password harus menggunakan 8-20 karakter, angka, atau karakter khusus berikut (!@#$%^&*)!"
+            )
+            .removeClass("is-safe")
+            .addClass("is-danger");
+          $("#password").focus();
+          return;
+        } else {
+          $("#helpPassword")
+            .text("Password ini dapat digunakan!")
+            .removeClass("is-danger")
+            .addClass("is-success");
+        }
+
+        if (conformPassword === "") {
+          $("#helpConfirmPassword")
+            .text("Silahkan masukan password anda lagi!")
+            .removeClass("is-safe")
+            .addClass("is-danger");
+          $("#confirmPassword").focus();
+          return;
+        } else if (conformPassword !== password) {
+          $("#helpConfirmPassword")
+            .text("Password tidak sesuai dengan password sebelumnya!")
+            .removeClass("is-safe")
+            .addClass("is-danger");
+          $("#confirmPassword").focus();
+          return;
+        } else {
+          $("#helpConfirmPassword")
+            .text("Password telah sesuai!")
+            .removeClass("is-danger")
+            .addClass("is-success");
+        }
+        $.ajax({
+          type: "POST",
+          url: "/sign_up/save",
+          data: {
+            username: username,
+            password: password,
+            akun: akun,
+          },
+          success: function (response) {
+            if (response["exists"]) {
+              Swal.fire({
+                title: 'Register Failed!',
+                text: 'Username ini telah digunakan!',
+                icon: 'info',
+                confirmButtonText: 'Oke',
+                background: '#000000', 
+                confirmButtonColor: '#EB1616',
+                customClass: {
+                    icon: 'swal2-icon-dark', 
+                    content: 'swal2-content-dark' 
+                }
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $("#username").focus()
+                }
+              })
+            } else {
+              Swal.fire({
+                title: 'Register Success',
+                text: `Akun ${akun} berhasil dibuat dengan Username "${username}" Password "${password}"`,
+                icon: 'success',
+                confirmButtonText: 'Oke',
+                background: '#000000', 
+                confirmButtonColor: '#EB1616',
+                customClass: {
+                    icon: 'swal2-icon-dark', 
+                    content: 'swal2-content-dark' 
+                }
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.replace("/")
+                }
+              })
+            }
+          },
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="container-fluid position-relative d-flex p-0">
+      <!-- Spinner -->
+      <div
+        id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+      >
+        <div
+          class="spinner-border text-primary"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <!-- Spinner End -->
+
+      <!-- Sign Up -->
+      <div class="container-fluid">
+        <div
+          class="row h-100 align-items-center justify-content-center"
+          style="min-height: 100vh"
+        >
+          <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-6">
+            <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+              <div
+                class="d-flex align-items-center justify-content-between mb-3"
+              >
+                <h3 class="text-primary">
+                  <i class="fa fa-user-plus me-2"></i>
+                </h3>
+                <h3>Sign Up</h3>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="jhondoe"
+                />
+                <label for="floatingText">Username</label>
+                <p id="helpUsername" class="help is-hidden">
+                  Username menggunakan 2-10 karakter, angka, atau karakter
+                  khusus berikut (._-)!
+                </p>
+              </div>
+              <div class="form-floating mb-4">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Password"
+                />
+                <label for="floatingPassword">Password</label>
+                <p id="helpPassword" class="help is-hidden">
+                  Password harus 8-20 karakter, angka, atau spesial karakter
+                  (!@#$%^&*)
+                </p>
+              </div>
+              <div class="form-floating mb-4">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  placeholder="Password"
+                />
+                <label for="floatingPassword">Confirm Password</label>
+                <p id="helpConfirmPassword" class="help">
+                  Silahkan masukan password anda lagi
+                </p>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-between mb-4"
+              >
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="checkAkun"
+                  />
+                  <label class="form-check-label" for="exampleCheck1"
+                    >account owner</label
+                  >
+                </div>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-danger py-3 w-100 mb-4"
+                onclick="sign_up()"
+              >
+                Sign Up
+              </button>
+              <button
+                type="submit"
+                class="btn btn-outline-danger py-3 w-100 mb-4"
+                onclick="window.location.href='/'"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sign Up End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/lib/chart/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!--  Javascript -->
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+    
+  </body>
+</html>

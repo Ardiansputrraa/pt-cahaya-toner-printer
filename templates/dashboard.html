@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.html" %}
+    <script>
+        $(document).ready(function () {
+            getData()
+        })
+ 
+        function formatRupiah(angka) {
+            let reverse = angka.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g)
+            ribuan = ribuan.join('.').split('').reverse().join('')
+            return 'Rp ' + ribuan
+        }
+
+        function getData() {
+            let pendapatanHariIni = 0, pendapatanBulanIni = 0, pendapatanTahunIni = 0
+            let penjualanJan = 0, penyewaanJan = 0, penjualanFeb = 0, penyewaanFeb = 0, penjualanMar = 0, penyewaanMar = 0, penjualanApr = 0, penyewaanApr = 0, penjualanMei = 0, penyewaanMei = 0, penjualanJun = 0, penyewaanJun = 0, penjualanJul = 0, penyewaanJul = 0, penjualanAgu = 0, penyewaanAgu = 0, penjualanSept = 0, penyewaanSept = 0, penjualanOkt = 0, penyewaanOkt = 0, penjualanNov = 0, penyewaanNov = 0, penjualanDes= 0, penyewaanDes = 0
+             $("#data-box").empty()
+             $.ajax({
+                 type: "GET",
+                 url: `/get_data/dashboard`,
+                 data: {},
+                 success: function (response) {
+                    data = response["dataPendapatan"]
+                    for (let i = 0; i < data.length; i++) {
+                        if (i < 5) {
+                            let table_temp = `<tr>
+                                <th scope="row">${data[i]["id"]}</th>
+                                <td>${data[i]["tanggal"]}</td>
+                                <td>${data[i]["jam"]}</td>
+                                <td>${data[i]["tipe"]}</td>
+                                <td>${data[i]["kuantitas"]} unit</td>
+                                <td>${formatRupiah(data[i]["harga"])}</td>
+                                <td>${data[i]["metodePembayaran"]}</td>
+                                <td>${data[i]["tipePemasukan"]}</td>
+                                </tr>`
+                            $("#data-box").append(table_temp)
+                        }
+                        let tanggal = data[i]["tanggal"].split("-")
+                        if(response["tanggal"] == data[i]["tanggal"]) {
+                            pendapatanHariIni += parseInt(data[i]["harga"])
+                        }
+                        if(response["bulan"] == tanggal[1] && response["tahun"] == tanggal[2]) {
+                            pendapatanBulanIni += parseInt(data[i]["harga"])
+                        }
+                        if(response["tahun"] == tanggal[2]) {
+                            pendapatanTahunIni += parseInt(data[i]["harga"])
+                        }
+                        if(tanggal[1] == "01" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanJan += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "01" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanJan += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "02" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanFeb += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "02" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanFeb += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "03" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanMar += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "03" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanMar += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "04" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanApr += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "04" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanApr += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "05" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanMei += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "05" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanMei += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "06" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanJun += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "06" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanJun += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "07" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanJun += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "07" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanJul += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "08" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanJul += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "08" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanAgu += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "09" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanAgu += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "09" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanSept += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "10" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanSept += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "10" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanOkt += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "11" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanOkt += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "11" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanNov += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "12" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penjualan") {
+                                penjualanDes += parseInt(data[i]["harga"])
+                            }
+                        }
+                        if(tanggal[1] == "12" && response["tahun"] == tanggal[2]){
+                            if(data[i]["tipePemasukan"] == "Penyewaan") {
+                                penyewaanDes += parseInt(data[i]["harga"])
+                            }
+                        }
+                    }
+                    let today_sale_temp = `
+                        <div class="col-sm-12 col-xl-4">
+                            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                              <i class="fa fa-chart-line fa-3x text-primary"></i>
+                              <div class="ms-3">
+                                <p class="mb-2">Pendapatan hari ini</p>
+                                <h6 class="mb-0" id="today-sale">${formatRupiah(pendapatanHariIni)}</h6>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-xl-4">
+                            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                                <div class="ms-3">
+                                    <p class="mb-2">Pendapatan bulan ini</p>
+                                    <h6 class="mb-0">${formatRupiah(pendapatanBulanIni)}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xl-4">
+                            <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
+                                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                                <div class="ms-3">
+                                    <p class="mb-2">Pendapatan tahun ini</p>
+                                    <h6 class="mb-0">${formatRupiah(pendapatanTahunIni)}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        `
+                    $("#today-sale-box").append(today_sale_temp)
+                    
+                    let ctx1 = $("#penjualan-bulanan").get(0).getContext("2d")
+                    let myChart1 = new Chart(ctx1, {
+                    type: "bar",
+                    data: {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sept", "Okt", "Nov", "Des"],
+                        datasets: [{
+                            label: "Penjualan",
+                            backgroundColor: [
+                                "rgba(235, 22, 22, .7)"
+                            ],
+                        data: [penjualanJan, penjualanFeb, penjualanMar, penjualanApr, penjualanMei, penjualanJun, penjualanJul, penjualanAgu, penjualanSept, penjualanOkt, penjualanNov, penjualanDes]
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                        }
+                    })
+                    let ctx2 = $("#penyewaan-bulanan").get(0).getContext("2d")
+                    let myChart2 = new Chart(ctx2, {
+                    type: "bar",
+                    data: {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sept", "Okt", "Nov", "Des"],
+                        datasets: [{
+                            label: "Penyewaan",
+                            backgroundColor: [
+                                "rgba(235, 22, 22, .7)"
+                            ],
+                            data: [penyewaanJan, penyewaanFeb, penyewaanMar, penyewaanApr, penyewaanMei, penyewaanJun, penyewaanJul, penyewaanAgu, penyewaanSept, penyewaanOkt, penyewaanNov, penyewaanDes]
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner  -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        {% include "sidebar.html" %}
+
+        <!-- Content -->
+        <div class="content">
+            
+            {% include "navbar.html" %}
+
+
+            <!-- Penjualan Hari Ini -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4" id="today-sale-box">
+                </div>
+            </div>
+            <!--  Penjualan Hari Ini End -->
+
+
+            <!-- Sales Chart Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Grafik Penjualan Bulananan</h6>
+                                <a href="/chart">Show All</a>
+                            </div>
+                            <canvas id="penjualan-bulanan"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Grafik Penyewaan Bulanan</h6>
+                                <a href="/chart">Show All</a>
+                            </div>
+                            <canvas id="penyewaan-bulanan"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sales Chart End -->
+
+
+            <!-- Pendapatan -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Pendapatan</h6>
+                        <a href="/pendapatan">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Jam</th>
+                                    <th scope="col">Tipe</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Metode Pembayaran</th>
+                                    <th scope="col">Tipe Pemasukan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-box"> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Pendapatan End -->
+
+            {% include "footer.html" %}
+</body>
+
+</html>

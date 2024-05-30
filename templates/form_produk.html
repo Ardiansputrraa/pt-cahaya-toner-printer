@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.html" %}
+    <script>
+        function add() {
+           
+        }
+        function edit(id) {
+           
+        }
+        function cancel() {
+            window.location.href='/produk'
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Form Sewa -->
+        <div class="container-fluid">
+            <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-7">
+                    <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                        <h6 class="mb-4">Data Produk</h6>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="inputFoto" class="form-label">Foto Produk</label>
+                                    <input type="file" class="form-control bg-dark" accept=".png,.jpg,.jpeg" id="foto" name="foto" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputMerk" class="form-label">Merk</label>
+                                    <input type="text" class="form-control" accept=".png,.jpg,.jpeg" id="merk" name="merk"  required style="background-color: black;">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTipe" class="form-label">Tipe</label>
+                                    <input type="text" class="form-control" id="tipe" name="tipe" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputHargaJual" class="form-label">Harga Jual</label>
+                                    <input type="number" class="form-control" id="hargaJual" name="hargaJual" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputHargaSewaPerHari" class="form-label">Harga Sewa / Hari</label>
+                                    <input type="number" class="form-control" id="hargaSewa" name="hargaSewa" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputDeskripsi" class="form-label">Deskripsi:</label>
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" cols="50" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-danger" onclick="add()">Tambah</button>
+                                <button type="submit" class="btn btn-outline-danger" onclick="cancel()">Cancel</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form Sewa End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='assets/lib/chart/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!--  Javascript -->
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+</body>
+
+</html>

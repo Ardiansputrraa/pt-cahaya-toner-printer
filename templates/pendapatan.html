@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.html" %}
+    <script>
+        $(document).ready(function () {
+            getData()
+            $('#search').on('input', function() {
+                let query = $(this).val().trim()
+                if(query === ''){
+                    window.location.reload()
+                } else {
+                    searchData(query)
+                }
+            })
+        })
+ 
+        function formatRupiah(angka) {
+            let reverse = angka.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g)
+            ribuan = ribuan.join('.').split('').reverse().join('')
+            return 'Rp ' + ribuan
+        }
+
+        function getData() {
+             $("#data-box").empty()
+             $.ajax({
+                 type: "GET",
+                 url: `/get_data/pendapatan`,
+                 data: {},
+                 success: function (response) {
+                    data = response["dataPendapatan"]
+                    for (let i = 0; i < data.length; i++) {
+                        let table_temp = `<tr>
+                            <th scope="row">${data[i]["id"]}</th>
+                            <td>${data[i]["tanggal"]}</td>
+                            <td>${data[i]["jam"]}</td>
+                            <td>${data[i]["tipe"]}</td>
+                            <td>${data[i]["kuantitas"]} unit</td>
+                            <td>${formatRupiah(data[i]["harga"])}</td>
+                            <td>${data[i]["metodePembayaran"]}</td>
+                            <td>${data[i]["tipePemasukan"]}</td>
+                        </tr>`
+                        $("#data-box").append(table_temp)
+                    }
+                }
+            })
+        }
+
+        function searchData(query) {
+            $.ajax({
+                url: '/search_data/pendapatan',
+                method: 'POST',
+                data: { query: query },
+                success: function(response) {
+                    $("#data-box").empty()
+                    data = response["dataPendapatan"]
+                    for (let i = 0; i < data.length; i++) {
+                        let table_temp = `<tr>
+                            <th scope="row">${data[i]["id"]}</th>
+                            <td>${data[i]["tanggal"]}</td>
+                            <td>${data[i]["jam"]}</td>
+                            <td>${data[i]["tipe"]}</td>
+                            <td>${data[i]["kuantitas"]} unit</td>
+                            <td>${formatRupiah(data[i]["harga"])}</td>
+                            <td>${data[i]["metodePembayaran"]}</td>
+                            <td>${data[i]["tipePemasukan"]}</td>
+                        </tr>`
+                        $("#data-box").append(table_temp)
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid position-relative d-flex p-0">
+
+        {% include "sidebar.html" %}
+
+        <!-- Content -->
+        <div class="content">
+            
+            {% include "navbar.html" %}
+
+            <!-- Pendapatan -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Data Pendapatan</h6>
+                        <div class="d-flex">
+                            <input type="text" class="form-control m-2" placeholder="Search" id="search">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Tanggal</th>
+                                    <th scope="col">Jam</th>
+                                    <th scope="col">Tipe</th>
+                                    <th scope="col">Kuantitas</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Metode Pembayaran</th>
+                                    <th scope="col">Tipe Pemasukan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-box"> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Pendapatan End -->
+
+            {% include "footer.html" %}
+</body>
+
+</html>
