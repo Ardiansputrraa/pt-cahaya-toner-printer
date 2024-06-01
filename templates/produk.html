@@ -4,14 +4,22 @@
     {% include "header.html" %}
     <script>
         $(document).ready(function () {
-            getData()
-         })
- 
-         function formatRupiah(angka) {
-            var reverse = angka.toString().split('').reverse().join(''),
-                ribuan = reverse.match(/\d{1,3}/g);
-            ribuan = ribuan.join('.').split('').reverse().join('');
-            return 'Rp ' + ribuan;
+          getData()
+          $('#search').on('input', function() {
+              let query = $(this).val().trim()
+              if(query === ''){
+                  window.location.reload()
+              } else {
+                  searchData(query)
+              }
+          })
+        })
+
+        function formatRupiah(angka) {
+          var reverse = angka.toString().split('').reverse().join(''),
+          ribuan = reverse.match(/\d{1,3}/g);
+          ribuan = ribuan.join('.').split('').reverse().join('');
+          return 'Rp ' + ribuan;
         }
 
          function getData() {
@@ -25,27 +33,88 @@
                    for (let i = 0; i < data.length; i++) {
                     let imageUrl = `${window.location.origin}/static/assets/img/produk/${data[i]["foto"]}`
                     let table_temp = `
-                      <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
                         <div class="card produk-card">
-                            <img src="${imageUrl}" class="card-img-top" alt="Foto Produk">
+                          <img src="${imageUrl}" class="card-img-top" alt="Foto Produk">
                           <div class="card-body">
                             <h6 class="card-title">${data[i]["merk"]}</h6>
                             <p class="card-text">Tipe: ${data[i]["tipe"]}</p>
                             <p class="card-text">Harga Jual: ${formatRupiah(data[i]["hargaJual"])}</p>
-                            <p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])}/hari</p>
-                            <p class="card-text">Deskripsi: ${data[i]["deskripsi"]}</p>
+                            <p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])} /hari</p>
+                            <p class="card-text text-truncate" id="deskripsi" onclick="showDeskripsi(this)">Deskripsi: ${data[i]["deskripsi"]}</p>
                             <div class="d-flex justify-content-between">
-                              <button class="btn btn-danger">Edit</button>
-                              <button class="btn btn-outline-danger">Hapus</button>
+                                <button class="btn btn-sm btn-danger m-2" onclick="window.location.href='/edit_data/form/produk/${data[i]["id"]}'">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger m-2" onclick="deleteData('${data[i]["id"]}')">Hapus</button>
                             </div>
                           </div>
                         </div>
                       </div>`
+                      
                     $("#produk-card").append(table_temp)
                   }            
                }
            })
          }
+
+         function deleteData(id) {
+            $.ajax({
+                type: "POST",
+                url: "/delete_data/produk",
+                data: { id: id },
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response["msg"],
+                        icon: 'success',
+                        confirmButtonText: 'Oke',
+                        background: '#000000', 
+                        confirmButtonColor: '#EB1616',
+                        customClass: {
+                            icon: 'swal2-icon-dark', 
+                            content: 'swal2-content-dark' 
+                        }
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.reload()
+                        }
+                    })
+                }
+            })
+        }
+
+        function searchData(query) {
+            $.ajax({
+                url: '/search_data/produk',
+                method: 'POST',
+                data: { query: query },
+                success: function(response) {
+                    $("#produk-card").empty()
+                    data = response["dataProduk"]
+                   for (let i = 0; i < data.length; i++) {
+                    let imageUrl = `${window.location.origin}/static/assets/img/produk/${data[i]["foto"]}`
+                    let table_temp = `
+                    <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
+                        <div class="card produk-card">
+                          <img src="${imageUrl}" class="card-img-top" alt="Foto Produk">
+                          <div class="card-body">
+                            <h6 class="card-title">${data[i]["merk"]}</h6>
+                            <p class="card-text">Tipe: ${data[i]["tipe"]}</p>
+                            <p class="card-text">Harga Jual: ${formatRupiah(data[i]["hargaJual"])}</p>
+                            <p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])}/hari</p>
+                            <p class="card-text text-truncate" id="deskripsi" onclick="showDeskripsi(this)">Deskripsi: ${data[i]["deskripsi"]}</p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-danger m-2" onclick="window.location.href='/edit_data/form/produk/${data[i]["id"]}'">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger m-2" onclick="deleteData('${data[i]["id"]}')">Hapus</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>`
+                      
+                    $("#produk-card").append(table_temp)
+                  }       
+                }
+            })
+          }
     </script>
 
 </head>

@@ -1,8 +1,9 @@
+import os
 from pymongo import MongoClient
 import datetime
 import hashlib
 import jwt
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, make_response, render_template, jsonify, request, redirect, url_for
 from datetime import datetime, timedelta
 from bson import ObjectId 
 from werkzeug.utils import secure_filename
@@ -161,7 +162,7 @@ def add_data(page):
             telpone = request.form['telpone']
             gaji = request.form['gaji']
             
-            doc = {
+            docKaryawan = {
                 'id' : id,
                 'nik' : nik,
                 'namaLengkap' : namaLengkap,
@@ -171,8 +172,9 @@ def add_data(page):
                 'gaji' : gaji,
             }
             
-            db.data_karyawan.insert_one(doc)
+            db.data_karyawan.insert_one(docKaryawan)
             return redirect(url_for('karyawan'))
+        
         return render_template('form_karyawan.html', action="tambah")
     elif page == 'customer':
         if request.method == 'POST':
@@ -189,7 +191,7 @@ def add_data(page):
             telpone = request.form['telpone']
             alamat = request.form['alamat']
             
-            doc = {
+            docCustomer = {
                 'id' : id,
                 'perusahaan' : perusahaan,
                 'namaLengkap' : namaLengkap,
@@ -198,8 +200,9 @@ def add_data(page):
                 'alamat' : alamat
             }
             
-            db.data_customer.insert_one(doc)
+            db.data_customer.insert_one(docCustomer)
             return redirect(url_for('customer'))
+        
         return render_template('form_customer.html', action="tambah")
     elif page == 'pesanan':
         if request.method == 'POST':
@@ -243,6 +246,7 @@ def add_data(page):
             }
             db.data_pendapatan.insert_one(docPemasukan)
             return redirect(url_for('pesanan'))
+        
         return render_template('form_pesanan.html', action="tambah")
     elif page == 'sewa':
         if request.method == 'POST':
@@ -287,6 +291,7 @@ def add_data(page):
             }
             db.data_pendapatan.insert_one(docPemasukan)
             return redirect(url_for('sewa'))
+        
         return render_template('form_sewa.html', action="tambah")
     elif page == 'produk':
         if request.method == 'POST':
@@ -305,16 +310,15 @@ def add_data(page):
             deskripsi = request.form['deskripsi']
             
             if foto :
-                nameFile = foto.filename
-                nameFileImage = nameFile.split('/')[-1]
-                filePath = f'static/assets/img/produk/{nameFileImage}'
+                filename = secure_filename(foto.filename)
+                extension = filename.split(".")[-1]
+                file = tipe + "." + extension
+                filePath = f'static/assets/img/produk/{tipe}.{extension}'
                 foto.save(filePath)
-            else:
-                foto = None
             
             docProduk = {
                 'id': id,
-                'foto' : nameFileImage,
+                'foto' : file,
                 'merk' : merk,
                 'tipe' : tipe,
                 'hargaJual' : hargaJual,
@@ -372,6 +376,10 @@ def delete_data(page):
         return jsonify({'msg': 'Data sewa berhasil dihapus!'})
     elif page == "produk":
         id = request.form['id']
+        dataProduk = list(db.data_produk.find({"id" : id}, {'_id' : False}))
+        file_path = 'static/assets/img/produk/' + dataProduk[0]['foto']
+        if os.path.exists(file_path):
+            os.remove(file_path)
         db.data_produk.delete_one({'id': id})
         return jsonify({'msg': 'Data produk berhasil dihapus!'})
     
@@ -387,7 +395,7 @@ def edit_data(page, id):
             telpone = request.form['telpone']
             gaji = request.form['gaji']
             
-            doc = {
+            docKaryawan = {
                 'nik' : nik,
                 'namaLengkap' : namaLengkap,
                 'posisi' : posisi,
@@ -396,7 +404,7 @@ def edit_data(page, id):
                 'gaji' : gaji,
             }
             
-            db.data_karyawan.update_one({'id': id}, {'$set':doc})
+            db.data_karyawan.update_one({'id': id}, {'$set':docKaryawan})
             return redirect(url_for('karyawan'))
         
         dataKaryawan = list(db.data_karyawan.find({"id" : id}, {'_id' : False}))   
@@ -410,7 +418,7 @@ def edit_data(page, id):
             telpone = request.form['telpone']
             alamat = request.form['alamat']
             
-            doc = {
+            docCustomer = {
                 'id' : id,
                 'perusahaan' : perusahaan,
                 'namaLengkap' : namaLengkap,
@@ -419,7 +427,7 @@ def edit_data(page, id):
                 'alamat' : alamat
             }
             
-            db.data_customer.update_one({'id': id}, {'$set':doc})
+            db.data_customer.update_one({'id': id}, {'$set':docCustomer})
             return redirect(url_for('customer'))
         
         dataCustomer = list(db.data_customer.find({"id" : id}, {'_id' : False}))   
@@ -500,9 +508,46 @@ def edit_data(page, id):
             }
             db.data_pendapatan.update_one({'id': id}, {'$set':docPemasukan})
             return redirect(url_for('sewa'))
+        
         dataSewa = list(db.data_sewa.find({"id" : id}, {'_id' : False}))
         dataPendapatan = list(db.data_pendapatan.find({"id" : id}, {'_id' : False}))
         return render_template('form_sewa.html', dataSewa=dataSewa, dataPendapatan=dataPendapatan, action="edit")
+    elif page == 'produk':
+        if request.method == 'POST':
+            id = request.form['id'] 
+            foto = request.files['foto']
+            merk = request.form['merk']
+            tipe = request.form['tipe']
+            hargaJual = request.form['hargaJual']
+            hargaSewa = request.form['hargaSewa']
+            deskripsi = request.form['deskripsi']
+            
+            dataProduk = list(db.data_produk.find({"id" : id}, {'_id' : False}))
+            
+            if foto :
+                filename = secure_filename(foto.filename)
+                extension = filename.split(".")[-1]
+                file = tipe + "." + extension
+                filePath = f'static/assets/img/produk/{tipe}.{extension}'
+                foto.save(filePath)
+            else:
+                file = dataProduk[0]['foto']
+                
+            docProduk = {
+                'id': id,
+                'foto' : file,
+                'merk' : merk,
+                'tipe' : tipe,
+                'hargaJual' : hargaJual,
+                'hargaSewa' : hargaSewa,
+                'deskripsi' : deskripsi
+            }
+            
+            db.data_produk.update_one({'id': id}, {'$set':docProduk})
+            return redirect(url_for('produk'))
+        
+        dataProduk = list(db.data_produk.find({"id" : id}, {'_id' : False}))
+        return render_template('form_produk.html', dataProduk=dataProduk, action="edit")
 
 @app.route("/search_data/<page>", methods=['POST'])
 def search_data(page):
@@ -526,6 +571,10 @@ def search_data(page):
         query = request.form.get('query')
         dataPendapatan = list(db.data_pendapatan.find({'$or': [{'id': {'$regex': query, '$options': 'i'}}, {'tanggal': {'$regex': query, '$options': 'i'}}, {'jam': {'$regex': query, '$options': 'i'}}, {'tipe': {'$regex': query, '$options': 'i'}}, {'kuantitas': {'$regex': query, '$options': 'i'}}, {'harga': {'$regex': query, '$options': 'i'}}, {'metodePembayaran': {'$regex': query, '$options': 'i'}}, {'tipePemasukan': {'$regex': query, '$options': 'i'}}]}, {'_id': False}))
         return jsonify({'dataPendapatan': dataPendapatan})
+    elif page == "produk":     
+        query = request.form.get('query')
+        dataProduk = list(db.data_produk.find({'$or': [{'id': {'$regex': query, '$options': 'i'}}, {'merk': {'$regex': query, '$options': 'i'}}, {'tipe': {'$regex': query, '$options': 'i'}}, {'hargaJual': {'$regex': query, '$options': 'i'}}, {'hargaSewa': {'$regex': query, '$options': 'i'}}, {'deskripsi': {'$regex': query, '$options': 'i'}}]}, {'_id': False}))
+        return jsonify({'dataProduk': dataProduk})
     
 @app.route("/sign_in")
 def sign_in():
@@ -588,7 +637,17 @@ def sign_up_save():
         db.users.insert_one(doc)
     return jsonify({'result': 'success', 'exists': exists})
 
-    
+@app.route("/logout", methods=["DELETE"])
+def logout():
+    try:
+        response = {"message": "Token berhasil dihapus"}
+        resp = make_response(jsonify(response))
+        resp.set_cookie("mytoken", "", expires=0, path="/")
+        return resp
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        response = {"message": "Token tidak valid"}
+        return jsonify(response), 401
+
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5000, debug=True)
     

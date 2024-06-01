@@ -22,3 +22,19 @@
 </nav>
 <!-- Navbar End -->
 
+<script>
+    function logout() {
+        $.ajax({
+          url: '/logout',
+          type: 'DELETE',
+          success: function(response) {
+            console.log(response['message'])
+            document.cookie = "mytoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+            window.location.href = "/sign_in"
+          },
+          error: function(xhr, status, error) {
+            console.error(error);
+          }
+        })
+      }
+</script>

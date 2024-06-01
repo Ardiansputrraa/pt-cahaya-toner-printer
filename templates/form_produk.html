@@ -4,10 +4,10 @@
     {% include "header.html" %}
     <script>
         function add() {
-           
+            $("#form").action = "/add_data/form/produk"
         }
         function edit(id) {
-           
+            $("#form").action =`/edit/form/produk/${id}`
         }
         function cancel() {
             window.location.href='/produk'
@@ -32,6 +32,7 @@
                     <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
                         <h6 class="mb-4">Data Produk</h6>
                             <form method="post" enctype="multipart/form-data">
+                                {% if action == "tambah" %}
                                 <div class="mb-3">
                                     <label for="inputFoto" class="form-label">Foto Produk</label>
                                     <input type="file" class="form-control bg-dark" accept=".png,.jpg,.jpeg" id="foto" name="foto" required>
@@ -56,8 +57,35 @@
                                     <label for="inputDeskripsi" class="form-label">Deskripsi:</label>
                                     <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" cols="50" required></textarea>
                                 </div>
-                                
                                 <button type="submit" class="btn btn-danger" onclick="add()">Tambah</button>
+                                {% elif action == "edit" %}
+                                <input type="text" name="id" value="{{ dataProduk[0].id }}" hidden>
+                                <div class="mb-3">
+                                    <label for="inputFoto" class="form-label">Foto Produk</label>
+                                    <input type="file" class="form-control bg-dark" accept=".png,.jpg,.jpeg" id="foto" name="foto" value="{{ dataProduk[0].foto }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputMerk" class="form-label">Merk</label>
+                                    <input type="text" class="form-control" id="merk" name="merk" value="{{ dataProduk[0].merk }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTipe" class="form-label">Tipe</label>
+                                    <input type="text" class="form-control" id="tipe" name="tipe" value="{{ dataProduk[0].tipe }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputHargaJual" class="form-label">Harga Jual</label>
+                                    <input type="number" class="form-control" id="hargaJual" name="hargaJual" value="{{ dataProduk[0].hargaJual }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputHargaSewaPerHari" class="form-label">Harga Sewa / Hari</label>
+                                    <input type="number" class="form-control" id="hargaSewa" name="hargaSewa" value="{{ dataProduk[0].hargaSewa }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputDeskripsi" class="form-label">Deskripsi:</label>
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" cols="50" value="" required>{{ dataProduk[0].deskripsi }}</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-danger" onclick="edit('{{dataProduk[0].id}}')">Edit</button>
+                                {% endif %}
                                 <button type="submit" class="btn btn-outline-danger" onclick="cancel()">Cancel</button>
                             </form>
                     </div>
