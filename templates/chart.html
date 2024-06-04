@@ -3,7 +3,233 @@
 <head>
     {% include "header.html" %}
     <script>
-        
+        $(document).ready(function () {
+            grafikBulanan()
+            grafikHarian()
+            grafikTahunan()
+        })
+
+        function grafikHarian(){
+            let pendapatanPenjualanPerHari = [
+                    0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0
+                    ]
+                    let pendapatanPenyewaanPerHari = [
+                    0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,0
+                    ]
+                    let labels = [
+                    "01","02","03","04","05","06","07","08","09","10",
+                    "11","12","13","14","15","16","17","18","19","20",
+                    "21","22","23","24","25","26","27","28","29","30","31"
+                    ]
+            $.ajax({
+                type: "GET",
+                url: `/get_data/chart`,
+                data: {},
+                success: function (response) {
+                    data = response["dataPendapatan"]
+                    for (let i = 0; i < data.length; i++) {
+                        let tanggal = data[i]["tanggal"].split("-")
+                        for (let j = 0; j < labels.length; j++) {    
+                            if(tanggal[0] == labels[j] && tanggal[1] == response["bulan"] && response["tahun"] == tanggal[2]){
+                                if(data[i]["tipePemasukan"] == "Penjualan") {
+                                    pendapatanPenjualanPerHari[j] += parseInt(data[i]["harga"])
+                                } 
+                                if (data[i]["tipePemasukan"] == "Penyewaan") {
+                                    pendapatanPenyewaanPerHari[j] += parseInt(data[i]["harga"])
+                                }
+                            }
+                        }
+                    }
+
+                    // grafik penjualan harian
+                    let chartData = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
+                            label: "Penjualan",
+                            data: pendapatanPenjualanPerHari.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          },
+                          {
+                            label: "Penyewaan",
+                            data: pendapatanPenyewaanPerHari.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .5)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPendapatanHarian = $("#pendapatan-harian").get(0).getContext("2d");
+                      let chartPendapatanHarian = new Chart(grafikPendapatanHarian, {
+                        type: "line",
+                        data: chartData,
+                        options: {
+                          responsive: true
+                        }
+                    })
+                }
+            })
+        }
+
+        function grafikBulanan() {
+            let pendapatanPenjualan = [0,0,0,0,0,0,0,0,0,0,0,0]
+            let pendapatanPenyewaan = [0,0,0,0,0,0,0,0,0,0,0,0]
+            let bulan = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+            let labels = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sept", "Okt", "Nov", "Des"]
+             $.ajax({
+                 type: "GET",
+                 url: `/get_data/chart`,
+                 data: {},
+                 success: function (response) {
+                    data = response["dataPendapatan"]
+                    for (let i = 0; i < data.length; i++) {
+                        let tanggal = data[i]["tanggal"].split("-")
+                        for (let j = 0; j < bulan.length; j++) {    
+                            if(tanggal[1] == bulan[j] && response["tahun"] == tanggal[2]){
+                                if(data[i]["tipePemasukan"] == "Penjualan") {
+                                    pendapatanPenjualan[j] += parseInt(data[i]["harga"])
+                                } 
+                                if (data[i]["tipePemasukan"] == "Penyewaan") {
+                                    pendapatanPenyewaan[j] += parseInt(data[i]["harga"])
+                                }
+                            }
+                        }
+                    }
+
+                    // grafik penjualan bulanan
+                    let chartDataPenjualan = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
+                            label: "Penjualan",
+                            data: pendapatanPenjualan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPenjualanBulanan = $("#penjualan-bulanan").get(0).getContext("2d")
+                      let chartPenjualanBulanan = new Chart(grafikPenjualanBulanan, {
+                        type: "bar",
+                        data: chartDataPenjualan,
+                        options: {
+                          responsive: true
+                        }
+                    })
+
+                    // grafik penyewaan bulanan
+                    let chartDataPenyewaan = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
+                            label: "Penyewaan",
+                            data: pendapatanPenyewaan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPenyewaanBulanan = $("#penyewaan-bulanan").get(0).getContext("2d")
+                      let chartPenyewaanBulanan = new Chart(grafikPenyewaanBulanan, {
+                        type: "bar",
+                        data: chartDataPenyewaan,
+                        options: {
+                          responsive: true
+                        }
+                    })
+
+                    // grafik pendapatan bulanan
+                    let chartData = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
+                            label: "Penjualan",
+                            data: pendapatanPenjualan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          },
+                          {
+                            label: "Penyewaan",
+                            data: pendapatanPenyewaan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .5)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPendapatanBulanan = $("#pendapatan-bulanan").get(0).getContext("2d")
+                      let chartPendapatanBulanan = new Chart(grafikPendapatanBulanan, {
+                        type: "bar",
+                        data: chartData,
+                        options: {
+                          responsive: true
+                        }
+                    })
+                }
+            })
+        }
+
+        function grafikTahunan() {
+            let pendapatanPenjualan = [0,0,0,0,0,0,0,0,0,0]
+            let pendapatanPenyewaan = [0,0,0,0,0,0,0,0,0,0]
+            let labels = ['','','','','','','','','','']
+            $.ajax({
+                type: "GET",
+                url: `/get_data/chart`,
+                data: {},
+                success: function (response) {
+                    data = response["dataPendapatan"]
+                    for (let a = 9, b = 0; a >= 0; a--) {
+                        labels[b] = response["tahun"].substring(0, 2) + (parseInt(response["tahun"].substring(2)) - a).toString().padStart(2, '0')
+                        b++
+                    }
+                    console.log(labels)
+                    for (let i = 0; i < data.length; i++) {
+                        let tanggal = data[i]["tanggal"].split("-")
+                        for (let j = 0; j < labels.length; j++) {    
+                            if(labels[j] == tanggal[2]){
+                                if(data[i]["tipePemasukan"] == "Penjualan") {
+                                    pendapatanPenjualan[j] += parseInt(data[i]["harga"])
+                                } 
+                                if (data[i]["tipePemasukan"] == "Penyewaan") {
+                                    pendapatanPenyewaan[j] += parseInt(data[i]["harga"])
+                                }
+                            }
+                        }
+                    }
+                    // grafik penjualan Tahunan
+                    let chartData = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
+                            label: "Penjualan",
+                            data: pendapatanPenjualan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          },
+                          {
+                            label: "Penyewaan",
+                            data: pendapatanPenyewaan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .5)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPendapatanTahunan = $("#pendapatan-tahunan").get(0).getContext("2d");
+                      let chartPendapatanTahunan = new Chart(grafikPendapatanTahunan, {
+                        type: "line",
+                        data: chartData,
+                        options: {
+                          responsive: true
+                        }
+                    })
+                    
+                }
+            })
+        }
     </script>
 </head>
 <body>
@@ -16,9 +242,7 @@
         </div>
         <!-- Spinner End -->
 
-
         {% include "sidebar.html" %}
-
 
         <!-- Content Start -->
         <div class="content">
@@ -29,40 +253,43 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Single Line Chart</h6>
-                            <canvas id="line-chart"></canvas>
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Grafik Penjualan Bulananan</h6>
+                                <h6 class="mb-0">{{ tahun }}</h6>
+                            </div>
+                            <canvas id="penjualan-bulanan"></canvas>
                         </div>
                     </div>
                     <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Multiple Line Chart</h6>
-                            <canvas id="salse-revenue"></canvas>
+                        <div class="bg-secondary text-center rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">Grafik Penyewaan Bulanan</h6>
+                                <h6 class="mb-0">{{ tahun }}</h6>
+                            </div>
+                            <canvas id="penyewaan-bulanan"></canvas>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Single Bar Chart</h6>
-                            <canvas id="bar-chart"></canvas>
+                    <div class="bg-secondary text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Grafik Pendapatan Harian</h6>
+                            <h6 class="mb-0">{{ bulan }} - {{ tahun }}</h6>
                         </div>
+                        <canvas id="pendapatan-harian"></canvas>
                     </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Multiple Bar Chart</h6>
-                            <canvas id="worldwide-sales"></canvas>
+                    <div class="bg-secondary text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Grafik Pendapatan Bulanan</h6>
+                            <h6 class="mb-0">{{ tahun }}</h6>
                         </div>
+                        <canvas id="pendapatan-bulanan"></canvas>
                     </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Pie Chart</h6>
-                            <canvas id="pie-chart"></canvas>
+                    <div class="bg-secondary text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Grafik Pendapatan Tahunan</h6>
+                            <h6 class="mb-0">end {{ tahun }}</h6>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Doughnut Chart</h6>
-                            <canvas id="doughnut-chart"></canvas>
-                        </div>
+                        <canvas id="pendapatan-tahunan"></canvas>
                     </div>
                 </div>
             </div>

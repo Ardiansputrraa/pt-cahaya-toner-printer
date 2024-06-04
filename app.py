@@ -109,7 +109,7 @@ def chart():
     try:
         payload = jwt.decode(myToken, SECRET_KEY, algorithms=["HS256"])
         user_info = db.users.find_one({"username": payload["id"]})
-        return render_template("chart.html", user_info=user_info)
+        return render_template("chart.html", user_info=user_info, tahun=tahun, bulan=bulan)
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
     
@@ -350,6 +350,9 @@ def get_data(page):
     elif page == 'pendapatan':
         dataPendapatan = list(db.data_pendapatan.find({}, {'_id' : False}))      
         return jsonify({"dataPendapatan":dataPendapatan})
+    elif page == "chart":
+        dataPendapatan = list(db.data_pendapatan.find({}, {'_id' : False}))      
+        return jsonify({"dataPendapatan":dataPendapatan, "tanggal": tanggal, "hari": hari, "bulan": bulan, "tahun": tahun})
     elif page == 'produk':
         dataProduk = list(db.data_produk.find({}, {'_id' : False}))      
         return jsonify({"dataProduk":dataProduk})
