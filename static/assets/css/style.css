@@ -260,10 +260,6 @@
     transform: scale(1.05);
 }
 
-canvas:hover {
-    transform: scale(1.05);
-}
-
 .form-control:focus {
     box-shadow: none;
     border-color: #6C7293;

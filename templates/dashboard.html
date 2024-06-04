@@ -16,7 +16,10 @@
 
         function getData() {
             let pendapatanHariIni = 0, pendapatanBulanIni = 0, pendapatanTahunIni = 0
-            let penjualanJan = 0, penyewaanJan = 0, penjualanFeb = 0, penyewaanFeb = 0, penjualanMar = 0, penyewaanMar = 0, penjualanApr = 0, penyewaanApr = 0, penjualanMei = 0, penyewaanMei = 0, penjualanJun = 0, penyewaanJun = 0, penjualanJul = 0, penyewaanJul = 0, penjualanAgu = 0, penyewaanAgu = 0, penjualanSept = 0, penyewaanSept = 0, penjualanOkt = 0, penyewaanOkt = 0, penjualanNov = 0, penyewaanNov = 0, penjualanDes= 0, penyewaanDes = 0
+            let pendapatanPenjualan = [0,0,0,0,0,0,0,0,0,0,0,0]
+            let pendapatanPenyewaan = [0,0,0,0,0,0,0,0,0,0,0,0]
+            let bulan = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+            let labels = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sept", "Okt", "Nov", "Des"]
              $("#data-box").empty()
              $.ajax({
                  type: "GET",
@@ -24,152 +27,48 @@
                  data: {},
                  success: function (response) {
                     data = response["dataPendapatan"]
-                    for (let i = 0; i < data.length; i++) {
-                        if (i < 5) {
+                    for (let x = 0; x < data.length; x++) {
+                        if (x < 5) {
                             let table_temp = `<tr>
-                                <th scope="row">${data[i]["id"]}</th>
-                                <td>${data[i]["tanggal"]}</td>
-                                <td>${data[i]["jam"]}</td>
-                                <td>${data[i]["tipe"]}</td>
-                                <td>${data[i]["kuantitas"]} unit</td>
-                                <td>${formatRupiah(data[i]["harga"])}</td>
-                                <td>${data[i]["metodePembayaran"]}</td>
-                                <td>${data[i]["tipePemasukan"]}</td>
+                                <th scope="row">${data[x]["id"]}</th>
+                                <td>${data[x]["tanggal"]}</td>
+                                <td>${data[x]["jam"]}</td>
+                                <td>${data[x]["tipe"]}</td>
+                                <td>${data[x]["kuantitas"]} unit</td>
+                                <td>${formatRupiah(data[x]["harga"])}</td>
+                                <td>${data[x]["metodePembayaran"]}</td>
+                                <td>${data[x]["tipePemasukan"]}</td>
                                 </tr>`
                             $("#data-box").append(table_temp)
                         }
-                        let tanggal = data[i]["tanggal"].split("-")
-                        if(response["tanggal"] == data[i]["tanggal"]) {
-                            pendapatanHariIni += parseInt(data[i]["harga"])
+                        
+                        let tanggal = data[x]["tanggal"].split("-")
+                        if(response["tanggal"] == data[x]["tanggal"]) {
+                                pendapatanHariIni += parseInt(data[x]["harga"])
                         }
                         if(response["bulan"] == tanggal[1] && response["tahun"] == tanggal[2]) {
-                            pendapatanBulanIni += parseInt(data[i]["harga"])
+                                pendapatanBulanIni += parseInt(data[x]["harga"])
                         }
                         if(response["tahun"] == tanggal[2]) {
-                            pendapatanTahunIni += parseInt(data[i]["harga"])
+                                pendapatanTahunIni += parseInt(data[x]["harga"])
                         }
-                        if(tanggal[1] == "01" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanJan += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "01" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanJan += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "02" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanFeb += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "02" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanFeb += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "03" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanMar += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "03" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanMar += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "04" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanApr += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "04" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanApr += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "05" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanMei += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "05" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanMei += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "06" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanJun += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "06" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanJun += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "07" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanJun += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "07" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanJul += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "08" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanJul += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "08" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanAgu += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "09" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanAgu += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "09" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanSept += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "10" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanSept += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "10" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanOkt += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "11" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanOkt += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "11" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanNov += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "12" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penjualan") {
-                                penjualanDes += parseInt(data[i]["harga"])
-                            }
-                        }
-                        if(tanggal[1] == "12" && response["tahun"] == tanggal[2]){
-                            if(data[i]["tipePemasukan"] == "Penyewaan") {
-                                penyewaanDes += parseInt(data[i]["harga"])
+                    }
+
+                    for (let i = 0; i < data.length; i++) {
+                        let tanggal = data[i]["tanggal"].split("-")
+                        for (let j = 0; j < bulan.length; j++) {    
+                            if(tanggal[1] == bulan[j] && response["tahun"] == tanggal[2]){
+                                if(data[i]["tipePemasukan"] == "Penjualan") {
+                                    pendapatanPenjualan[j] += parseInt(data[i]["harga"])
+                                } 
+                                if (data[i]["tipePemasukan"] == "Penyewaan") {
+                                    pendapatanPenyewaan[j] += parseInt(data[i]["harga"])
+                                }
                             }
                         }
                     }
-                    let today_sale_temp = `
+
+                    let pendapatan = `
                         <div class="col-sm-12 col-xl-4">
                             <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                               <i class="fa fa-chart-line fa-3x text-primary"></i>
@@ -198,40 +97,47 @@
                             </div>
                         </div>
                         `
-                    $("#today-sale-box").append(today_sale_temp)
+                    $("#box-pendapatan").append(pendapatan)
                     
-                    let ctx1 = $("#penjualan-bulanan").get(0).getContext("2d")
-                    let myChart1 = new Chart(ctx1, {
-                    type: "bar",
-                    data: {
-                        labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sept", "Okt", "Nov", "Des"],
-                        datasets: [{
+                    // grafik penjualan bulanan
+                    let chartDataPenjualan = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
                             label: "Penjualan",
-                            backgroundColor: [
-                                "rgba(235, 22, 22, .7)"
-                            ],
-                        data: [penjualanJan, penjualanFeb, penjualanMar, penjualanApr, penjualanMei, penjualanJun, penjualanJul, penjualanAgu, penjualanSept, penjualanOkt, penjualanNov, penjualanDes]
-                        }]
-                    },
-                    options: {
-                        responsive: true
+                            data: pendapatanPenjualan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPenjualanBulanan = $("#penjualan-bulanan").get(0).getContext("2d")
+                      let chartPenjualanBulanan = new Chart(grafikPenjualanBulanan, {
+                        type: "bar",
+                        data: chartDataPenjualan,
+                        options: {
+                          responsive: true
                         }
                     })
-                    let ctx2 = $("#penyewaan-bulanan").get(0).getContext("2d")
-                    let myChart2 = new Chart(ctx2, {
-                    type: "bar",
-                    data: {
-                        labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sept", "Okt", "Nov", "Des"],
-                        datasets: [{
+
+                    // grafik penyewaan bulanan
+                    let chartDataPenyewaan = {
+                        labels: labels.map(label => label),
+                        datasets: [
+                          {
                             label: "Penyewaan",
-                            backgroundColor: [
-                                "rgba(235, 22, 22, .7)"
-                            ],
-                            data: [penyewaanJan, penyewaanFeb, penyewaanMar, penyewaanApr, penyewaanMei, penyewaanJun, penyewaanJul, penyewaanAgu, penyewaanSept, penyewaanOkt, penyewaanNov, penyewaanDes]
-                        }]
-                    },
-                    options: {
-                        responsive: true
+                            data: pendapatanPenyewaan.map(data => data),
+                            backgroundColor: "rgba(235, 22, 22, .7)",
+                            fill: true
+                          }
+                        ]
+                      }
+                      let grafikPenyewaanBulanan = $("#penyewaan-bulanan").get(0).getContext("2d")
+                      let chartPenyewaanBulanan = new Chart(grafikPenyewaanBulanan, {
+                        type: "bar",
+                        data: chartDataPenyewaan,
+                        options: {
+                          responsive: true
                         }
                     })
                 }
@@ -257,10 +163,9 @@
             
             {% include "navbar.html" %}
 
-
             <!-- Penjualan Hari Ini -->
             <div class="container-fluid pt-4 px-4">
-                <div class="row g-4" id="today-sale-box">
+                <div class="row g-4" id="box-pendapatan">
                 </div>
             </div>
             <!--  Penjualan Hari Ini End -->

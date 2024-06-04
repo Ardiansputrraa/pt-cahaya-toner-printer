@@ -15,20 +15,29 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="/" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="/" class="nav-item nav-link {% if request.path == '/' %}active{% endif %}"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
             {% if user_info["akun"] == "owner" %}
-                <a href="/karyawan" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Karyawan</a>
-                <a href="/customer" class="nav-item nav-link"><i class="fa fa-building me-2"></i>Customer</a>
+                <a href="/karyawan" class="nav-item nav-link {% if request.path == '/karyawan' %}active{% endif %}"><i class="fa fa-user me-2"></i>Karyawan</a>
+                <a href="/customer" class="nav-item nav-link {% if request.path == '/customer' %}active{% endif %}"><i class="fa fa-building me-2"></i>Customer</a>
             {% endif %}
-            <a href="/pesanan" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Pesanan</a>
-            <a href="/sewa" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Sewa</a>
-            <a href="/pendapatan" class="nav-item nav-link"><i class="fa fa-chart-line me-2"></i>Pendapatan</a>
-            <a href="/chart" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Chart</a>
-            <a href="/produk" class="nav-item nav-link"><i class="fa fa-suitcase me-2"></i>Produk</a>
+            <a href="/pesanan" class="nav-item nav-link {% if request.path == '/pesanan' %}active{% endif %}"><i class="fa fa-shopping-cart me-2"></i>Pesanan</a>
+            <a href="/sewa" class="nav-item nav-link {% if request.path == '/sewa' %}active{% endif %}"><i class="fa fa-table me-2"></i>Sewa</a>
+            <a href="/pendapatan" class="nav-item nav-link {% if request.path == '/pendapatan' %}active{% endif %}"><i class="fa fa-chart-line me-2"></i>Pendapatan</a>
+            <a href="/chart" class="nav-item nav-link {% if request.path == '/chart' %}active{% endif %}"><i class="fa fa-chart-bar me-2"></i>Chart</a>
+            <a href="/produk" class="nav-item nav-link {% if request.path == '/produk' %}active{% endif %}"><i class="fa fa-suitcase me-2"></i>Produk</a>
             {% if user_info["akun"] == "owner" %}
-                <a href="/sign_up" class="nav-item nav-link"><i class="fa fa-user-plus me-2"></i>Daftar Akun</a>
+                <a href="/sign_up" class="nav-item nav-link {% if request.path == '/sign_up' %}active{% endif %}"><i class="fa fa-user-plus me-2"></i>Daftar Akun</a>
             {% endif %}
         </div>
     </nav>
 </div>
 <!-- Sidebar End -->
+
+<script>
+    $(document).ready(function() {
+        $('.navbar-nav .nav-link').click(function() {
+            $('.navbar-nav .nav-link').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>
