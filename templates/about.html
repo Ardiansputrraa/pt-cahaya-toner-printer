@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co" />
+    <link rel="shortcut icon" href="favicon.png" />
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="{{url_for('static', filename='assets/css/bootstrap5.min.css')}}"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="{{url_for('static', filename='assets/css/tiny-slider.css')}}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{url_for('static', filename='assets/css/frontend.css')}}"
+      rel="stylesheet"
+    />
+    <title>Cahaya Toner</title>
+    <script>
+      $.ajax({
+        type: "GET",
+        url: `/about`,
+        data: {},
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- Start Header/Navigation -->
+    <nav
+      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
+      arial-label="Furni navigation bar"
+    >
+      <div class="container">
+        <img
+          src="{{url_for('static', filename='assets/img/produk/Logo.png')}}"
+          class="logo"
+          style="width: 80px"
+          alt=""
+        />
+        <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/index">Beranda</a>
+            </li>
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-bs-toggle="dropdown"
+              >
+                Produk
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/product-sewaprinter"
+                    >Sewa Printer
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/product-jualprinter"
+                    >Jual Printer</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/product-jualtoner"
+                    >Jual Toner</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <li class="active">
+              <a class="nav-link" href="/about">Tentang Kami</a>
+            </li>
+            <li><a class="nav-link" href="/services">Klien Kami</a></li>
+            <li><a class="nav-link" href="/contact">Kontak</a></li>
+          </ul>
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+            <li>
+              <a class="nav-link" href="/cart"
+                ><img
+                  src="{{url_for('static', filename='assets/img/produk/cart.svg')}}"
+              /></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Header/Navigation -->
+
+    <!-- Start Hero Section -->
+    <div class="hero">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-5">
+            <div class="intro-excerpt">
+              <h1>Join Our Team</h1>
+              <p class="mb-4">
+                PT Cahaya Toner merupakan produsen toner compatible terpercaya
+                sejak tahun 2005. Kami berdedikasi menyediakan solusi percetakan
+                berkualitas tinggi untuk memenuhi kebutuhan bisnis Anda.
+              </p>
+              <p>
+                <a href="" class="btn btn-primary me-2">Shop Now</a
+                ><a href="#" class="btn btn-white-outline">Explore</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="hero-img-wrap">
+              <img
+                src="{{url_for('static', filename='assets/img/produk/tim.png')}}"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Hero Section -->
+
+    <!-- Start Why Choose Us Section -->
+    <div class="container about-us-section">
+      <div class="row">
+        <div class="col-md-6">
+          <img
+            src="{{url_for('static', filename='assets/img/produk/printHp.png')}}"
+            class="d-block w-100"
+            alt="..."
+          />
+        </div>
+        <div class="col-md-6">
+          <h2 style="font-size: 50px; font-weight: bold">Tentang Kami</h2>
+          <hr />
+          <p class="justify">
+            Setiap bidang usaha membutuhkan support dalam menjalankan kegiatan
+            operasionalnya. Mencetak dokumen merupakan aspek krusial dalam
+            operasional bisnis Anda. Mulai dari kebutuhan record keeping, jalur
+            komunikasi resmi dan tertulis, hingga membangun profesionalisme
+            untuk usaha Anda.
+          </p>
+          <p class="justify">
+            Sayangnya, seringkali manajemen tidak menyadari bahwa terdapat
+            banyak kerugian, baik secara langsung maupun tidak langsung, akibat
+            penanganan printer yang tidak profesional. Kegiatan operasional
+            perusahaan Anda bisa terhambat karena printer terkendala, hasil
+            print tidak berkualitas, maupun service printer yang terlalu lama.
+          </p>
+          <p class="justify">
+            Cahaya Toner adalah solusi atas beragam kebutuhan percetakan usaha
+            Anda. Kami bertekad untuk mengakomodasi seluruh kebutuhan printer
+            usaha Anda dengan All-in-one printing solution kami. Percayakan
+            urusan printing Anda kepada kami, sehingga Anda dapat fokus dengan
+            operasional usaha Anda.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- End Why Choose Us Section -->
+
+    <!-- Visi Mission -->
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="container vision-mission-section">
+            <div class="row">
+              <div class="col-md-6">
+                <img
+                  src="{{url_for('static', filename='assets/img/produk/Printer1.jpg')}}"
+                  class="d-block w-100"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-6">
+                <h2>VISI</h2>
+                <p>
+                  Menjadi solusi percetakan dokumen yang dapat diandalkan dengan
+                  berorientasi pada kualitas dan efektivitas biaya.
+                </p>
+                <h2>MISI</h2>
+                <ul>
+                  <li>
+                    Mewujudkan ekosistem percetakan yang berfokus pada kualitas
+                    dan efisiensi biaya.
+                  </li>
+                  <li>
+                    Memberikan layanan percetakan terbaik melalui inovasi produk
+                    dan layanan.
+                  </li>
+                  <li>
+                    Meningkatkan kinerja dan kemampuan untuk memenuhi kebutuhan
+                    percetakan yang ada.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Add more carousel items here if needed -->
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <!-- akhir visi mission -->
+
+    <!-- Start Team Section -->
+    <div class="untree_co-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-lg-5 mx-auto text-center">
+            <h2 class="section-title">TIM KAMI</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Start Column 1 -->
+          <div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
+            <img
+              src="{{url_for('static', filename='assets/img/produk/person_1.jpg')}}"
+              class="img-fluid mb-5"
+            />
+            <h3 clas>
+              <a href="#"><span class="">Fani</span> Ardian</a>
+            </h3>
+            <span class="d-block position mb-4">CEO, Founder</span>
+            <p>
+              Separated they live in. Separated they live in Bookmarksgrove
+              right at the coast of the Semantics, a large language ocean.
+            </p>
+            <p class="mb-0">
+              <a href="#" class="more dark"
+                >Learn More <span class="icon-arrow_forward"></span
+              ></a>
+            </p>
+          </div>
+          <!-- End Column 1 -->
+
+          <!-- Start Column 2 -->
+          <div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
+            <img
+              src="{{url_for('static', filename='assets/img/produk/person_2.jpg')}}"
+              class="img-fluid mb-5"
+            />
+
+            <h3 clas>
+              <a href="#"><span class="">Sahrul</span> Reza</a>
+            </h3>
+            <span class="d-block position mb-4">CTO, Founder,</span>
+            <p>
+              Separated they live in. Separated they live in Bookmarksgrove
+              right at the coast of the Semantics, a large language ocean.
+            </p>
+            <p class="mb-0">
+              <a href="#" class="more dark"
+                >Learn More <span class="icon-arrow_forward"></span
+              ></a>
+            </p>
+          </div>
+          <!-- End Column 2 -->
+
+          <!-- Start Column 3 -->
+          <div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
+            <img
+              src="{{url_for('static', filename='assets/img/produk/person_3.jpg')}}"
+              class="img-fluid mb-5"
+            />
+            <h3 clas>
+              <a href="#"><span class="">Muhammad</span> Irfan</a>
+            </h3>
+            <span class="d-block position mb-4">HR Recruitment</span>
+            <p>
+              Separated they live in. Separated they live in Bookmarksgrove
+              right at the coast of the Semantics, a large language ocean.
+            </p>
+            <p class="mb-0">
+              <a href="#" class="more dark"
+                >Learn More <span class="icon-arrow_forward"></span
+              ></a>
+            </p>
+          </div>
+          <!-- End Column 3 -->
+
+          <!-- Start Column 4 -->
+          <div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
+            <img
+              src="{{url_for('static', filename='assets/img/produk/person_4.jpg')}}"
+              class="img-fluid mb-5"
+            />
+
+            <h3 clas>
+              <a href="#"><span class="">Galuh</span> Ayu</a>
+            </h3>
+            <span class="d-block position mb-4">UI/UX</span>
+            <p>
+              Separated they live in. Separated they live in Bookmarksgrove
+              right at the coast of the Semantics, a large language ocean.
+            </p>
+            <p class="mb-0">
+              <a href="#" class="more dark"
+                >Learn More <span class="icon-arrow_forward"></span
+              ></a>
+            </p>
+          </div>
+          <!-- End Column 4 -->
+        </div>
+      </div>
+    </div>
+    <!-- End Team Section -->
+
+    <!-- Start Footer Section -->
+    <footer class="text-white text-center text-lg-start pink-footer">
+      <div class="container p-4">
+        <div class="row mt-4">
+          <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-4">PT Cahaya Toner</h5>
+            <p>
+              merupakan produsen Toner Compatible Multi Print terpercaya sejak
+              tahun 2005.
+            </p>
+            <div class="mt-4">
+              <!-- Facebook -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <!-- Dribbble -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-dribbble"></i
+              ></a>
+              <!-- Twitter -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <!-- Google + -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-google-plus-g"></i
+              ></a>
+              <!-- Linkedin -->
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <div class="form-outline form-white mb-4">
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px"></div>
+                <div class="form-notch-middle" style="width: 48.8px"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+
+            <ul class="fa-ul" style="margin-left: 1.65em">
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-home"></i></span
+                ><span class="ms-2"
+                  >Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</span
+                >
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-envelope"></i></span
+                ><span class="ms-2">cahayatoner@gmail.com</span>
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-phone"></i></span
+                ><span class="ms-2">021 – 4260111</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-4">Opening hours</h5>
+
+            <table class="table text-center text-white">
+              <tbody class="font-weight-normal">
+                <tr>
+                  <td>Mon - Thu:</td>
+                  <td>8am - 9pm</td>
+                </tr>
+                <tr>
+                  <td>Fri - Sat:</td>
+                  <td>8am - 1am</td>
+                </tr>
+                <tr>
+                  <td>Sunday:</td>
+                  <td>9am - 10pm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2024 Copyright:
+        <a class="text-white" href="https://PTCahayaToner.com/"
+          >PT Cahaya Toner.com</a
+        >
+      </div>
+    </footer>
+    <!-- End Footer Section -->
+    <script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/js/tiny-slider.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/js/custom.js')}}"></script>
+  </body>
+</html>
