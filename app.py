@@ -651,6 +651,44 @@ def logout():
         response = {"message": "Token tidak valid"}
         return jsonify(response), 401
 
+# Halaman FrontEnd
+@app.route("/index", methods=["GET"])
+def helloF():
+    return render_template('index.html') 
+
+@app.route("/product-sewaprinter", methods=["GET"])
+def productsewaprinter():
+    return render_template('product-sewaprinter.html') 
+
+@app.route("/product-jualprinter", methods=["GET"])
+def productjualprinter():
+    return render_template('product-jualprinter.html') 
+@app.route("/product-jualtoner", methods=["GET"])
+def productjualtoner():
+    return render_template('product-jualtoner.html') 
+
+@app.route("/about", methods=["GET"])
+def aboutF():
+    return render_template('about.html') 
+
+@app.route("/services", methods=["GET"])
+def servicesF():
+    return render_template('services.html') 
+
+@app.route("/contact", methods=["GET"])
+def contactF():
+    return render_template('contact.html') 
+
+@app.route("/cart", methods=["GET"])
+def cartF():
+    return render_template('cart.html') 
+
+@app.route("/payment", methods=["GET"])
+def paymentF():
+    return render_template('payment.html') 
+
+
+
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5000, debug=True)
     
