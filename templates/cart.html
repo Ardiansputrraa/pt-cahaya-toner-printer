@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co" />
+    <link rel="shortcut icon" href="favicon.png" />
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="{{url_for('static', filename='assets/css/bootstrap5.min.css')}}"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="{{url_for('static', filename='assets/css/tiny-slider.css')}}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{url_for('static', filename='assets/css/frontend.css')}}"
+      rel="stylesheet"
+    />
+    <title>Cahaya Toner</title>
+    <script>
+      $.ajax({
+        type: "GET",
+        url: `/cart`,
+        data: {},
+      });
+    </script>
+  </head>
+
+  <body>
+    <!-- Start Header/Navigation -->
+    <nav
+      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
+      arial-label="Furni navigation bar"
+    >
+      <div class="container">
+        <img
+          src="{{url_for('static', filename='assets/img/produk/Logo.png')}}"
+          class="logo"
+          style="width: 80px"
+          alt=""
+        />
+        <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/index">Beranda</a>
+            </li>
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-bs-toggle="dropdown"
+              >
+                Produk
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/product-sewaprinter"
+                    >Sewa Printer
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/product-jualprinter"
+                    >Jual Printer</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/product-jualtoner"
+                    >Jual Toner</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <li><a class="nav-link" href="/about">Tentang Kami</a></li>
+            <li><a class="nav-link" href="/services">Klien Kami</a></li>
+            <li><a class="nav-link" href="/contact">Kontak</a></li>
+          </ul>
+
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+            <li>
+              <a class="nav-link" href="/cart"
+                ><img
+                  src="{{url_for('static', filename='assets/img/produk/cart.svg')}}"
+              /></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Header/Navigation -->
+
+    <!-- Start Hero Section -->
+    <div class="hero">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-5">
+            <div class="intro-excerpt">
+              <h1>Cart</h1>
+            </div>
+          </div>
+          <div class="col-lg-7"></div>
+        </div>
+      </div>
+    </div>
+    <!-- End Hero Section -->
+
+    <div class="untree_co-section before-footer-section">
+      <div class="container">
+        <div class="row mb-5">
+          <form class="col-md-12" method="post">
+            <div class="site-blocks-table">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product-quantity">Quantity</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="product-thumbnail">
+                      <img
+                        src="{{url_for('static', filename='assets/img/produk/printer.jpg')}}"
+                        alt="Image"
+                        class="img-fluid"
+                      />
+                    </td>
+                    <td class="product-name">
+                      <h2 class="h5 text-black">Product 1</h2>
+                    </td>
+                    <td>$49.00</td>
+                    <td>
+                      <div
+                        class="input-group mb-3 d-flex align-items-center quantity-container"
+                        style="max-width: 120px"
+                      >
+                        <div class="input-group-prepend">
+                          <button
+                            class="btn btn-outline-black decrease"
+                            type="button"
+                          >
+                            &minus;
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control text-center quantity-amount"
+                          value="1"
+                          placeholder=""
+                          aria-label="Example text with button addon"
+                          aria-describedby="button-addon1"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-black increase"
+                            type="button"
+                          >
+                            &plus;
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>$49.00</td>
+                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+                  </tr>
+
+                  <tr>
+                    <td class="product-thumbnail">
+                      <img
+                        src="{{url_for('static', filename='assets/img/produk/printC.png')}}"
+                        alt="Image"
+                        class="img-fluid"
+                      />
+                    </td>
+                    <td class="product-name">
+                      <h2 class="h5 text-black">Product 2</h2>
+                    </td>
+                    <td>$49.00</td>
+                    <td>
+                      <div
+                        class="input-group mb-3 d-flex align-items-center quantity-container"
+                        style="max-width: 120px"
+                      >
+                        <div class="input-group-prepend">
+                          <button
+                            class="btn btn-outline-black decrease"
+                            type="button"
+                          >
+                            &minus;
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control text-center quantity-amount"
+                          value="1"
+                          placeholder=""
+                          aria-label="Example text with button addon"
+                          aria-describedby="button-addon1"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-black increase"
+                            type="button"
+                          >
+                            &plus;
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    <td>$49.00</td>
+                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-5">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <button class="btn btn-black btn-sm btn-block">
+                  Update Cart
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-outline-black btn-sm btn-block">
+                  Continue Shopping
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pl-5">
+            <div class="row justify-content-end">
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-12 text-right border-bottom mb-5">
+                    <h3 class="text-black h4 text-uppercase">Totals</h3>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <span class="text-black">Subtotal</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black">$230.00</strong>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-6">
+                    <span class="text-black">Total</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black">$230.00</strong>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <button
+                      class="btn btn-black btn-lg py-3 btn-block"
+                      onclick="window.location='/payment'"
+                    >
+                      Proceed To Checkout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Footer Section -->
+    <footer class="text-white text-center text-lg-start pink-footer">
+      <div class="container p-4">
+        <div class="row mt-4">
+          <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-4">PT Cahaya Toner</h5>
+            <p>
+              merupakan produsen Toner Compatible Multi Print terpercaya sejak
+              tahun 2005.
+            </p>
+            <div class="mt-4">
+              <!-- Facebook -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <!-- Dribbble -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-dribbble"></i
+              ></a>
+              <!-- Twitter -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <!-- Google + -->
+              <a type="button" class="btn btn-floating btn-warning btn-lg"
+                ><i class="fab fa-google-plus-g"></i
+              ></a>
+              <!-- Linkedin -->
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <div class="form-outline form-white mb-4">
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px"></div>
+                <div class="form-notch-middle" style="width: 48.8px"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+
+            <ul class="fa-ul" style="margin-left: 1.65em">
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-home"></i></span
+                ><span class="ms-2"
+                  >Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</span
+                >
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-envelope"></i></span
+                ><span class="ms-2">cahayatoner@gmail.com</span>
+              </li>
+              <li class="mb-3">
+                <span class="fa-li"><i class="fas fa-phone"></i></span
+                ><span class="ms-2">021 – 4260111</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-4">Opening hours</h5>
+
+            <table class="table text-center text-white">
+              <tbody class="font-weight-normal">
+                <tr>
+                  <td>Mon - Thu:</td>
+                  <td>8am - 9pm</td>
+                </tr>
+                <tr>
+                  <td>Fri - Sat:</td>
+                  <td>8am - 1am</td>
+                </tr>
+                <tr>
+                  <td>Sunday:</td>
+                  <td>9am - 10pm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2024 Copyright:
+        <a class="text-white" href="https://PTCahayaToner.com/"
+          >PT Cahaya Toner.com</a
+        >
+      </div>
+    </footer>
+    <!-- End Footer Section -->
+
+    <script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/js/tiny-slider.js')}}"></script>
+    <script src="{{url_for('static', filename='assets/js/custom.js')}}"></script>
+  </body>
+</html>
