@@ -34,51 +34,49 @@
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-      arial-label="Furni navigation bar"
-    >
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
       <div class="container">
-        <img src="{{url_for('static', filename='assets/img/produk/Logo.png')}}" class="logo" style="width: 80px" alt="" />
-        <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/index">Beranda</a>
-            </li>
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                Produk
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/product-sewaprinter">Sewa Printer </a></li>
-                <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
-                <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
+          <img src="{{ url_for('static', filename='assets/img/produk/Logo.png') }}" class="logo" style="width: 80px" alt="Logo" />
+          <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
+  
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarsFurni">
+              <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                  <li class="nav-item active">
+                      <a class="nav-link" href="/index">Beranda</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Produk
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          
+                          <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
+                          <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/about">Tentang Kami</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/services">Klien Kami</a></li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/contact">Kontak</a></li>
+                  <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                  </li>
               </ul>
-            </div>
-            <li><a class="nav-link" href="/about">Tentang Kami</a></li>
-            <li><a class="nav-link" href="/services">Klien Kami</a></li>
-            <li><a class="nav-link" href="/contact">Kontak</a></li>
-          </ul>
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-						<li><a class="nav-link" href="/cart"><img src="{{url_for('static', filename='assets/img/produk/cart.svg')}}"></a></li>
-					</ul> 
-        </div>
+              <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                  <li><a class="nav-link" href="/cart"><img src="{{ url_for('static', filename='assets/img/produk/cart.svg') }}" alt="Cart"></a></li>
+              </ul>
+          </div>
       </div>
-    </nav>
+  </nav>
     <!-- End Header/Navigation -->
 
     <!-- Start Hero Section -->
@@ -87,10 +85,12 @@
         <div class="row justify-content-between"> 
           <div class="col-lg-5">
             <div class="intro-excerpt">
-              <h1>Apapun Jenis Usaha Anda</h1>
-              <p class="mb-4">Kami Siap Menyediakan Printer untuk anda</p>
-              <p>
-                <a href="/product" class="btn btn-primary me-2">Beli Sekarang</a
+              <h1>Selamat Datang di Cahaya Toner</h1>
+              <p>Terima kasih telah mengunjungi situs kami. Kami sangat senang menyambut anda dan selamat berbelanja</p>
+              
+              
+              
+                <a href="/product-jualprinter" class="btn btn-primary me-2">Beli Sekarang</a
               </p>
             </div>
           </div>
@@ -125,28 +125,28 @@
                   <div class="icon">
                     <h2 class="">100++</h2>
                   </div>
-                  <h3>Printing Types</h3>
+                  <h3>Tipe Printer</h3>
                 </div>
               </div>
               <div class="col-4 col-md-4">
                 <div class="feature">
                   <div class="icon">
-                    <h2 class="">0,-</h2>
+                    <h2 class="">50,-</h2>
                   </div>
-                  <h3>Rental Fee</h3>
+                  <h3>Sewa Printer</h3>
                 </div>
               </div>
               <div class="col-4 col-md-4">
                 <div class="feature">
                   <div class="icon">
-                    <h2 class="">15+-</h2>
+                    <h2 class="">19+-</h2>
                   </div>
-                  <h3>Years Experience
+                  <h3>Pengalaman bertahun-tahun
                   </h3>
                 </div>
               </div>
               <p>
-                <a href="about.html" class="btn btn-primary me-2">Info Lebih Lanjut</a
+                <a href="{{ url_for('aboutF') }}" class="btn btn-primary me-2">Info Lebih Lanjut</a>
               </p>
             </div>
           </div>
@@ -173,34 +173,31 @@
               <div class="service-box">
                   <img src="{{url_for('static', filename='assets/img/produk/wing.png')}}" alt="Full Toner Warranty">
                   <h3 class="service-title">JUAL PRINTER  BERKUALITAS</h3>
-                  <p class="service-description">Temukan beragam pilihan printer berkualitas untuk kebutuhan personal atau bisnis Anda. Dari printer inkjet hingga laser, kami menyediakan solusi cetak yang handal dengan teknologi terkini untuk hasil yang tajam dan efisien.</p>
+                  <p style= "text-align: justify;">Temukan beragam pilihan printer berkualitas untuk kebutuhan personal atau bisnis Anda. Dari printer inkjet hingga laser, kami menyediakan solusi cetak yang handal dengan teknologi terkini untuk hasil yang tajam dan efisien.</p>
               </div>
           </div>
           <div class="col-md-4">
               <div class="service-box">
                   <img src="{{url_for('static', filename='assets/img/produk/printC.png')}}" alt="Free Printer Rental">
                   <h3 class="service-title">SEWA PRINTER BERKUALITAS</h3>
-                  <p class="service-description">Butuh printer tanpa harus membeli? Nikmati kemudahan sewa printer berkualitas dari kami. Dengan opsi fleksibel dan pelayanan terpercaya, Anda dapat memiliki akses cepat dan mudah untuk mencetak dokumen penting tanpa harus memiliki printer sendiri.</p>
+                  <p style= "text-align: justify;">Butuh printer tanpa harus membeli? Nikmati kemudahan sewa printer berkualitas dari kami. Dengan opsi fleksibel dan pelayanan terpercaya, Anda dapat memiliki akses cepat dan mudah untuk mencetak dokumen penting tanpa harus memiliki printer sendiri.</p>
               </div>
           </div>
           <div class="col-md-4">
               <div class="service-box">
                   <img src="{{url_for('static', filename='assets/img/produk/printHp.png')}}" alt="Quick Support">
                   <h3 class="service-title">JUAL TINTA TONER BERKUALITAS</h3>
-                  <p class="service-description">Dapatkan hasil cetak yang sempurna dengan tinta dan toner berkualitas tinggi. Kami menyediakan produk-produk tinta dan toner asli serta kompatibel dari merek terkemuka, memastikan performa cetak yang konsisten dan berkualitas setiap saat.</p>
+                  <p style= "text-align: justify;">Dapatkan hasil cetak yang sempurna dengan tinta dan toner berkualitas tinggi. Kami menyediakan produk-produk tinta dan toner asli serta kompatibel dari merek terkemuka, memastikan performa cetak yang konsisten dan berkualitas setiap saat.</p>
               </div>
           </div>
       </div>
-      <p class="center-button">
-        <a href="/product" class="btn btn-primary me-2">Info Lebih Lanjut</a>
-      </p>
   </div>
 </div>
     <!-- End We Help Section -->
 
     <!-- Start Popular Product -->
     <div class="container mt-5">
-      <h2 class="text-center" style="color: #800000;">APA ITU CAHAYA TONER</h2>
+      <h2 class="text-center">APA ITU CAHAYA TONER</h2>
       <p class="text-center">Buktikan Jaminan Layanan All-In-One Printing Solution Kami</p>
       <div class="row">
           <div class="col-md-4">
@@ -264,22 +261,29 @@
             <div class="col-md-3 step-content">
                 <div class="step-number">1</div>
                 <h5>Pemilihan Produk</h5>
-                <p class="justify">Telusuri beragam produk printer dan toner yang kami sediakan di situs web kami. Anda dapat memilih dari berbagai jenis printer LaserJet, dot matrix, serta toner yang setara dengan original. Pilihlah produk yang paling sesuai dengan kebutuhan pencetakan Anda.</p>
+                <p class="justify">Telusuri produk printer dan toner di situs web kami. 
+                  Pilih dari berbagai jenis printer LaserJet, dot matrix, serta toner setara original. Pilih produk sesuai kebutuhan pencetakan Anda.
+
+                </p>
             </div>
             <div class="col-md-3 step-content">
                 <div class="step-number">2</div>
                 <h5>Konsultasikan Produk yang Ingin Dibeli</h5>
-                <p class="justify">Jika Anda membutuhkan bantuan dalam memilih produk yang tepat, konsultasikan kebutuhan pencetakan Anda kepada tim kami. Kami akan dengan senang hati membantu Anda memilih jenis toner dan printer yang paling sesuai dengan kebutuhan Anda. Dapatkan solusi terbaik dari layanan yang kami sediakan, dengan jaminan kualitas hasil print yang memuaskan.</p>
+                <p class="justify">Jika perlu bantuan, konsultasikan kebutuhan pencetakan Anda kepada tim kami. 
+                  Kami akan membantu memilih toner dan printer yang paling sesuai. 
+                  Dapatkan solusi terbaik dengan jaminan hasil cetak yang memuaskan.</p>
             </div>
             <div class="col-md-3 step-content">
                 <div class="step-number">3</div>
                 <h5>Checkout/ Masukkan ke Keranjang</h5>
-                <p class="justify">Setelah Anda memilih produk yang diinginkan, tambahkan produk tersebut ke keranjang belanja Anda. Lanjutkan ke proses checkout untuk menyelesaikan pembelian Anda. Pastikan untuk memeriksa pesanan Anda sebelum melanjutkan ke tahap selanjutnya.</p>
+                <p class="justify">Tambahkan produk yang diinginkan ke keranjang belanja Anda.
+                   Lanjutkan ke proses checkout untuk menyelesaikan pembelian. 
+                  Periksa pesanan Anda sebelum melanjutkan ke tahap selanjutnya.</p>
             </div>
             <div class="col-md-3 step-content">
                 <div class="step-number">4</div>
                 <h5>Pesan Produk</h5>
-                <p class="justify">Setelah proses checkout selesai, pesanan Anda akan diproses oleh tim kami. Untuk instalasi printer, tim teknisi Cahaya Toner yang handal dan berpengalaman akan membantu Anda menciptakan integrasi yang seamless dengan sistem IT Anda. Jika lokasi Anda di luar Jabodetabek & kota Surabaya, kami akan memandu Anda secara daring sampai proses instalasi selesai.</p>
+                <p class="justify">Setelah checkout selesai, pesanan Anda akan diproses. Tim teknisi Cahaya Toner akan membantu instalasi printer Anda. Jika lokasi Anda di luar Jabodetabek & Surabaya, kami akan memandu secara daring sampai instalasi selesai.</p>
             </div>
         </div>
     </div>
@@ -443,21 +447,21 @@
       </div>
 
         <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-        <h5 class="text-uppercase mb-4">Opening hours</h5>
+        <h5 class="text-uppercase mb-4">Jam Buka</h5>
     
         <table class="table text-center text-white">
             <tbody class="font-weight-normal">
               <tr>
-                <td>Mon - Thu:</td>
-                <td>8am - 9pm</td>
+                <td>Senin - Kamis:</td>
+                <td>08.00 - 21.00</td>
               </tr>
               <tr>
-                <td>Fri - Sat:</td>
-                <td>8am - 1am</td>
+                <td>Jumat - Sabtu:</td>
+                <td>08.00 - 22.00</td>
               </tr>
               <tr>
-                <td>Sunday:</td>
-                <td>9am - 10pm</td>
+                <td>Minggu:</td>
+                <td>09.00 - 20.00</td>
               </tr>
             </tbody>
         </table>
