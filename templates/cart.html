@@ -41,94 +41,53 @@
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-      arial-label="Furni navigation bar"
-    >
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
       <div class="container">
-        <img
-          src="{{url_for('static', filename='assets/img/produk/Logo.png')}}"
-          class="logo"
-          style="width: 80px"
-          alt=""
-        />
-        <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/index">Beranda</a>
-            </li>
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-primary dropdown-toggle"
-                data-bs-toggle="dropdown"
-              >
-                Produk
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="/product-sewaprinter"
-                    >Sewa Printer
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/product-jualprinter"
-                    >Jual Printer</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/product-jualtoner"
-                    >Jual Toner</a
-                  >
-                </li>
+          <img src="{{ url_for('static', filename='assets/img/produk/Logo.png') }}" class="logo" style="width: 80px" alt="Logo" />
+          <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
+  
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarsFurni">
+              <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                  <li class="nav-item active">
+                      <a class="nav-link" href="/index">Beranda</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Produk
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          
+                          <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
+                          <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/about">Tentang Kami</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/services">Klien Kami</a></li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/contact">Kontak</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+              </li>
+              </li>
               </ul>
-            </div>
-            <li><a class="nav-link" href="/about">Tentang Kami</a></li>
-            <li><a class="nav-link" href="/services">Klien Kami</a></li>
-            <li><a class="nav-link" href="/contact">Kontak</a></li>
-          </ul>
-
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a class="nav-link" href="/cart"
-                ><img
-                  src="{{url_for('static', filename='assets/img/produk/cart.svg')}}"
-              /></a>
-            </li>
-          </ul>
-        </div>
+              <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                  <li><a class="nav-link" href="/cart"><img src="{{ url_for('static', filename='assets/img/produk/cart.svg') }}" alt="Cart"></a></li>
+              </ul>
+          </div>
       </div>
-    </nav>
+  </nav>
     <!-- End Header/Navigation -->
 
-    <!-- Start Hero Section -->
-    <div class="hero">
-      <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
-              <h1>Cart</h1>
-            </div>
-          </div>
-          <div class="col-lg-7"></div>
-        </div>
-      </div>
-    </div>
-    <!-- End Hero Section -->
 
     <div class="untree_co-section before-footer-section">
       <div class="container">
@@ -136,111 +95,138 @@
           <form class="col-md-12" method="post">
             <div class="site-blocks-table">
               <table class="table">
-                <thead>
-                  <tr>
-                    <th class="product-thumbnail">Image</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-total">Total</th>
-                    <th class="product-remove">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img
-                        src="{{url_for('static', filename='assets/img/produk/printer.jpg')}}"
-                        alt="Image"
-                        class="img-fluid"
-                      />
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Product 1</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                  </tr>
+<thead>
+  <tr>
+    <th class="product-category">Kategori</th> <!-- Tambahkan kolom kategori -->
+    <th class="product-thumbnail">Gambar</th>
+    <th class="product-name">Produk</th>
+    <th class="product-price">Harga</th>
+    <th class="product-quantity">Banyak</th>
+    <th class="sewa-total">Bulan</th> 
+    <th class="product-total">Total</th>
+    <th class="product-remove">Hapus</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="product-category">
+      <select class="form-select">
+        <option value="beli">Beli</option>
+        <option value="sewa">Sewa</option>
+      </select>
+    </td>
+    <td class="product-thumbnail">
+      <img
+        src="{{url_for('static', filename='assets/img/produk/printer.jpg')}}"
+        alt="Image"
+        class="img-fluid"
+      />
+    </td>
+    <td class="product-name">
+      <h2 class="h5 text-black">Product 1</h2>
+    </td>
+    <td>$49.00</td>
+    <td>
+      <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+        </div>
+        <input
+          type="text"
+          class="form-control text-center quantity-amount"
+          value="1"
+          placeholder=""
+          aria-label="Example text with button addon"
+          aria-describedby="button-addon1"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-black increase" type="button">&plus;</button>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+        </div>
+        <input
+          type="text"
+          class="form-control text-center quantity-amount"
+          value="1"
+          placeholder=""
+          aria-label="Example text with button addon"
+          aria-describedby="button-addon1"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-black increase" type="button">&plus;</button>
+        </div>
+      </div>
+    </td>
+    <td>$50.00</td>
+   
+    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+  </tr>
 
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img
-                        src="{{url_for('static', filename='assets/img/produk/printC.png')}}"
-                        alt="Image"
-                        class="img-fluid"
-                      />
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Product 2</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                  </tr>
-                </tbody>
+  <tr>
+    <td class="product-category">
+      <select class="form-select">
+        <option value="beli">Beli</option>
+        <option value="sewa">Sewa</option>
+      </select>
+    </td>
+    <td class="product-thumbnail">
+      <img
+        src="{{url_for('static', filename='assets/img/produk/printC.png')}}"
+        alt="Image"
+        class="img-fluid"
+      />
+    </td>
+    <td class="product-name">
+      <h2 class="h5 text-black">Product 2</h2>
+    </td>
+    <td>$60.00</td>
+    <td>
+      <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+        </div>
+        <input
+          type="text"
+          class="form-control text-center quantity-amount"
+          value="1"
+          placeholder=""
+          aria-label="Example text with button addon"
+          aria-describedby="button-addon1"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-black increase" type="button">&plus;</button>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
+        <div class="input-group-prepend">
+          <button class="btn btn-outline-black decrease" type="button">&minus;</button>
+        </div>
+        <input
+          type="text"
+          class="form-control text-center quantity-amount"
+          value="1"
+          placeholder=""
+          aria-label="Example text with button addon"
+          aria-describedby="button-addon1"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-black increase" type="button">&plus;</button>
+        </div>
+      </div>
+    </td>
+    <td>$70.00</td>
+    
+    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+  </tr>
+</tbody>
+
               </table>
             </div>
           </form>
@@ -250,14 +236,11 @@
           <div class="col-md-6">
             <div class="row mb-5">
               <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-black btn-sm btn-block">
-                  Update Cart
-                </button>
               </div>
               <div class="col-md-6">
-                <button class="btn btn-outline-black btn-sm btn-block">
-                  Continue Shopping
-                </button>
+                <a href="{{ url_for('productjualprinter') }}" class="btn btn-outline-black btn-sm btn-block">
+                  Lanjut Belanja
+              </a>
               </div>
             </div>
           </div>
@@ -266,7 +249,7 @@
               <div class="col-md-7">
                 <div class="row">
                   <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Totals</h3>
+                    <h3 class="text-black h4 text-uppercase">Total</h3>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -292,7 +275,7 @@
                       class="btn btn-black btn-lg py-3 btn-block"
                       onclick="window.location='/payment'"
                     >
-                      Proceed To Checkout
+                      lanjut pembayaran
                     </button>
                   </div>
                 </div>
@@ -361,21 +344,21 @@
           </div>
 
           <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-4">Opening hours</h5>
+            <h5 class="text-uppercase mb-4">Jam Buka</h5>
 
             <table class="table text-center text-white">
               <tbody class="font-weight-normal">
                 <tr>
-                  <td>Mon - Thu:</td>
-                  <td>8am - 9pm</td>
+                  <td>Senin - Kamis:</td>
+                  <td>08.00 - 21.00</td>
                 </tr>
                 <tr>
-                  <td>Fri - Sat:</td>
-                  <td>8am - 1am</td>
+                  <td>Jumat - Sabtu:</td>
+                  <td>08.00 - 22.00</td>
                 </tr>
                 <tr>
-                  <td>Sunday:</td>
-                  <td>9am - 10pm</td>
+                  <td>Minggu:</td>
+                  <td>09.00 - 20.00</td>
                 </tr>
               </tbody>
             </table>
