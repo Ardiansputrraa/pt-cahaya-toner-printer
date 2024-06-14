@@ -14,26 +14,28 @@
 
     <!-- Bootstrap CSS -->
     <link
-      href="{{url_for('static', filename='assets/css/bootstrap5.min.css')}}"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="{{url_for('static', filename='assets/css/tiny-slider.css')}}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{url_for('static', filename='assets/css/frontend.css')}}"
-      rel="stylesheet"
-    />
-    <title>Cahaya Toner</title>
+    href="{{url_for('static', filename='assets/css/bootstrap5.min.css')}}"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="{{url_for('static', filename='assets/css/tiny-slider.css')}}"
+    rel="stylesheet"
+  />
+  <link
+    href="{{url_for('static', filename='assets/css/frontend.css')}}"
+    rel="stylesheet"
+  />
+    <title>
+      Cahaya Toner
+    </title>
     <script>
       $.ajax({
         type: "GET",
-        url: `/cart`,
+        url: `/payment`,
         data: {},
       });
     </script>
@@ -41,258 +43,260 @@
 
   <body>
     <!-- Start Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-      arial-label="Furni navigation bar"
-    >
+    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
       <div class="container">
-        <img
-          src="{{url_for('static', filename='assets/img/produk/Logo.png')}}"
-          class="logo"
-          style="width: 80px"
-          alt=""
-        />
-        <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/index">Beranda</a>
-            </li>
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-primary dropdown-toggle"
-                data-bs-toggle="dropdown"
-              >
-                Produk
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="/product-sewaprinter"
-                    >Sewa Printer
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/product-jualprinter"
-                    >Jual Printer</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/product-jualtoner"
-                    >Jual Toner</a
-                  >
-                </li>
+          <img src="{{ url_for('static', filename='assets/img/produk/Logo.png') }}" class="logo" style="width: 80px" alt="Logo" />
+          <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
+  
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarsFurni">
+              <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                  <li class="nav-item active">
+                      <a class="nav-link" href="/index">Beranda</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Produk
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          
+                          <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
+                          <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/about">Tentang Kami</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/services">Klien Kami</a></li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/contact">Kontak</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+              </li>
               </ul>
-            </div>
-            <li><a class="nav-link" href="/about">Tentang Kami</a></li>
-            <li><a class="nav-link" href="/services">Klien Kami</a></li>
-            <li><a class="nav-link" href="/contact">Kontak</a></li>
-          </ul>
-
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a class="nav-link" href="/cart"
-                ><img
-                  src="{{url_for('static', filename='assets/img/produk/cart.svg')}}"
-              /></a>
-            </li>
-          </ul>
-        </div>
+              <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                  <li><a class="nav-link" href="/cart"><img src="{{ url_for('static', filename='assets/img/produk/cart.svg') }}" alt="Cart"></a></li>
+              </ul>
+          </div>
       </div>
-    </nav>
+  </nav>
     <!-- End Header/Navigation -->
 
-    <!-- Start Hero Section -->
-    <div class="hero">
-      <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
-              <h1>Cart</h1>
-            </div>
-          </div>
-          <div class="col-lg-7"></div>
-        </div>
-      </div>
-    </div>
-    <!-- End Hero Section -->
-
-    <div class="untree_co-section before-footer-section">
+    <div class="untree_co-section">
       <div class="container">
         <div class="row mb-5">
-          <form class="col-md-12" method="post">
-            <div class="site-blocks-table">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th class="product-thumbnail">Image</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-total">Total</th>
-                    <th class="product-remove">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img
-                        src="{{url_for('static', filename='assets/img/produk/printer.jpg')}}"
-                        alt="Image"
-                        class="img-fluid"
-                      />
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Product 1</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                  </tr>
-
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img
-                        src="{{url_for('static', filename='assets/img/produk/printC.png')}}"
-                        alt="Image"
-                        class="img-fluid"
-                      />
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Product 2</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </form>
+          <div class="col-md-12">
+          </div>
         </div>
-
         <div class="row">
-          <div class="col-md-6">
-            <div class="row mb-5">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-black btn-sm btn-block">
-                  Update Cart
-                </button>
+          <div class="col-md-6 mb-5 mb-md-0">
+            <h2 class="h3 mb-3 text-black">Detail Penagihan</h2>
+            <div class="p-3 p-lg-5 border bg-white">
+              <div class="form-group">
+                <label for="c_country" class="text-black"
+                  >Lokasi <span class="text-danger">*</span></label
+                >
+                <select id="c_country" class="form-control">
+                  <option value="1">Pilih Lokasi</option>
+                  <option value="2">Jakarta</option>
+                  <option value="3">Depok</option>
+                  <option value="4">Bandung</option>
+                  <option value="5">Surabaya</option>
+                  <option value="6">Ponorogo</option>
+                  <option value="7">Solo</option>
+                  <option value="8">Bogor</option>
+                  <option value="9">Bekasi</option>
+                </select>
               </div>
-              <div class="col-md-6">
-                <button class="btn btn-outline-black btn-sm btn-block">
-                  Continue Shopping
-                </button>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="c_fname" class="text-black"
+                    >Nama  <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="c_fname"
+                    name="c_fname"
+                  />
+                </div>
+              
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="c_companyname" class="text-black"
+                    >Nama Perusahaan
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="c_companyname"
+                    name="c_companyname"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="c_address" class="text-black"
+                    >Alamat <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="c_address"
+                    name="c_address"
+                    
+                  />
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="c_postal_zip" class="text-black"
+                    >kode pos<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="c_postal_zip"
+                    name="c_postal_zip"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row mb-5">
+                <div class="col-md-6">
+                  <label for="c_email_address" class="text-black"
+                    >Alamat Email<span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="c_email_address"
+                    name="c_email_address"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="c_phone" class="text-black"
+                    >Telepon <span class="text-danger">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="c_phone"
+                    name="c_phone"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="c_order_notes" class="text-black"
+                  >Catatan Pesanan</label
+                >
+                <textarea
+                  name="c_order_notes"
+                  id="c_order_notes"
+                  cols="30"
+                  rows="5"
+                  class="form-control"
+                  placeholder="Write your notes here..."
+                ></textarea>
               </div>
             </div>
           </div>
-          <div class="col-md-6 pl-5">
-            <div class="row justify-content-end">
-              <div class="col-md-7">
-                <div class="row">
-                  <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Totals</h3>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Subtotal</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
-                  </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <span class="text-black">Total</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
-                  </div>
-                </div>
+          <div class="col-md-6">
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black">Pesanan Anda</h2>
+                <div class="p-3 p-lg-5 border bg-white">
+                  <table class="table site-block-order-table mb-5">
+                    <thead>
+                      <th>Produk</th>
+                      <th>Total</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          Top Up T-Shirt <strong class="mx-2">x</strong> 1
+                        </td>
+                        <td>$250.00</td>
+                      </tr>
+                      <tr>
+                        <td>Polo Shirt <strong class="mx-2">x</strong> 1</td>
+                        <td>$100.00</td>
+                      </tr>
+                      <tr>
+                        <td class="text-black font-weight-bold">
+                          <strong>Subtotal Keranjang </strong>
+                        </td>
+                        <td class="text-black">$350.00</td>
+                      </tr>
+                      <tr>
+                        <td class="text-black font-weight-bold">
+                          <strong>Jumlah Pesanan</strong>
+                        </td>
+                        <td class="text-black font-weight-bold">
+                          <strong>$350.00</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
 
-                <div class="row">
-                  <div class="col-md-12">
+
+                    <div class="collapse" id="collapsebank">
+                      <div class="py-2">
+                        <p class="mb-0">
+                          Make your payment directly into our bank account.
+                          Please use your Order ID as the payment reference.
+                          Your order won’t be shipped until the funds have
+                          cleared in our account.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+
+                    <div class="collapse" id="collapsecheque">
+                      <div class="py-2">
+                        <p class="mb-0">
+                          Make your payment directly into our bank account.
+                          Please use your Order ID as the payment reference.
+                          Your order won’t be shipped until the funds have
+                          cleared in our account.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+
+                    <div class="collapse" id="collapsepaypal">
+                      <div class="py-2">
+                        <p class="mb-0">
+                          Make your payment directly into our bank account.
+                          Please use your Order ID as the payment reference.
+                          Your order won’t be shipped until the funds have
+                          cleared in our account.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
                     <button
-                      class="btn btn-black btn-lg py-3 btn-block"
-                      onclick="window.location='/payment'"
+                      class="btn btn-primary btn-lg py-3 btn-block"
+                      onclick="window.location='thankyou.html'"
                     >
-                      Proceed To Checkout
+                      Pesan Sekarang
                     </button>
                   </div>
                 </div>
@@ -300,95 +304,76 @@
             </div>
           </div>
         </div>
+        <!-- </form> -->
       </div>
     </div>
 
     <!-- Start Footer Section -->
     <footer class="text-white text-center text-lg-start pink-footer">
       <div class="container p-4">
-        <div class="row mt-4">
-          <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-4">PT Cahaya Toner</h5>
-            <p>
-              merupakan produsen Toner Compatible Multi Print terpercaya sejak
-              tahun 2005.
-            </p>
-            <div class="mt-4">
-              <!-- Facebook -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-facebook-f"></i
-              ></a>
-              <!-- Dribbble -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-dribbble"></i
-              ></a>
-              <!-- Twitter -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <!-- Google + -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-google-plus-g"></i
-              ></a>
-              <!-- Linkedin -->
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <div class="form-outline form-white mb-4">
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px"></div>
-                <div class="form-notch-middle" style="width: 48.8px"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
+      <div class="row mt-4">
+      <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+      <h5 class="text-uppercase mb-4">PT Cahaya Toner</h5>
+        <p>
+           merupakan produsen Toner Compatible Multi Print terpercaya  sejak tahun 2005.
+        </p>
+      <div class="mt-4">
+          <!-- Facebook -->
+          <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-facebook-f"></i></a>
+          <!-- Dribbble -->
+          <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-dribbble"></i></a>
+          <!-- Twitter -->
+          <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-twitter"></i></a>
+          <!-- Google + -->
+          <a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-google-plus-g"></i></a>
+          <!-- Linkedin -->
+      </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4 mb-md-0">  
+        <div class="form-outline form-white mb-4">
+        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 48.8px;"></div><div class="form-notch-trailing"></div></div></div>
+      
+          <ul class="fa-ul" style="margin-left: 1.65em;">
+            <li class="mb-3">
+            <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</span>
+            </li>
+            <li class="mb-3">
+            <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">cahayatoner@gmail.com</span>
+            </li>
+            <li class="mb-3">
+            <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">021 – 4260111</span>
+            </li>
+          </ul>
+      </div>
 
-            <ul class="fa-ul" style="margin-left: 1.65em">
-              <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-home"></i></span
-                ><span class="ms-2"
-                  >Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</span
-                >
-              </li>
-              <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-envelope"></i></span
-                ><span class="ms-2">cahayatoner@gmail.com</span>
-              </li>
-              <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-phone"></i></span
-                ><span class="ms-2">021 – 4260111</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-4">Opening hours</h5>
-
-            <table class="table text-center text-white">
-              <tbody class="font-weight-normal">
-                <tr>
-                  <td>Mon - Thu:</td>
-                  <td>8am - 9pm</td>
-                </tr>
-                <tr>
-                  <td>Fri - Sat:</td>
-                  <td>8am - 1am</td>
-                </tr>
-                <tr>
-                  <td>Sunday:</td>
-                  <td>9am - 10pm</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+        <h5 class="text-uppercase mb-4">Opening hours</h5>
+    
+        <table class="table text-center text-white">
+            <tbody class="font-weight-normal">
+              <tr>
+                <td>Senin - Kamis:</td>
+                <td>08.00 - 21.00</td>
+              </tr>
+              <tr>
+                <td>Jumat - Sabtu:</td>
+                <td>08.00 - 22.00</td>
+              </tr>
+              <tr>
+                <td>Minggu:</td>
+                <td>09.00 - 20.00</td>
+              </tr>
+            </tbody>
+        </table>
         </div>
       </div>
-
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-        © 2024 Copyright:
-        <a class="text-white" href="https://PTCahayaToner.com/"
-          >PT Cahaya Toner.com</a
-        >
       </div>
+
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2024 Copyright:
+      <a class="text-white" href="https://PTCahayaToner.com/">PT Cahaya Toner.com</a>
+      </div>
+
     </footer>
     <!-- End Footer Section -->
 
