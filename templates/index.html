@@ -24,11 +24,13 @@
       PT CAHAYA TONER
     </title>
     <script>
-      $.ajax({
-        type:"GET",
-        url: `/index`,
-        data: {},
-      })
+      function data(){
+        $.ajax({
+          type:"GET",
+          url: `/index`,
+          data: {},
+        })
+      }
     </script>
   </head>
 
@@ -53,7 +55,6 @@
                           Produk
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          
                           <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
                           <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
                       </ul>
@@ -66,7 +67,7 @@
                   <li class="nav-item">
                       <a class="nav-link" href="/contact">Kontak</a></li>
                   <li class="nav-item">
-                        <a class="nav-link" href="/login">
+                        <a class="nav-link" href="/">
                             <i class="fas fa-user"></i> Login
                         </a>
                   </li>

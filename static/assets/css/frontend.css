@@ -51,25 +51,23 @@ body {
 .dropdown-item {
   text-decoration: none;
   font-weight: bold;
-  border: none;
-  background-color: transparent;
+  color: #000; /* Warna teks hitam */
 }
 .dropdown-item:hover {
-  text-decoration: none;
-  font-weight: bold;
-  border: none;
-  background-color: transparent;
+  color: #000000; /* Warna teks saat hover */
+  background-color: #007bff; /* Warna background saat hover */
 }
 .dropdown-menu {
-  background-color: transparent;
-  font-color: #1212;
+  background-color: #55b5cd; /* Warna background menu */
   border: none;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Efek bayangan */
 }
+
 .vision-mission-section {
   padding: 40px 0;
 }
 .vision-mission-section h2 {
-  color: #6aaf2e;
+  color: #001e3d;
 }
 .vision-mission-section hr {
   border-top: 2px solid #000;
@@ -88,7 +86,7 @@ body {
   padding: 40px 0;
 }
 .about-us-section h2 {
-  color: #6aaf2e;
+  color: #001e3d;
 }
 .about-us-section hr {
   border-top: 2px solid #000;
@@ -112,7 +110,7 @@ body {
 }
 
 .step-number {
-  background-color: #800000;
+  background-color: #001e3d;
   color: white;
   border-radius: 50%;
   width: 40px;
@@ -133,8 +131,8 @@ body {
 }
 
 .green-background {
-  background-color: #121212;
-  color: white;
+  background-color: #ececec;
+  color: rgb(0, 0, 0);
   padding: 20px;
   text-align: center;
 }
@@ -211,7 +209,7 @@ a.more {
 }
 
 .custom-navbar {
-  background: #121212 !important;
+  background: #001427 !important;
   padding-top: 20px;
   padding-bottom: 20px;
 }
@@ -296,7 +294,7 @@ a.more {
 }
 
 .hero {
-  background: #121212;
+  background: #001e3d;
   padding: calc(4rem - 30px) 0 0rem 0;
 }
 @media (min-width: 768px) {
@@ -369,7 +367,7 @@ a.more {
   position: absolute;
   width: 255px;
   height: 217px;
-  background-image: url("../images/dots-light.svg");
+  background-image: url("../img/produk/dots-light.svg");
   background-size: contain;
   background-repeat: no-repeat;
   right: -100px;
@@ -550,7 +548,7 @@ a.more {
   content: "";
   width: 255px;
   height: 217px;
-  background-image: url("../images/dots-yellow.svg");
+  background-image: url("../img/produk/dots-yellow.svg");
   background-repeat: no-repeat;
   background-size: contain;
   -webkit-transform: translate(-40%, -40%);
