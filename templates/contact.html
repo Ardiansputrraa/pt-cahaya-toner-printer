@@ -27,69 +27,51 @@
 	<body>
 
 		<!-- Start Header/Navigation -->
-		<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
-
+		<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
 			<div class="container">
-				<img src="{{url_for('static', filename='assets/img/produk/Logo.png')}}" class="logo" style="width: 80px" alt="" />
+				<img src="{{ url_for('static', filename='assets/img/produk/Logo.png') }}" class="logo" style="width: 80px" alt="Logo" />
 				<a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
-
+		
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-
+		
 				<div class="collapse navbar-collapse" id="navbarsFurni">
 					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-						<li class="nav-item">
+						<li class="nav-item active">
 							<a class="nav-link" href="/index">Beranda</a>
 						</li>
-						<div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                Produk
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/product-sewaprinter">Sewa Printer </a></li>
-                <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
-                <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
-              </ul>
-            </div>
-						<li><a class="nav-link" href="/about">Tentang Kami</a></li>
-						<li><a class="nav-link" href="/services">Klien Kami</a></li>
-						<li class="active"><a class="nav-link" href="/contact">Kontak</a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Produk
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								
+								<li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
+								<li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/about">Tentang Kami</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/services">Klien Kami</a></li>
+						<li class="nav-item">
+							<a class="nav-link" href="/contact">Kontak</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/login">
+								<i class="fas fa-user"></i> Login
+							</a>
+					    </li>
 					</ul>
 					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li></li>
-            <li>
-              <a class="nav-link" href="/cart"
-                ><img src="{{url_for('static', filename='assets/img/produk/cart.svg')}}"
-              /></a>
-            </li>
-          </ul>
+						<li><a class="nav-link" href="/cart"><img src="{{ url_for('static', filename='assets/img/produk/cart.svg') }}" alt="Cart"></a></li>
+					</ul>
 				</div>
 			</div>
-				
 		</nav>
 		<!-- End Header/Navigation -->
-
-		<!-- Start Hero Section -->
-			<div class="hero">
-				<div class="container">
-					<div class="row justify-content-between">
-						<div class="col-lg-5">
-							<div class="intro-excerpt">
-								<h1>Contact</h1>
-								<p class="mb-4">Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.</p>
-								<p><a href="" class="btn btn-primary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
-							</div>
-						</div>
-						<div class="col-lg-7">
-							<div class="hero-img-wrap">
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		<!-- End Hero Section -->
 
 		
 		<!-- Start Contact Form -->
@@ -148,30 +130,24 @@
                 <div class="row">
                   <div class="col-6">
                     <div class="form-group">
-                      <label class="text-black" for="fname">First name</label>
+                      <label class="text-black" for="fname">Nama</label>
                       <input type="text" class="form-control" id="fname">
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label class="text-black" for="lname">Last name</label>
-                      <input type="text" class="form-control" id="lname">
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="text-black" for="email">Email address</label>
+                  <label class="text-black" for="email"> Alamat Email</label>
                   <input type="email" class="form-control" id="email">
                 </div>
 
                 <div class="form-group mb-5">
-                  <label class="text-black" for="message">Message</label>
+                  <label class="text-black" for="message">Pesan</label>
                   <textarea name="" class="form-control" id="message" cols="30" rows="5"></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary-hover-outline">Send Message</button>
-              </form>
+                <button type="submit" class="btn btn-primary-hover-outline">Kirim Pesan</button>
 
+				
             </div>
 
           </div>
@@ -227,21 +203,21 @@
 			</div>
 	  
 			  <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-			  <h5 class="text-uppercase mb-4">Opening hours</h5>
+			  <h5 class="text-uppercase mb-4">Jam Buka</h5>
 		  
 			  <table class="table text-center text-white">
 				  <tbody class="font-weight-normal">
 					<tr>
-					  <td>Mon - Thu:</td>
-					  <td>8am - 9pm</td>
-					</tr>
-					<tr>
-					  <td>Fri - Sat:</td>
-					  <td>8am - 1am</td>
-					</tr>
-					<tr>
-					  <td>Sunday:</td>
-					  <td>9am - 10pm</td>
+						<td>Senin - Kamis:</td>
+						<td>08.00 - 21.00</td>
+					  </tr>
+					  <tr>
+						<td>Jumat - Sabtu:</td>
+						<td>08.00 - 22.00</td>
+					  </tr>
+					  <tr>
+						<td>Minggu:</td>
+						<td>09.00 - 20.00</td>
 					</tr>
 				  </tbody>
 			  </table>
