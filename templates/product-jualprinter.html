@@ -1,91 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="author" content="Untree.co" />
-    <link rel="shortcut icon" href="favicon.png" />
+    {% include "header_landingpage.html" %}
 
-    <meta name="description" content="" />
-    <meta name="keywords" content="bootstrap, bootstrap4" />
-
-    <!-- Bootstrap CSS -->
-    <link
-      href="{{url_for('static', filename='assets/css/bootstrap5.min.css')}}"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="{{url_for('static', filename='assets/css/tiny-slider.css')}}"
-      rel="stylesheet"
-    />
-    <link
-      href="{{url_for('static', filename='assets/css/frontend.css')}}"
-      rel="stylesheet"
-    />
-    <title>PT Cahaya Toner</title>
     <script>
-      $.ajax({
-        type: "GET",
-        url: `/product-jualprinter`,
-        data: {},
-      });
+      
     </script>
+
   </head>
 
- 
-    <!-- Start Header/Navigation -->
-    <nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
-      <div class="container">
-          <img src="{{ url_for('static', filename='assets/img/produk/Logo.png') }}" class="logo" style="width: 80px" alt="Logo" />
-          <a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
-  
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-  
-          <div class="collapse navbar-collapse" id="navbarsFurni">
-              <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                  <li class="nav-item active">
-                      <a class="nav-link" href="/index">Beranda</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Produk
-                      </a>
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          
-                          <li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
-                          <li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
-                      </ul>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/about">Tentang Kami</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/services">Klien Kami</a></li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="/contact">Kontak</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <i class="fas fa-user"></i> Login
-                  </a>
-              </li>
-              </ul>
-              <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                  <li><a class="nav-link" href="/cart"><img src="{{ url_for('static', filename='assets/img/produk/cart.svg') }}" alt="Cart"></a></li>
-              </ul>
-          </div>
-      </div>
-  </nav>
-    <!-- End Header/Navigation -->
+  {% include "navbar_landingpage.html" %}
 
     <!-- Start Hero Section -->
     <div class="hero">
@@ -93,7 +17,7 @@
         <div class="row justify-content-between">
           <div class="col-lg-5">
             <div class="intro-excerpt">
-              <h1>Produk Tersedia</h1>
+              <h1>Printer Tersedia</h1>
               <p style= "text-align: justify;">
 
                 Kami menyediakan berbagai merek printer berkualitas terbaik yang telah 
@@ -116,269 +40,88 @@
     <!-- End Hero Section -->
     <div class="container mt-5">
       <div class="row">
-        <center><h1>  PRINTER TERSEDIA</h1></center>
-        <div class="col-md-4 product-card">
+        <div class="col-md-4 product-card"> 
           <div class="card h-100">
-            <img
-            src="{{url_for('static', filename='assets/img/produk/print.png')}}"
-            alt="EPSON1"
-            class="product-img"
-          />
-          
-            <div class="card-body text-center">
-              
-         
-              <div class="product-info">
-                <h5 class="card-title">Merk: Epson L805 </h5>
-                <h5 class="card-title">Tipe: Injet Printer</h5>
-                <p style="text-align: justify;">
-                  Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
-                  Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
-              </p>
-              <p class="price">Harga Jual: Rp 3.000.000/pcs</p>
+              <img src="{{url_for('static', filename='assets/img/produk/print.png')}}" alt="EPSON1" class="product-img">
+              <div class="card-body">
+                  <div class="product-info">
+                      <h5 class="card-title">Merk: Epson L805 </h5>
+                      <h5 class="card-title">Tipe: Injet Printer</h5>
+                      <p style="text-align: justify;">
+                          Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
+                          Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
+                      </p>
+                      <h5 class="price">Harga Jual: Rp 3.000.000</h5> 
+                      <h5 class="price">Harga Sewa: Rp 300.000 / Bulan</h5> 
+                  </div>
+                  <div class="d-flex justify-content-center mt-3">
+                      <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-sm mr-2"> <!-- Added btn-sm, mr-2 for smaller size and spacing -->
+                          <i class="fas fa-shopping-cart"></i> Checkout
+                      </a>
+                      <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-sm"> <!-- Added btn-sm for smaller size -->
+                          <i class="fas fa-cart-plus"></i> Masukan Keranjang
+                      </a>
+                  </div>
               </div>
-              <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-spacing">
-                <i class="fas fa-shopping-cart"></i> Checkout
-              </a>
-              <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-spacing">
-                  <i class="fas fa-cart-plus"></i> Masukan Keranjang
-              </a>
-
-            </div>
           </div>
+      </div>
+      
+      <div class="col-md-4 product-card"> 
+        <div class="card h-100">
+            <img src="{{url_for('static', filename='assets/img/produk/print.png')}}" alt="EPSON1" class="product-img">
+            <div class="card-body">
+                <div class="product-info">
+                    <h5 class="card-title">Merk: Epson L805 </h5>
+                    <h5 class="card-title">Tipe: Injet Printer</h5>
+                    <p style="text-align: justify;">
+                        Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
+                        Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
+                    </p>
+                    <h5 class="price">Harga Jual: Rp 3.000.000</h5> 
+                    <h5 class="price">Harga Sewa: Rp 300.000 / Bulan</h5> 
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-sm mr-2"> <!-- Added btn-sm, mr-2 for smaller size and spacing -->
+                        <i class="fas fa-shopping-cart"></i> Checkout
+                    </a>
+                    <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-sm"> <!-- Added btn-sm for smaller size -->
+                        <i class="fas fa-cart-plus"></i> Masukan Keranjang
+                    </a>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="col-md-4 product-card">
+    <div class="col-md-4 product-card"> 
           <div class="card h-100">
-            <img
-            src="{{url_for('static', filename='assets/img/produk/printHP1.png')}}"
-            alt="EPSON1"
-            class="product-img"
-          />
-            <div class="card-body text-center">
-              <div class="product-info">
-                <h5 class="card-title">Merk: HP DeskJet 2336  </h5>
-                <h5 class="card-title">Tipe: Injet Printer</h5>
-                <p style="text-align: justify;">
-                  HP DeskJet 2336 adalah printer multifungsi dengan resolusi cetak hingga 4800 x 1200 dpi. Mencetak dengan kecepatan 7.5 ppm untuk hitam dan 5.5 ppm untuk warna. Memiliki satu baki kertas berkapasitas 60 lembar dan ukuran cetak maksimal 215.9 x 297mm. Mendukung konektivitas USB.
-              </p>
-              <p class="price">Harga Jual: Rp 3.500.000/pcs</p>
+              <img src="{{url_for('static', filename='assets/img/produk/print.png')}}" alt="EPSON1" class="product-img">
+              <div class="card-body">
+                  <div class="product-info">
+                      <h5 class="card-title">Merk: Epson L805 </h5>
+                      <h5 class="card-title">Tipe: Injet Printer</h5>
+                      <p style="text-align: justify;">
+                          Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
+                          Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
+                      </p>
+                      <h5 class="price">Harga Jual: Rp 3.000.000</h5> 
+                      <h5 class="price">Harga Sewa: Rp 300.000 / Bulan</h5> 
+                  </div>
+                  <div class="d-flex justify-content-center mt-3">
+                      <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-sm mr-2"> <!-- Added btn-sm, mr-2 for smaller size and spacing -->
+                          <i class="fas fa-shopping-cart"></i> Checkout
+                      </a>
+                      <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-sm"> <!-- Added btn-sm for smaller size -->
+                          <i class="fas fa-cart-plus"></i> Masukan Keranjang
+                      </a>
+                  </div>
               </div>
-              <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout">
-                <i class="fas fa-shopping-cart"></i> Checkout
-              </a>
-              <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart">
-                  <i class="fas fa-cart-plus"></i> Masukan Keranjang
-              </a>
-
-            </div>
           </div>
-        </div>
-
-
-        <div class="col-md-4 product-card">
-          <div class="card h-100">
-            <img
-            src="{{url_for('static', filename='assets/img/produk/wing.png')}}"
-            alt="EPSON1"
-            class="product-img"
-          />
-            <div class="card-body text-center">
-              <div class="product-info">
-                <h5 class="card-title">Merk: Canon PIXMA E410 </h5>
-                <h5 class="card-title">Tipe: Injet Printer</h5>
-                <p style="text-align: justify;">
-                  Printer Canon PIXMA E410 adalah printer multifungsi dengan resolusi cetak hingga 4800 x 600 dpi. Cetakannya memiliki kecepatan hingga 4 ipm (warna) dan 8 ipm (hitam-putih). Printer ini mampu menampung hingga 60 lembar kertas dan mendukung berbagai ukuran kertas
-              </p>
-              <p class="price">Harga Jual: Rp 4.000.000/pcs</p>
-              </div>
-              <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout">
-                <i class="fas fa-shopping-cart"></i> Checkout
-              </a>
-              <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart">
-                  <i class="fas fa-cart-plus"></i> Masukan Keranjang
-              </a>
-
-            </div>
-          </div>
-        </div>
-
-        <center><h1> SEWA PRINTER</h1></center>
-        <div class="col-md-4 product-card">
-          <div class="card h-100">
-            <img
-            src="{{url_for('static', filename='assets/img/produk/canons.png')}}"
-            alt="EPSON1"
-            class="product-img"
-          />
-            <div class="card-body text-center">
-              
-              <div class="product-info">
-                <h5 class="card-title">Merk: Canon PIXMA E410 </h5>
-                <h5 class="card-title">Tipe: Injet Printer</h5>
-                <p style="text-align: justify;">
-                  Printer Canon PIXMA E410 menyediakan resolusi cetak hingga 4800 x 600 dpi, menjamin hasil cetak yang tajam. Kecepatan cetaknya mencapai 4 ipm untuk warna dan 8 ipm untuk hitam-putih, memungkinkan Anda menyelesaikan tugas dengan efisien. Printer ini dapat menampung hingga 60 lembar kertas sekaligus, mendukung berbagai ukuran hingga A4. Dengan menyewa printer Canon PIXMA E410, Anda mendapatkan solusi cetak yang andal.
-              </p>
-              <p class="price">Harga Sewa satu bulan: Rp 2.000.000/unit</p>
-              </div>
-              <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout">
-                <i class="fas fa-shopping-cart"></i> Checkout
-              </a>
-              <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart">
-                  <i class="fas fa-cart-plus"></i> Masukan Keranjang
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 product-card">
-          <div class="card h-100">
-            <img
-            src="{{url_for('static', filename='assets/img/produk/ep1.png')}}"
-            alt="EPSON1"
-            class="product-img"
-          />
-            <div class="card-body text-center">
-              <div class="product-info">
-                <h5 class="card-title">Merk: Epson L805 </h5>
-                <h5 class="card-title">Tipe: Injet Printer</h5>
-                <p style="text-align: justify;">
-                  Printer Epson L805 Wi-Fi Photo Ink Tank menawarkan resolusi cetak tinggi hingga 5760 x 1440 dpi untuk hasil cetak yang tajam. Dengan kecepatan mencetak foto tanpa batas dalam waktu singkat, printer ini ideal untuk cetakan foto berkualitas tinggi. Teknologi tinta tangki yang ekonomis memastikan cetakan berkualitas dengan biaya rendah. Dengan menyewa Epson L805, Anda dapat mencetak foto dengan efisien dan ekonomis.
-              </p>
-              <p class="price">Harga Sewa satu bulan: Rp 2.000.000/unit</p>
-              </div>
-              <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout">
-                <i class="fas fa-shopping-cart"></i> Checkout
-              </a>
-              <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart">
-                  <i class="fas fa-cart-plus"></i> Masukan Keranjang
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4 product-card">
-          <div class="card h-100">
-            <img
-            src="{{url_for('static', filename='assets/img/produk/hp1.png')}}"
-            alt="EPSON1"
-            class="product-img"
-          />
-            <div class="card-body text-center">
-              
-              <div class="product-info">
-                <h5 class="card-title">Merk:  HP DeskJet 2336 </h5>
-                <h5 class="card-title">Tipe: Injet Printer</h5>
-                <p style="text-align: justify;">
-                  Printer HP DeskJet 2336 menawarkan resolusi cetak tinggi hingga 4800 x 1200 dpi, memastikan hasil cetak berkualitas. Dengan kecepatan mencetak hingga 7.5 ppm untuk hitam dan 5.5 ppm untuk warna, printer ini ideal untuk kebutuhan sehari-hari. Baki kertas berkapasitas 60 lembar memungkinkan cetak dalam jumlah yang cukup besar tanpa perlu sering mengisi ulang kertas. Dengan menyewa printer HP DeskJet 2336, Anda memiliki perangkat cetak yang handal.
-              </p>
-              <p class="price">Harga Sewa satu bulan: Rp 2.000.000/unit</p>
-              </div>
-              <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout">
-                <i class="fas fa-shopping-cart"></i> Checkout
-              </a>
-              <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart">
-                  <i class="fas fa-cart-plus"></i> Masukan Keranjang
-              </a>
-            </div>
-          </div>
-       </div>
+      </div>
+       
     </div>
     </div>
     
+    {% include "footer_landingpage.html" %}
 
-
-     <!-- Start Footer Section -->
-     <footer class="text-white text-center text-lg-start pink-footer">
-      <div class="container p-4">
-        <div class="row mt-4">
-          <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-4"style="color:white;">PT Cahaya Toner</h5>
-            <p style="color:white;">
-              merupakan produsen Toner Compatible Multi Print terpercaya sejak
-              tahun 2005.
-            </p>
-            <div class="mt-4">
-              <!-- Facebook -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-facebook-f"></i
-              ></a>
-              <!-- Dribbble -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-dribbble"></i
-              ></a>
-              <!-- Twitter -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <!-- Google + -->
-              <a type="button" class="btn btn-floating btn-warning btn-lg"
-                ><i class="fab fa-google-plus-g"></i
-              ></a>
-              <!-- Linkedin -->
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <div class="form-outline form-white mb-4">
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px"></div>
-                <div class="form-notch-middle" style="width: 48.8px"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-
-            <ul class="fa-ul" style="margin-left: 1.65em">
-              <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-home"></i></span
-                ><span class="ms-2"
-                  >Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</span
-                >
-              </li>
-              <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-envelope"></i></span
-                ><span class="ms-2">cahayatoner@gmail.com</span>
-              </li>
-              <li class="mb-3">
-                <span class="fa-li"><i class="fas fa-phone"></i></span
-                ><span class="ms-2">021 – 4260111</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-4">Jam Buka</h5>
-
-            <table class="table text-center text-white">
-              <tbody class="font-weight-normal">
-                <tr>
-                  <td>Senin - Kamis:</td>
-                  <td>08.00 - 21.00</td>
-                </tr>
-                <tr>
-                  <td>Jumat - Sabtu:</td>
-                  <td>08.00 - 22.00</td>
-                </tr>
-                <tr>
-                  <td>Minggu:</td>
-                  <td>09.00 - 20.00</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-        © 2024 Copyright:
-        <a class="text-white" href="https://PTCahayaToner.com/"
-          >PT Cahaya Toner.com</a
-        >
-      </div>
-    </footer>
-    <!-- End Footer Section -->
-
-    <script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', filename='assets/js/tiny-slider.js')}}"></script>
-    <script src="{{url_for('static', filename='assets/js/custom.js')}}"></script>
-  </body>
+    </body>
 </html>

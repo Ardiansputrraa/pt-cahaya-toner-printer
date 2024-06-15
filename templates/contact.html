@@ -1,90 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="author" content="Untree.co">
-  <link rel="shortcut icon" href="favicon.png">
+	{% include "header_landingpage.html" %}
 
-  <meta name="description" content="" />
-  <meta name="keywords" content="bootstrap, bootstrap4" />
-
-		<!-- Bootstrap CSS -->
-		<link href="{{url_for('static', filename='assets/css/bootstrap5.min.css')}}" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-		<link href="{{url_for('static', filename='assets/css/tiny-slider.css')}}" rel="stylesheet">
-		<link href="{{url_for('static', filename='assets/css/frontend.css')}}" rel="stylesheet">
-		<title>Kontak Cahaya Toner </title>
     <script>
-      $.ajax({
-        type: "GET",
-        url: `/contact`,
-        data: {},
-      });
+      
     </script>
-	</head>
+
+</head>
 
 	<body>
 
-		<!-- Start Header/Navigation -->
-		<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
-			<div class="container">
-				<img src="{{ url_for('static', filename='assets/img/produk/Logo.png') }}" class="logo" style="width: 80px" alt="Logo" />
-				<a class="navbar-brand" href="/index">Cahaya Toner<span>.</span></a>
-		
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-		
-				<div class="collapse navbar-collapse" id="navbarsFurni">
-					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-						<li class="nav-item active">
-							<a class="nav-link" href="/index">Beranda</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Produk
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								
-								<li><a class="dropdown-item" href="/product-jualprinter">Jual Printer</a></li>
-								<li><a class="dropdown-item" href="/product-jualtoner">Jual Toner</a></li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/about">Tentang Kami</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/services">Klien Kami</a></li>
-						<li class="nav-item">
-							<a class="nav-link" href="/contact">Kontak</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/">
-								<i class="fas fa-user"></i> Login
-							</a>
-					    </li>
-					</ul>
-					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-						<li><a class="nav-link" href="/cart"><img src="{{ url_for('static', filename='assets/img/produk/cart.svg') }}" alt="Cart"></a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<!-- End Header/Navigation -->
+		{% include "navbar_landingpage.html" %}
 
-		
 		<!-- Start Contact Form -->
 		<div class="untree_co-section">
       <div class="container">
 
         <div class="block">
           <div class="row justify-content-center">
-
-
             <div class="col-md-8 col-lg-8 pb-4">
-
-
               <div class="row mb-5">
                 <div class="col-lg-4">
                   <div  class="service no-shadow align-items-center link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
@@ -128,25 +63,35 @@
 
               <form>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-10">
                     <div class="form-group">
-                      <label class="text-black" for="fname">Nama</label>
-                      <input type="text" class="form-control" id="fname">
+                      <label class="text-black" for="perusahaan">Perusahaan</label>
+                      <input type="text" class="form-control" id="perushaan" name="perusahaan">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-black" for="nama">Nama</label>
+                      <input type="text" class="form-control" id="nama" name="nama">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-black" for="email">Email</label>
+                      <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-black" for="telpon">Nomer Telpone</label>
+                      <input type="number" class="form-control" id="telpon" name="telpon">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-black" for="alamat">Alamat Lengkap</label>
+                      <input type="text" class="form-control" id="alamat" name="alamat">
+                    </div>
+                    <div class="form-group mb-5">
+                      <label class="text-black" for="pesan">Pesan</label>
+                      <textarea name="pesan" class="form-control" id="pesan" cols="30" rows="5"></textarea>
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="text-black" for="email"> Alamat Email</label>
-                  <input type="email" class="form-control" id="email">
-                </div>
-
-                <div class="form-group mb-5">
-                  <label class="text-black" for="message">Pesan</label>
-                  <textarea name="" class="form-control" id="message" cols="30" rows="5"></textarea>
-                </div>
 
                 <button type="submit" class="btn btn-primary-hover-outline">Kirim Pesan</button>
-
 				
             </div>
 
@@ -162,81 +107,8 @@
 
   <!-- End Contact Form -->
 
-		
-
-		<!-- Start Footer Section -->
-		<footer class="text-white text-center text-lg-start pink-footer">
-			<div class="container p-4">
-			<div class="row mt-4">
-			<div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-			<h5 class="text-uppercase mb-4">PT Cahaya Toner</h5>
-			  <p>
-				 merupakan produsen Toner Compatible Multi Print terpercaya  sejak tahun 2005.
-			  </p>
-			<div class="mt-4">
-				<!-- Facebook -->
-				<a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-facebook-f"></i></a>
-				<!-- Dribbble -->
-				<a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-dribbble"></i></a>
-				<!-- Twitter -->
-				<a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-twitter"></i></a>
-				<!-- Google + -->
-				<a type="button" class="btn btn-floating btn-warning btn-lg"><i class="fab fa-google-plus-g"></i></a>
-				<!-- Linkedin -->
-			</div>
-			</div>
-			<div class="col-lg-4 col-md-6 mb-4 mb-md-0">  
-			  <div class="form-outline form-white mb-4">
-			  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 48.8px;"></div><div class="form-notch-trailing"></div></div></div>
-			
-				<ul class="fa-ul" style="margin-left: 1.65em;">
-				  <li class="mb-3">
-				  <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</span>
-				  </li>
-				  <li class="mb-3">
-				  <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">cahayatoner@gmail.com</span>
-				  </li>
-				  <li class="mb-3">
-				  <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">021 – 4260111</span>
-				  </li>
-				</ul>
-			</div>
-	  
-			  <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-			  <h5 class="text-uppercase mb-4">Jam Buka</h5>
-		  
-			  <table class="table text-center text-white">
-				  <tbody class="font-weight-normal">
-					<tr>
-						<td>Senin - Kamis:</td>
-						<td>08.00 - 21.00</td>
-					  </tr>
-					  <tr>
-						<td>Jumat - Sabtu:</td>
-						<td>08.00 - 22.00</td>
-					  </tr>
-					  <tr>
-						<td>Minggu:</td>
-						<td>09.00 - 20.00</td>
-					</tr>
-				  </tbody>
-			  </table>
-			  </div>
-			</div>
-			</div>
-	  
-			<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-			© 2024 Copyright:
-			<a class="text-white" href="https://PTCahayaToner.com/">PT Cahaya Toner.com</a>
-			</div>
-	  
-		  </footer>
-		<!-- End Footer Section -->	
-
-
-    <script src="{{url_for('static', filename='assets/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url_for('static', filename='assets/js/tiny-slider.js')}}"></script>
-    <script src="{{url_for('static', filename='assets/js/custom.js')}}"></script>
+  {% include "footer_landingpage.html" %}
+  
 	</body>
 
 </html>

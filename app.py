@@ -32,17 +32,8 @@ def generateID(length):
  
 @app.route("/")
 def home(): 
-    myToken = request.cookies.get("mytoken")
-    try:
-        payload = jwt.decode(myToken, SECRET_KEY, algorithms=["HS256"])
-        user_info = db.users.find_one({"username": payload["id"]})
-        return render_template('dashboard.html', user_info=user_info)
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("sign_in", msg="Waktu login telah berakhir!"))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("sign_in", msg="Silahkan login terlebih dahulu!"))
-
-
+    return render_template('index.html')
+    
 @app.route("/karyawan")
 def karyawan():
     myToken = request.cookies.get("mytoken")
@@ -303,6 +294,7 @@ def add_data(page):
                         id = generateID(4)
                         continue   
             foto = request.files['foto']
+            tipeProduk = request.form['tipeProduk']
             merk = request.form['merk']
             tipe = request.form['tipe']
             hargaJual = request.form['hargaJual']
@@ -319,6 +311,7 @@ def add_data(page):
             docProduk = {
                 'id': id,
                 'foto' : file,
+                'tipeProduk':tipeProduk,
                 'merk' : merk,
                 'tipe' : tipe,
                 'hargaJual' : hargaJual,
@@ -579,10 +572,22 @@ def search_data(page):
         dataProduk = list(db.data_produk.find({'$or': [{'id': {'$regex': query, '$options': 'i'}}, {'merk': {'$regex': query, '$options': 'i'}}, {'tipe': {'$regex': query, '$options': 'i'}}, {'hargaJual': {'$regex': query, '$options': 'i'}}, {'hargaSewa': {'$regex': query, '$options': 'i'}}, {'deskripsi': {'$regex': query, '$options': 'i'}}]}, {'_id': False}))
         return jsonify({'dataProduk': dataProduk})
     
+@app.route("/dashboard")
+def dashboard():
+    myToken = request.cookies.get("mytoken")
+    try:
+        payload = jwt.decode(myToken, SECRET_KEY, algorithms=["HS256"])
+        user_info = db.users.find_one({"username": payload["id"]})
+        return render_template('dashboard.html', user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("sign_in", msg="Waktu login telah berakhir!"))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("sign_in", msg="Silahkan login terlebih dahulu!"))
+
 @app.route("/sign_in")
 def sign_in():
-    return render_template('signin.html')
-
+     return render_template('signin.html')
+ 
 @app.route("/sign_in/check", methods=["POST"])
 def sign_in_check():
     username = request.form["username"]
@@ -687,7 +692,13 @@ def cartF():
 def paymentF():
     return render_template('payment.html') 
 
+@app.route("/login", methods=["GET"])
+def login():
+    return render_template('login.html') 
 
+@app.route("/register", methods=["GET"])
+def register():
+    return render_template('register.html') 
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5000, debug=True)
