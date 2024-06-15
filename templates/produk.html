@@ -40,7 +40,7 @@
                             <h6 class="card-title">${data[i]["merk"]}</h6>
                             <p class="card-text">Tipe: ${data[i]["tipe"]}</p>
                             <p class="card-text">Harga Jual: ${formatRupiah(data[i]["hargaJual"])}</p>
-                            <p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])} /hari</p>
+                            ${data[i]["hargaSewa"] ? `<p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])} / Bulan</p>` : `<p class="card-text">Harga Sewa: - </p>`}
                             <p class="card-text text-truncate" id="deskripsi" onclick="showDeskripsi(this)">Deskripsi: ${data[i]["deskripsi"]}</p>
                             <div class="d-flex justify-content-between">
                                 <button class="btn btn-sm btn-danger m-2" onclick="window.location.href='/edit_data/form/produk/${data[i]["id"]}'">Edit</button>
@@ -100,7 +100,7 @@
                             <h6 class="card-title">${data[i]["merk"]}</h6>
                             <p class="card-text">Tipe: ${data[i]["tipe"]}</p>
                             <p class="card-text">Harga Jual: ${formatRupiah(data[i]["hargaJual"])}</p>
-                            <p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])}/hari</p>
+                            ${data[i]["hargaSewa"] ? `<p class="card-text">Harga Sewa: ${formatRupiah(data[i]["hargaSewa"])} / Bulan</p>` : `<p class="card-text">Harga Sewa: - </p>`}
                             <p class="card-text text-truncate" id="deskripsi" onclick="showDeskripsi(this)">Deskripsi: ${data[i]["deskripsi"]}</p>
                             <div class="d-flex justify-content-between">
                                 <button class="btn btn-sm btn-danger m-2" onclick="window.location.href='/edit_data/form/produk/${data[i]["id"]}'">Edit</button>

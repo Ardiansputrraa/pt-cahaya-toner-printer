@@ -38,8 +38,15 @@
                                     <input type="file" class="form-control bg-dark" accept=".png,.jpg,.jpeg" id="foto" name="foto" required>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="inpuTipeProduk" class="form-label">Tipe Produk</label>
+                                    <select class="form-select" name="tipeProduk" id="tipeProduk">
+                                        <option value="printer">Printer</option>
+                                        <option value="toner">Toner</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="inputMerk" class="form-label">Merk</label>
-                                    <input type="text" class="form-control" accept=".png,.jpg,.jpeg" id="merk" name="merk"  required style="background-color: black;">
+                                    <input type="text" class="form-control" id="merk" name="merk"  required style="background-color: black;">
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputTipe" class="form-label">Tipe</label>
@@ -51,7 +58,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputHargaSewaPerHari" class="form-label">Harga Sewa / Hari</label>
-                                    <input type="number" class="form-control" id="hargaSewa" name="hargaSewa" required>
+                                    <input type="number" class="form-control" id="hargaSewa" name="hargaSewa">
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputDeskripsi" class="form-label">Deskripsi:</label>
