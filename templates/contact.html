@@ -4,7 +4,52 @@
 	{% include "header_landingpage.html" %}
 
     <script>
-      
+      function pesan(){
+        let perusahaan = $('#perusahaan').val()
+        let nama = $('#nama').val()
+        let email = $('#email').val()
+        let telpone = $('#telpone').val()
+        let alamat = $('#alamat').val()
+        let pesan = $('#pesan').val()
+        if (perusahaan == "") {
+          alert("Anda belum memasukan nama perusahaan")
+          return
+        }
+        if (nama == "") {
+          alert("Anda belum memasukan nama anda")
+          return
+        }
+        if (email == "") {
+          alert("Anda belum memasukan email anda")
+          return
+        }
+        if (telpone == "") {
+          alert("Anda belum memasukan telepone anda")
+          return
+        }
+        if (alamat == "") {
+          alert("Anda belum memasukan nama alamat anda")
+          return
+        }
+        if (pesan == "") {
+          alert("Masukan pesan yang ingin dikirim")
+          return
+        }
+        $.ajax({
+          type: 'POST',
+          url: '/add_data_customer',
+          data: {
+            perusahaan: perusahaan,
+            nama: nama,
+            email: email,
+            telpone: telpone,
+            alamat: alamat,
+          },
+          success: function(response) {    
+              window.location.href = 'https://wa.me/6287837155937?text=' + pesan
+          }
+        })
+      }
     </script>
 
 </head>
@@ -29,7 +74,7 @@
                       </svg>
                     </div> <!-- /.icon -->
                     <div class="service-contents">
-                      <p>Jl. Garuda No. 12 Kemayoran, Jakarta Pusat</p>
+                      <p>JL. Kran 5 no 20 d RT 3 RW 5, Kelurahan Gunung Sahari Selatan kec kemayoran, Jakarta Pusat 10610</p>
                     </div> <!-- /.service-contents-->
                   </div> <!-- /.service -->
                 </div>
@@ -42,7 +87,7 @@
                       </svg>
                     </div> <!-- /.icon -->
                     <div class="service-contents">
-                      <p>cahayatoner@gmail.com</p>
+                      <p>cahayatoner10@gmail.com</p>
                     </div> <!-- /.service-contents-->
                   </div> <!-- /.service -->
                 </div>
@@ -55,44 +100,42 @@
                       </svg>
                     </div> <!-- /.icon -->
                     <div class="service-contents">
-                      <p>021 – 4260111</p>
+                      <p>021 - 2480 5657</p>
                     </div> <!-- /.service-contents-->
                   </div> <!-- /.service -->
                 </div>
               </div>
 
-              <form>
                 <div class="row">
                   <div class="col-10">
                     <div class="form-group">
                       <label class="text-black" for="perusahaan">Perusahaan</label>
-                      <input type="text" class="form-control" id="perushaan" name="perusahaan">
+                      <input type="text" class="form-control" id="perusahaan" required>
                     </div>
                     <div class="form-group">
                       <label class="text-black" for="nama">Nama</label>
-                      <input type="text" class="form-control" id="nama" name="nama">
+                      <input type="text" class="form-control" id="nama" required>
                     </div>
                     <div class="form-group">
                       <label class="text-black" for="email">Email</label>
-                      <input type="email" class="form-control" id="email" name="email">
+                      <input type="email" class="form-control" id="email" required>
                     </div>
                     <div class="form-group">
                       <label class="text-black" for="telpon">Nomer Telpone</label>
-                      <input type="number" class="form-control" id="telpon" name="telpon">
+                      <input type="number" class="form-control" id="telpone" required>
                     </div>
                     <div class="form-group">
                       <label class="text-black" for="alamat">Alamat Lengkap</label>
-                      <input type="text" class="form-control" id="alamat" name="alamat">
+                      <input type="text" class="form-control" id="alamat" required>
                     </div>
                     <div class="form-group mb-5">
                       <label class="text-black" for="pesan">Pesan</label>
-                      <textarea name="pesan" class="form-control" id="pesan" cols="30" rows="5"></textarea>
+                      <textarea class="form-control"  id="pesan" cols="30" rows="5" ></textarea>
                     </div>
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary-hover-outline">Kirim Pesan</button>
-				
+              <button type="submit" class="btn btn-primary-hover-outline" onclick="pesan()">Kirim Pesan</button>
             </div>
 
           </div>

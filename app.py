@@ -9,6 +9,7 @@ from bson import ObjectId
 from werkzeug.utils import secure_filename
 import random
 import string
+from twilio.rest import Client
 
 app = Flask(__name__)
 
@@ -682,7 +683,38 @@ def servicesF():
 
 @app.route("/contact", methods=["GET"])
 def contactF():
-    return render_template('contact.html') 
+    return render_template('contact.html')
+
+
+@app.route('/add_data_customer', methods=['POST'])
+def add_data_customer():
+    id = generateID(4)
+    dataCustomer = list(db.data_customer.find({}, {'_id' : False}))
+    for data in dataCustomer:
+        for data in dataCustomer:
+            if (id == data['id']):
+                id = generateID(4)
+                continue
+    perusahaan = request.form['perusahaan']
+    namaLengkap = request.form['nama']
+    email = request.form['email']
+    telpone = request.form['telpone']
+    alamat = request.form['alamat']
+            
+    docCustomer = {
+        'id' : id,
+        'perusahaan' : perusahaan,
+        'namaLengkap' : namaLengkap,
+        'email' : email,
+        'telpone' : telpone,
+        'alamat' : alamat
+    }
+        
+    exists = bool(db.data_customer.find_one({"email": email, "telpone" : telpone}))
+    if exists == False:
+        db.data_customer.insert_one(docCustomer) 
+        
+    return jsonify({'result': 'success', 'exists': exists})
 
 @app.route("/cart", methods=["GET"])
 def cartF():
@@ -692,13 +724,6 @@ def cartF():
 def paymentF():
     return render_template('payment.html') 
 
-@app.route("/login", methods=["GET"])
-def login():
-    return render_template('login.html') 
-
-@app.route("/register", methods=["GET"])
-def register():
-    return render_template('register.html') 
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5000, debug=True)
