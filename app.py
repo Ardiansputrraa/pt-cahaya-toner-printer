@@ -9,7 +9,7 @@ from bson import ObjectId
 from werkzeug.utils import secure_filename
 import random
 import string
-from twilio.rest import Client
+
 
 app = Flask(__name__)
 
