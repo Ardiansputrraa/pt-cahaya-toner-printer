@@ -10,22 +10,31 @@ from werkzeug.utils import secure_filename
 import random
 import string
 from twilio.rest import Client
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-app = Flask(__name__)
 
 SECRET_KEY = "SUCCESS"
 DB_KEY = "sparta"
 
-client = MongoClient(f'mongodb+srv://test:{DB_KEY}@cluster0.6bmi5a1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-db = client.PT_Cahaya_Toner
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-TWILIO_ACCOUNT_SID = 'ACe70fa767c3959044bea85b7694cd04be'
-TWILIO_AUTH_TOKEN  = 'a359661a9aed73a3ba9a3de5ac6c66b1'
-TWILIO_WHATSAPP_NUMBER  = 'whatsapp:+14155238886'
-ADMIN_WHATSAPP_NUMBER  = 'whatsapp:+6281294884667'
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
+
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER")
+ADMIN_WHATSAPP_NUMBER = os.environ.get("ADMIN_WHATSAPP_NUMBER")
 
 clientTwilio = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-messages_store = []
+
+app = Flask(__name__)
 
 sekarang = datetime.now()
 tanggal = sekarang.strftime("%d-%m-%Y")
@@ -36,6 +45,7 @@ jam = sekarang.strftime("%H:%M")
 
 dataKeranjang = {}
 dataCheckout = {}
+messages_store = []
 
 def generateID(length):
     characters = string.ascii_uppercase + string.digits
