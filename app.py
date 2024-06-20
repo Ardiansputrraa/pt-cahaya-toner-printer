@@ -19,12 +19,23 @@ DB_KEY = "sparta"
 client = MongoClient(f'mongodb+srv://test:{DB_KEY}@cluster0.6bmi5a1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 db = client.PT_Cahaya_Toner
 
+TWILIO_ACCOUNT_SID = 'ACe70fa767c3959044bea85b7694cd04be'
+TWILIO_AUTH_TOKEN  = 'a359661a9aed73a3ba9a3de5ac6c66b1'
+TWILIO_WHATSAPP_NUMBER  = 'whatsapp:+14155238886'
+ADMIN_WHATSAPP_NUMBER  = 'whatsapp:+6281294884667'
+
+clientTwilio = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+messages_store = []
+
 sekarang = datetime.now()
 tanggal = sekarang.strftime("%d-%m-%Y")
 hari = tanggal.split("-")[0]
 bulan = tanggal.split("-")[1]
 tahun = tanggal.split("-")[2]
 jam = sekarang.strftime("%H:%M")
+
+dataKeranjang = {}
+dataCheckout = {}
 
 def generateID(length):
     characters = string.ascii_uppercase + string.digits
@@ -513,6 +524,7 @@ def edit_data(page, id):
         if request.method == 'POST':
             id = request.form['id'] 
             foto = request.files['foto']
+            tipeProduk = request.form['tipeProduk']
             merk = request.form['merk']
             tipe = request.form['tipe']
             hargaJual = request.form['hargaJual']
@@ -533,6 +545,7 @@ def edit_data(page, id):
             docProduk = {
                 'id': id,
                 'foto' : file,
+                'tipeProduk':tipeProduk,
                 'merk' : merk,
                 'tipe' : tipe,
                 'hargaJual' : hargaJual,
@@ -657,31 +670,27 @@ def logout():
         response = {"message": "Token tidak valid"}
         return jsonify(response), 401
 
-# Halaman FrontEnd
-@app.route("/index", methods=["GET"])
-def helloF():
-    return render_template('index.html') 
-
-@app.route("/product-sewaprinter", methods=["GET"])
+@app.route("/product-sewaprinter")
 def productsewaprinter():
     return render_template('product-sewaprinter.html') 
 
-@app.route("/product-jualprinter", methods=["GET"])
+@app.route("/product-jualprinter")
 def productjualprinter():
     return render_template('product-jualprinter.html') 
-@app.route("/product-jualtoner", methods=["GET"])
+
+@app.route("/product-jualtoner")
 def productjualtoner():
     return render_template('product-jualtoner.html') 
 
-@app.route("/about", methods=["GET"])
+@app.route("/about")
 def aboutF():
     return render_template('about.html') 
 
-@app.route("/services", methods=["GET"])
+@app.route("/services")
 def servicesF():
     return render_template('services.html') 
 
-@app.route("/contact", methods=["GET"])
+@app.route("/contact")
 def contactF():
     return render_template('contact.html')
 
@@ -710,20 +719,216 @@ def add_data_customer():
         'alamat' : alamat
     }
         
-    exists = bool(db.data_customer.find_one({"email": email, "telpone" : telpone}))
+    exists = bool(db.data_customer.find_one({"perusahaan": perusahaan, "alamat" : alamat}))
     if exists == False:
         db.data_customer.insert_one(docCustomer) 
         
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route("/cart", methods=["GET"])
-def cartF():
+
+@app.route("/cart")
+def cart():
     return render_template('cart.html') 
 
-@app.route("/payment", methods=["GET"])
-def paymentF():
-    return render_template('payment.html') 
+@app.route("/add_cart/<id>", methods=["POST"])
+def add_cart(id):
+    obj = request.get_json()
+    if id in dataKeranjang:
+        return jsonify({'message': 'Produk sudah berada didalam keranjang'})
+    else:
+        obj['tipePemasukan'] = "Penjualan"
+        obj['kuantitas'] = 1
+        obj['durasiSewa'] = 1
+        obj['total'] = (int)(obj['hargaJual']) * obj['kuantitas']
+        dataKeranjang[id] = [obj]
+        return jsonify({'message': 'Produk berhasil dimasukan keranjang'})
 
+@app.route("/checkout_keranjang", methods=["GET"])
+def checkout_keranjang():
+    for id in dataKeranjang:
+        dataCheckout[id] = dataKeranjang[id]
+    return jsonify({'dataCheckout': dataCheckout})
+
+@app.route("/get_cart", methods=["GET"])
+def get_cart():
+    return jsonify({'dataKeranjang': dataKeranjang})
+
+
+@app.route("/update_quantity/<id>", methods=["POST"])
+def update_quantity(id):
+    obj = request.get_json()
+    if id in dataKeranjang:
+        dataKeranjang[id][0]['kuantitas'] = obj['kuantitas']
+        if  dataKeranjang[id][0]["tipePemasukan"] == "Penjualan":
+            dataKeranjang[id][0]['total'] = (int(dataKeranjang[id][0]['hargaJual']) * dataKeranjang[id][0]['kuantitas']) * dataKeranjang[id][0]['durasiSewa']
+        else :
+            dataKeranjang[id][0]['total'] = (int(dataKeranjang[id][0]['hargaSewa']) * dataKeranjang[id][0]['kuantitas']) * dataKeranjang[id][0]['durasiSewa']
+        return jsonify({'message': 'Quantity updated successfully', 'dataKeranjang': dataKeranjang})
+    else:
+        return jsonify({'message': 'Item not found'}), 404
+    
+@app.route('/update_tipe_pemasukan/<id>', methods=['POST'])
+def update_tipe_pemasukan(id):
+    try:
+        tipe_pemasukan = request.json.get('tipePemasukan')
+        dataKeranjang[id][0]["tipePemasukan"] = tipe_pemasukan
+        return jsonify({"message": "Tipe Pemasukan updated successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route("/update_durasi/<id>", methods=["POST"])
+def update_durasi(id):
+    try:
+        obj = request.get_json()
+        new_durasi = int(obj['durasiSewa'])
+        if id in dataKeranjang:
+            dataKeranjang[id][0]['durasiSewa'] = new_durasi 
+            dataKeranjang[id][0]['total'] = (int(dataKeranjang[id][0]['hargaSewa']) * dataKeranjang[id][0]['kuantitas']) * new_durasi
+            return jsonify({'message': 'Durasi updated successfully', 'dataKeranjang': dataKeranjang}), 200
+        else:
+            return jsonify({'message': 'Item not found'}), 404
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+    
+@app.route("/delete_cart/<id>", methods=["DELETE"])
+def delete_cart(id):
+    if id in dataKeranjang:
+        del dataKeranjang[id]
+        return jsonify({'message': 'Product Berhasil Dihapus'})
+    return jsonify({'message': 'Product not found'})
+
+@app.route("/payment")
+def payment():
+    return render_template('payment.html', dataCheckout=dataCheckout) 
+
+@app.route("/checkout_toner/<id>", methods=["POST"])
+def checkout_toner(id):
+    try:
+        obj = request.get_json()
+        obj['kuantitas'] = 1
+        obj['total'] = (int)(obj['hargaJual'])
+        dataCheckout[id] = [obj]
+        if dataCheckout[id][0]['tipeProduk'].lower() == "toner":
+            obj['tipePemasukan'] = "Penjualan"
+            obj['durasiSewa'] = 1
+            return jsonify({'dataCheckout': dataCheckout}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+
+@app.route("/checkout_printer/<tipePemasukan>/<id>", methods=["POST"])
+def checkout_printer(tipePemasukan,id):
+    try:
+        obj = request.get_json()
+        obj['kuantitas'] = 1
+        dataCheckout[id] = [obj]
+        if tipePemasukan.lower() == "penjualan":
+            obj['tipePemasukan'] = "Penjualan"
+            obj['durasiSewa'] = 1
+            obj['total'] = (int)(obj['hargaJual'])
+            return jsonify({'dataCheckout': dataCheckout}), 200
+        else :
+            obj['tipePemasukan'] = "Penyewaan"
+            obj['durasiSewa'] = 1
+            obj['total'] = (int)(obj['hargaSewa'])
+            return jsonify({'dataCheckout': dataCheckout}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+    
+@app.route("/get_checkout", methods=["GET"])
+def get_checkout():
+    return jsonify({'dataCheckout': dataCheckout})
+
+@app.route("/delete_checkout", methods=["DELETE"])
+def delete_checkout():
+    dataKeranjang.clear()
+    dataCheckout.clear()
+    return jsonify({'message': 'Product Berhasil Dihapus'})
+
+@app.route('/order_produk', methods=['POST'])
+def order_produk():
+    data = request.get_json()
+    newOrder = data.get('order')
+
+    if not newOrder:
+        return jsonify({'error': 'Orderan anda belum dapat di proses'}), 400
+
+    try:
+        message = clientTwilio.messages.create(
+            body=newOrder,
+            from_=TWILIO_WHATSAPP_NUMBER,
+            to=ADMIN_WHATSAPP_NUMBER
+        )
+        messages_store.append({'from': 'user', 'message': newOrder})
+        return jsonify({'status': 'Message sent', 'sid': message.sid, 'dataCheckout':dataCheckout}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
+    
+@app.route('/add_omset', methods=['POST'])
+def add_omset():    
+    tipe = request.form['tipe']
+    kuantitas = request.form['kuantitas']
+    namaPenerima = request.form['namaPenerima']
+    perusahaan = request.form['perusahaan']
+    alamat = request.form['alamat']
+    harga = request.form['harga']
+    metodePembayaran = request.form['metodePembayaran']
+    tipePemasukan = request.form['tipePemasukan']
+    durasiSewa = request.form['durasiSewa']
+    if tipePemasukan == 'Penjualan':
+        id = generateID(4)
+        dataPesanana = list(db.data_pesanan.find({}, {'_id' : False}))
+        for data in dataPesanana:
+            for data in dataPesanana:
+                if (id == data['id']):
+                    id = generateID(4)
+                    continue
+        docPesanan = {
+                'id': id,
+                'tanggal': tanggal,
+                'jam' : jam, 
+                'tipe' : tipe,
+                'kuantitas' : kuantitas,
+                'namaPenerima' : namaPenerima,
+                'perusahaan' : perusahaan,
+                'alamat' : alamat,
+                'metodePembayaran' : metodePembayaran,
+            }
+        db.data_pesanan.insert_one(docPesanan)
+    else:
+        id = generateID(4)
+        dataSewa = list(db.data_sewa.find({}, {'_id' : False}))
+        for data in dataSewa:
+            for data in dataSewa:
+                if (id == data['id']):
+                    id = generateID(4)
+                    continue
+        docSewa = {
+                'id': id,
+                'tanggal': tanggal,
+                'jam' : jam, 
+                'tipe' : tipe,
+                'kuantitas' : kuantitas,
+                'namaPic' : namaPenerima,
+                'perusahaan' : perusahaan,
+                'alamat' : alamat,
+                'durasiSewa': durasiSewa,
+                'metodePembayaran' : metodePembayaran,
+            }
+        db.data_sewa.insert_one(docSewa)
+            
+    docPemasukan = {
+                'id': id,
+                'tanggal': tanggal,
+                'jam' : jam, 
+                'tipe' : tipe,
+                'kuantitas' : kuantitas,
+                'harga' : harga,
+                'metodePembayaran' : metodePembayaran,
+                'tipePemasukan' : tipePemasukan
+            }
+    db.data_pendapatan.insert_one(docPemasukan)
+    return jsonify({'msg': 'Data pesanan berhasil ditambahkan!' })
 
 if __name__ == "__main__":
     app.run("0.0.0.0", port=5000, debug=True)

@@ -4,12 +4,128 @@
     {% include "header_landingpage.html" %}
 
     <script>
+      $(document).ready(function() {
+        getData()
+      })
+
+      function formatRupiah(angka) {
+        let reverse = angka.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g)
+        ribuan = ribuan.join('.').split('').reverse().join('')
+        return 'Rp ' + ribuan
+      }
+
+      function getData() {
+          $("#produk-card").empty()
+          $.ajax({
+              type: "GET",
+              url: `/get_data/produk`,
+              data: {},
+              success: function (response) {
+                  var data = response["dataProduk"]
+                  for (let i = 0; i < data.length; i++) {
+                      if (data[i]["tipeProduk"] === "printer") {
+                          let imageUrl = `${window.location.origin}/static/assets/img/produk/${data[i]["foto"]}`
+                          let produk_temp = `
+                          <div class="col-md-4 product-card"> 
+                              <div class="card h-100">
+                                  <img src="${imageUrl}" alt="${data[i]["tipe"]}" class="product-img width="300" height="300">
+                                  <div class="card-body">
+                                      <div class="product-info">
+                                          <h5 class="card-title">Merk: ${data[i]["merk"]}</h5>
+                                          <h5 class="card-title">Tipe: ${data[i]["tipe"]}</h5>
+                                          <p style="text-align: justify;">${data[i]["deskripsi"]}</p>
+                                          <h5 class="price">Harga Jual: ${formatRupiah(data[i]["hargaJual"])}</h5>
+                                          <h5 class="price">Harga Jual: ${formatRupiah(data[i]["hargaSewa"])} / bulan</h5>
+                                      </div>
+                                      <div class="d-flex justify-content-center mt-3">
+                                          <a onclick='checkout("${data[i]["id"]}", ${JSON.stringify(data[i])})' class="btn btn-custom btn-checkout btn-sm mr-2">
+                                              <i class="fas fa-shopping-cart"></i> Checkout
+                                          </a>
+                                          <a onclick='addKeranjang("${data[i]["id"]}", ${JSON.stringify(data[i])})' class="btn btn-custom btn-add-cart btn-sm">
+                                              <i class="fas fa-cart-plus"></i> Masukan Keranjang
+                                          </a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>`
+                          $("#produk-card").append(produk_temp)
+                      }
+                  }
+              }
+          })
+      }
+
+    function addKeranjang(id, objectData) {
+        $.ajax({
+          url: `/add_cart/${id}`,
+          method: 'POST',
+          data: JSON.stringify(objectData),
+          contentType: 'application/json',
+          success: function(response) {
+            Swal.fire({
+              title: 'Informasi',
+              text: response.message,
+              icon: 'info',
+              confirmButtonText: 'Oke',
+            })
+          },
+          error: function(xhr, status, error) {
+              console.log(error)
+          }
+      })
+    }
+
+    function checkout(id, objectData) {
+      Swal.fire({
+        title: 'Informasi',
+        text: 'Silahkan pilih opso checkout',
+        icon: 'info',
+        showCancelButton: true,    
+        confirmButtonText: 'Beli',    
+        cancelButtonText: 'Sewa',    
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/checkout_printer/penjualan/${id}`,
+            method: 'POST',
+            data: JSON.stringify(objectData),
+            contentType: 'application/json',
+            success: function(response) {
+                console.log(response['message']);
+                window.location.href = "/payment"
+            },
+            error: function(xhr, status, error) {
+                console.error('Error checkout:', error)
+            }
+        })
+        } else if (result.isDismissed) {
+          $.ajax({
+            url: `/checkout_printer/penyewaan/${id}`,
+            method: 'POST',
+            data: JSON.stringify(objectData),
+            contentType: 'application/json',
+            success: function(response) {
+                console.log(response['message']);
+                window.location.href = "/payment"
+            },
+            error: function(xhr, status, error) {
+                console.error('Error checkout:', error)
+            }
+        })
+        }
+      })
       
-    </script>
+  }
+
+  </script>
 
   </head>
 
-  {% include "navbar_landingpage.html" %}
+  <body>
+
+   {% include "navbar_landingpage.html" %}
 
     <!-- Start Hero Section -->
     <div class="hero">
@@ -17,111 +133,31 @@
         <div class="row justify-content-between">
           <div class="col-lg-5">
             <div class="intro-excerpt">
-              <h1>Printer Tersedia</h1>
+              <h1>Toner Tersedia</h1>
               <p style= "text-align: justify;">
-
-                Kami menyediakan berbagai merek printer berkualitas terbaik yang telah 
-                terbukti handal dan sudah banyak terjual. Untuk itu Temukan printer impian Anda di Cahaya Toner!
+                Kami menyediakan berbagai merek tinta toner berkualitas terbaik yang telah terbukti handal dan sudah banyak terjual. Temukan solusi cetak terbaik Anda di Cahaya Toner!
               </p>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="hero-img-wrap">
-              <img
-                src="{{url_for('static', filename='assets/img/produk/printer.png')}}"
-                class="img-fluid"
-                style="width: 80%; height: auto"
-              />
+              <img src="{{url_for('static', filename='assets/img/produk/printer.png')}}" class="img-fluid" style="width: 80%; height: auto;" />
             </div>
           </div>
         </div>
       </div>
     </div>
     <!-- End Hero Section -->
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-4 product-card"> 
-          <div class="card h-100">
-              <img src="{{url_for('static', filename='assets/img/produk/print.png')}}" alt="EPSON1" class="product-img">
-              <div class="card-body">
-                  <div class="product-info">
-                      <h5 class="card-title">Merk: Epson L805 </h5>
-                      <h5 class="card-title">Tipe: Injet Printer</h5>
-                      <p style="text-align: justify;">
-                          Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
-                          Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
-                      </p>
-                      <h5 class="price">Harga Jual: Rp 3.000.000</h5> 
-                      <h5 class="price">Harga Sewa: Rp 300.000 / Bulan</h5> 
-                  </div>
-                  <div class="d-flex justify-content-center mt-3">
-                      <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-sm mr-2"> <!-- Added btn-sm, mr-2 for smaller size and spacing -->
-                          <i class="fas fa-shopping-cart"></i> Checkout
-                      </a>
-                      <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-sm"> <!-- Added btn-sm for smaller size -->
-                          <i class="fas fa-cart-plus"></i> Masukan Keranjang
-                      </a>
-                  </div>
-              </div>
-          </div>
+    <div class="container my-5">
+
+      <!--Cardbox Produk-->
+      <div id="produk-card" class="row no-gutters">
       </div>
-      
-      <div class="col-md-4 product-card"> 
-        <div class="card h-100">
-            <img src="{{url_for('static', filename='assets/img/produk/print.png')}}" alt="EPSON1" class="product-img">
-            <div class="card-body">
-                <div class="product-info">
-                    <h5 class="card-title">Merk: Epson L805 </h5>
-                    <h5 class="card-title">Tipe: Injet Printer</h5>
-                    <p style="text-align: justify;">
-                        Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
-                        Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
-                    </p>
-                    <h5 class="price">Harga Jual: Rp 3.000.000</h5> 
-                    <h5 class="price">Harga Sewa: Rp 300.000 / Bulan</h5> 
-                </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-sm mr-2"> <!-- Added btn-sm, mr-2 for smaller size and spacing -->
-                        <i class="fas fa-shopping-cart"></i> Checkout
-                    </a>
-                    <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-sm"> <!-- Added btn-sm for smaller size -->
-                        <i class="fas fa-cart-plus"></i> Masukan Keranjang
-                    </a>
-                </div>
-            </div>
-        </div>
+      <!--End Cardbox Produk-->
+      </div>
     </div>
 
-    <div class="col-md-4 product-card"> 
-          <div class="card h-100">
-              <img src="{{url_for('static', filename='assets/img/produk/print.png')}}" alt="EPSON1" class="product-img">
-              <div class="card-body">
-                  <div class="product-info">
-                      <h5 class="card-title">Merk: Epson L805 </h5>
-                      <h5 class="card-title">Tipe: Injet Printer</h5>
-                      <p style="text-align: justify;">
-                          Mencetak cepat dengan 37 ppm untuk hitam dan 38 ppm untuk warna, serta foto tanpa border dalam 12 detik.
-                          Memiliki satu baki kertas berkapasitas 50 lembar dan ukuran cetak maksimal 215.9 x 1117.6mm.Tidak mendukung dupleks otomatis.
-                      </p>
-                      <h5 class="price">Harga Jual: Rp 3.000.000</h5> 
-                      <h5 class="price">Harga Sewa: Rp 300.000 / Bulan</h5> 
-                  </div>
-                  <div class="d-flex justify-content-center mt-3">
-                      <a href="{{ url_for('paymentF') }}" class="btn btn-custom btn-checkout btn-sm mr-2"> <!-- Added btn-sm, mr-2 for smaller size and spacing -->
-                          <i class="fas fa-shopping-cart"></i> Checkout
-                      </a>
-                      <a href="{{ url_for('cartF') }}" class="btn btn-custom btn-add-cart btn-sm"> <!-- Added btn-sm for smaller size -->
-                          <i class="fas fa-cart-plus"></i> Masukan Keranjang
-                      </a>
-                  </div>
-              </div>
-          </div>
-      </div>
-       
-    </div>
-    </div>
-    
     {% include "footer_landingpage.html" %}
-
-    </body>
+    
+   </body>
 </html>
