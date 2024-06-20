@@ -14,12 +14,10 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
-
-SECRET_KEY = "SUCCESS"
-DB_KEY = "sparta"
-
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 MONGODB_URI = os.environ.get("MONGODB_URI")
 DB_NAME =  os.environ.get("DB_NAME")
