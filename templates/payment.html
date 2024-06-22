@@ -66,8 +66,7 @@
           return
         }
         if (perusahaan == "") {
-          alert("Anda belum memasukan nama perusahaan")
-          return
+          perusahaan = "-"
         }
         if (alamat == "") {
           alert("Masukan alamat untuk lokasi pengiriman")
@@ -78,17 +77,27 @@
           return
         }
         if (telpone == "") {
-          alert("Anda belum memasukan telepone anda")
+          alert("Anda belum memasukan telpone anda")
           return
+        }
+        if (pesan == "") {
+          pesan = "-"
         }
         
           $.ajax({
               type: 'POST',
-              url: '/order_produk',
-              contentType: 'application/json',
-              data: JSON.stringify({ order: chatOrder(dataCheckout, telpone, pesan, metodePembayaran, nama, perusahaan, email, alamat)}),
+              url: '/add_order',
+              data: {
+                namaPenerima:nama,
+                perusahaan:perusahaan,
+                email:email,
+                telpone:telpone,
+                alamat:alamat,
+                metodePembayaran:metodePembayaran, 
+                notes:pesan,
+              },
               success: function(response) {
-                dataCheckout = response["dataCheckout"]
+                console.log(response.msg)
                 Swal.fire({
                   title: 'Informasi',
                   text: 'Pesanan anda berhasil diorder',
@@ -96,7 +105,6 @@
                   confirmButtonText: 'Oke',
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    addData(dataCheckout, nama, perusahaan, alamat, metodePembayaran)
                     deleteCheckout()
                     $('#perusahaan').val("")
                     $('#nama').val("")
@@ -108,40 +116,8 @@
                     window.location.href = '/product-jualprinter'
                   }
                 })
-                  
               },
-              error: function(xhr, status, error) {
-                  Swal.fire({
-                    title: 'Informasi',
-                    text: xhr.responseJSON.error,
-                    icon: 'info',
-                    confirmButtonText: 'Oke',
-                  })
-              }
           })  
-      }
-
-      function addData(dataCheckout, nama, perusahaan, alamat, metodePembayaran) {
-        for (let id in dataCheckout) {
-          $.ajax({
-            type: 'POST',
-            url: '/add_omset',
-            data: {
-              'tipe': dataCheckout[id][0]['tipe'],
-              'kuantitas': dataCheckout[id][0]['kuantitas'],
-              'namaPenerima': nama,
-              'perusahaan': perusahaan,
-              'alamat': alamat,
-              'harga': dataCheckout[id][0]['total'],
-              'metodePembayaran': metodePembayaran,
-              'tipePemasukan': dataCheckout[id][0]['tipePemasukan'],
-              'durasiSewa': dataCheckout[id][0]['durasiSewa'],
-            },
-            success: function (response) {
-              console.log("Success")
-            }
-          })
-        }
       }
 
       function chatOrder(dataCheckout, telpone, pesan, metodePembayaran, nama, perusahaan, email, alamat) {

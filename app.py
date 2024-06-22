@@ -25,6 +25,12 @@ DB_NAME =  os.environ.get("DB_NAME")
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
 
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER")
+ADMIN_WHATSAPP_NUMBER = os.environ.get("ADMIN_WHATSAPP_NUMBER")
+
+clientTwilio = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 app = Flask(__name__)
 
@@ -37,6 +43,8 @@ jam = sekarang.strftime("%H:%M")
 
 dataKeranjang = {}
 dataCheckout = {}
+konfirmasiPembayaran = {}
+
 messages_store = []
 
 def generateID(length):
@@ -153,6 +161,9 @@ def update_profile():
 def add_data(page):
     if page == 'karyawan':
         if request.method == 'POST':
+            sekarang = datetime.now()
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M")
             id = generateID(4)
             dataCustomer = list(db.data_customer.find({}, {'_id' : False}))
             for data in dataCustomer:
@@ -183,6 +194,9 @@ def add_data(page):
         return render_template('form_karyawan.html', action="tambah")
     elif page == 'customer':
         if request.method == 'POST':
+            sekarang = datetime.now()
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M")
             id = generateID(4)
             dataCustomer = list(db.data_customer.find({}, {'_id' : False}))
             for data in dataCustomer:
@@ -211,6 +225,9 @@ def add_data(page):
         return render_template('form_customer.html', action="tambah")
     elif page == 'pesanan':
         if request.method == 'POST':
+            sekarang = datetime.now()
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M")
             id = generateID(4)
             dataPesanana = list(db.data_pesanan.find({}, {'_id' : False}))
             for data in dataPesanana:
@@ -255,6 +272,9 @@ def add_data(page):
         return render_template('form_pesanan.html', action="tambah")
     elif page == 'sewa':
         if request.method == 'POST':
+            sekarang = datetime.now()
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M")
             id = generateID(4)
             dataSewa = list(db.data_sewa.find({}, {'_id' : False}))
             for data in dataSewa:
@@ -340,6 +360,11 @@ def add_data(page):
 @app.route("/get_data/<page>", methods=['GET'])
 def get_data(page):
     if page == 'dashboard':
+        sekarang = datetime.now()
+        tanggal = sekarang.strftime("%d-%m-%Y")
+        hari = tanggal.split("-")[0]
+        bulan = tanggal.split("-")[1]
+        tahun = tanggal.split("-")[2]
         dataPendapatan = list(db.data_pendapatan.find({}, {'_id' : False}))      
         return jsonify({"dataPendapatan":dataPendapatan, "tanggal": tanggal, "hari": hari, "bulan": bulan, "tahun": tahun})
     elif page == 'karyawan':
@@ -749,6 +774,7 @@ def add_cart(id):
 def checkout_keranjang():
     for id in dataKeranjang:
         dataCheckout[id] = dataKeranjang[id]
+        konfirmasiPembayaran[id] = dataKeranjang[id]
     return jsonify({'dataCheckout': dataCheckout})
 
 @app.route("/get_cart", methods=["GET"])
@@ -842,7 +868,7 @@ def get_checkout():
     return jsonify({'dataCheckout': dataCheckout})
 
 @app.route("/delete_checkout", methods=["DELETE"])
-def delete_checkout():
+def delete_checkout():    
     dataKeranjang.clear()
     dataCheckout.clear()
     return jsonify({'message': 'Product Berhasil Dihapus'})
@@ -866,26 +892,90 @@ def order_produk():
     except Exception as e:
         return jsonify({'message': str(e)}), 400
     
-@app.route('/add_omset', methods=['POST'])
-def add_omset():    
-    tipe = request.form['tipe']
-    kuantitas = request.form['kuantitas']
-    namaPenerima = request.form['namaPenerima']
+@app.route('/add_notifikasi', methods=['POST'])
+def add_notifikasi():
+    users = list(db.users.find({}, {'_id' : False}))
+    
+    pesan = request.form['pesan']
+    nama = request.form['nama']
     perusahaan = request.form['perusahaan']
+    email = request.form['email']
+    telpone = request.form['telpone']
     alamat = request.form['alamat']
-    harga = request.form['harga']
     metodePembayaran = request.form['metodePembayaran']
-    tipePemasukan = request.form['tipePemasukan']
-    durasiSewa = request.form['durasiSewa']
-    if tipePemasukan == 'Penjualan':
+    notes = request.form['notes']
+    
+    for user in users:
         id = generateID(4)
-        dataPesanana = list(db.data_pesanan.find({}, {'_id' : False}))
-        for data in dataPesanana:
-            for data in dataPesanana:
+        notifikasi = list(db.notifikasi.find({}, {'_id' : False}))
+        for data in notifikasi:
+            for data in notifikasi:
                 if (id == data['id']):
                     id = generateID(4)
-                    continue
-        docPesanan = {
+                    continue   
+        sekarang = datetime.now()
+        tanggal = sekarang.strftime("%d-%m-%Y")
+        jam = sekarang.strftime("%H:%M")    
+               
+        doc = {
+            'id' : id,
+            'tanggal' : tanggal,
+            'jam' : jam,
+            'view' : user['username'],
+            'pesan' : pesan,
+            'namaPenerima' : nama,
+            'perusahaan' : perusahaan,
+            'email' : email,
+            'telpone': telpone,
+            'alamat' : alamat,
+            'notes' : notes,
+            'metodePembayaran' : metodePembayaran,
+        }
+        db.notifikasi.insert_one(doc)
+        return jsonify({'nag':"success", 'dataCheckout':dataCheckout})
+    
+@app.route('/get_notifikasi', methods=['GET'])
+def get_notifikasi():
+    notifikasi = list(db.notifikasi.find({}, {'_id' : False}))
+    return jsonify({'nag':"success", 'notifikasi':notifikasi})
+
+@app.route('/delete_notifikasi', methods=['POST'])
+def delete_notifikasi():
+    id = request.form['id']
+    db.notifikasi.delete_one({'id': id})
+    return jsonify({'msg': 'Notifikasi berhasil dihapus!', 'konfirmasiPembayaran':konfirmasiPembayaran})
+    
+@app.route('/add_order', methods=['POST'])
+def add_order():    
+    for id in dataCheckout:
+        tipe = dataCheckout[id][0]['tipe']
+        kuantitas = dataCheckout[id][0]['kuantitas']
+        namaPenerima = request.form['namaPenerima']
+        perusahaan = request.form['perusahaan']
+        alamat = request.form['alamat']
+        email = request.form['email']
+        telpone = request.form['telpone']
+        notes = request.form['notes']
+        harga = dataCheckout[id][0]['total']
+        foto = dataCheckout[id][0]['foto']
+        metodePembayaran = request.form['metodePembayaran']
+        tipePemasukan = dataCheckout[id][0]['tipePemasukan']
+        durasiSewa = dataCheckout[id][0]['durasiSewa']
+
+        users = list(db.users.find({}, {'_id' : False}))
+        
+        if tipePemasukan == 'Penjualan':
+            sekarang = datetime.now()
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M")
+            id = generateID(4)
+            dataPesanana = list(db.data_pesanan.find({}, {'_id' : False}))
+            for data in dataPesanana:
+                for data in dataPesanana:
+                    if (id == data['id']):
+                        id = generateID(4)
+                        continue
+            docPesanan = {
                 'id': id,
                 'tanggal': tanggal,
                 'jam' : jam, 
@@ -896,16 +986,39 @@ def add_omset():
                 'alamat' : alamat,
                 'metodePembayaran' : metodePembayaran,
             }
-        db.data_pesanan.insert_one(docPesanan)
-    else:
-        id = generateID(4)
-        dataSewa = list(db.data_sewa.find({}, {'_id' : False}))
-        for data in dataSewa:
+            db.data_pesanan.insert_one(docPesanan)
+            
+            for user in users:
+                docSewa = {
+                    'id' : id,
+                    'tanggal' : tanggal,
+                    'jam' : jam,
+                    'view' : user['username'],
+                    'pesan' : "Orderan Masuk",
+                    'foto' : foto,
+                    'namaPenerima' : namaPenerima,
+                    'perusahaan' : perusahaan,
+                    'email' : email,
+                    'telpone': telpone,
+                    'alamat' : alamat,
+                    'notes' : notes,
+                    'metodePembayaran' : metodePembayaran,
+                    'harga' : harga,
+                    'tipePemasukan' : tipePemasukan,
+                }
+            db.notifikasi.insert_one(docSewa)
+        else:
+            sekarang = datetime.now()
+            tanggal = sekarang.strftime("%d-%m-%Y")
+            jam = sekarang.strftime("%H:%M")
+            id = generateID(4)
+            dataSewa = list(db.data_sewa.find({}, {'_id' : False}))
             for data in dataSewa:
-                if (id == data['id']):
-                    id = generateID(4)
-                    continue
-        docSewa = {
+                for data in dataSewa:
+                    if (id == data['id']):
+                        id = generateID(4)
+                        continue
+            docSewa = {
                 'id': id,
                 'tanggal': tanggal,
                 'jam' : jam, 
@@ -917,19 +1030,40 @@ def add_omset():
                 'durasiSewa': durasiSewa,
                 'metodePembayaran' : metodePembayaran,
             }
-        db.data_sewa.insert_one(docSewa)
+            db.data_sewa.insert_one(docSewa)
             
-    docPemasukan = {
-                'id': id,
-                'tanggal': tanggal,
-                'jam' : jam, 
-                'tipe' : tipe,
-                'kuantitas' : kuantitas,
-                'harga' : harga,
-                'metodePembayaran' : metodePembayaran,
-                'tipePemasukan' : tipePemasukan
-            }
-    db.data_pendapatan.insert_one(docPemasukan)
+            for user in users:
+                docSewa = {
+                    'id' : id,
+                    'tanggal' : tanggal,
+                    'jam' : jam,
+                    'view' : user['username'],
+                    'pesan' : "Orderan Masuk",
+                    'foto' : foto,
+                    'namaPenerima' : namaPenerima,
+                    'perusahaan' : perusahaan,
+                    'email' : email,
+                    'telpone': telpone,
+                    'alamat' : alamat,
+                    'notes' : notes,
+                    'metodePembayaran' : metodePembayaran,
+                    'harga' : harga,
+                    'tipePemasukan' : tipePemasukan,
+                }
+            db.notifikasi.insert_one(docSewa)
+            
+        docPemasukan = {
+            'id': id,
+            'tanggal': tanggal,
+            'jam' : jam, 
+            'tipe' : tipe,
+            'kuantitas' : kuantitas,
+            'harga' : harga,
+            'metodePembayaran' : metodePembayaran,
+            'tipePemasukan' : tipePemasukan
+        }
+        
+        db.data_pendapatan.insert_one(docPemasukan)
     return jsonify({'msg': 'Data pesanan berhasil ditambahkan!' })
 
 if __name__ == "__main__":

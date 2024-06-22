@@ -1,17 +1,30 @@
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-    <a href="/" class="navbar-brand d-flex d-lg-none me-4">
+    <a href="/dashboard" class="navbar-brand d-flex d-lg-none me-4">
         <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
     </a>
-    <a href="/" class="sidebar-toggler flex-shrink-0">
+    <a href="/dashboard" class="sidebar-toggler flex-shrink-0">
         <i class="fa fa-bars"></i>
     </a>
     
     <div class="navbar-nav align-items-center ms-auto">
+         <!--Notifikasi Order-->
+         <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fa fa-bell me-lg-2"></i>
+                <span class="d-none d-lg-inline-flex">Notifikasi Order</span>
+            </a>
+            <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                <div id="notifikasi-list">
+                    <!-- Notifications will be appended here by jQuery -->
+                </div>
+            </div>
+        </div>
         <div class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img class="rounded-circle me-lg-2" src="{{ url_for('static', filename=user_info.profilePict) }}" alt="" style="width: 40px; height: 40px;">
                 <span class="d-none d-lg-inline-flex">{{ user_info['profileName'] }}</span>
+                <input type="text" name="id" id="user" value="{{ user_info['username'] }}" hidden>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                 <button onclick="window.location.href='/profile'" class="dropdown-item">Profile Saya</button>
@@ -37,4 +50,77 @@
           }
         })
       }
+
+      $(document).ready(function () {
+        getNotifikasi()
+      })
+
+      function getNotifikasi() {
+        let user = $('#user').val()
+        $.ajax({
+            type: 'GET',
+            url: '/get_notifikasi',
+            data: {},
+            success: function(response) {
+                notifikasi = response['notifikasi']
+                if (notifikasi.length > 0) {
+                    for (let i = 0; i < notifikasi.length; i++) {
+                        if (notifikasi[i]['view'] == user) {
+                            let imageUrl = `${window.location.origin}/static/assets/img/produk/${notifikasi[i]["foto"]}`
+                            let viewDetail = notifikasi[i]['tipePemasukan'] == 'Penjualan' ? `/pesanan` : '/sewa'; // Conditional URL
+                            let tempt = `<div  class="dropdown-item notification-item border-0" data-id="${notifikasi[i].id}">
+                                <div class="d-flex align-items-center">
+                                    <img class="square-img" src="${imageUrl}" alt="${notifikasi[i]["foto"]}" style="width: 40px; height: 40px;">
+                                    <div class="ms-3">
+                                        <h6 class="fw-normal mb-0">${notifikasi[i]['pesan']} with ID ${notifikasi[i]['id']}</h6>
+                                        <small class="text-muted">${notifikasi[i]['tanggal']} ${notifikasi[i]['jam']}</small>
+                                        <div class="mt-1">
+                                            <small><a href="${viewDetail}" class="text-primary">view detail</a></small> | 
+                                            <small><a onclick="konfirmasi('${notifikasi[i].id}', '${notifikasi[i].telpone}')" class="text-primary">konfirmasi Pembayaran</a></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            $("#notifikasi-list").append(tempt)
+                        }
+                    }
+                } else {
+                    let tempt = `<a  class="dropdown-item notification-item" data-id="">
+                        <h6 class="fw-normal mb-0">Belum ada orderan masuk.</h6>
+                    </a>`
+                $("#notifikasi-list").append(tempt)
+                }
+            }
+        })
+    }
+
+        function konfirmasi(id, telpone) {
+            wa = "+62" + telpone.substring(1, telpone.length)
+            $.ajax({
+                url: `/delete_notifikasi`,
+                method: "POST",
+                data: { id: id },
+                success: function (response) {
+                    console.log(response['msg'])
+                },
+            })
+        }
+
+        function konfirmasiChat(konfirmasiPembayaran, nama, perusahaan, email, alamat, metodePembayaran, notes) {
+            let chat = `Orderan\nNama: ${nama}\nPerusahaan: ${perusahaan}\nEmail: ${email} \nAlamat: ${alamat}`
+            for (let id in konfirmasiPembayaran) {
+              if (konfirmasiPembayaran[id][0]['tipePemasukan'] == "Penjualan") {
+                chat += "\n\nPenjualan!\nKode produk: " + konfirmasiPembayaran[id][0]['id'] + "\nTipe: " +  konfirmasiPembayaran[id][0]['tipe'] + "\nKuantitas: " +  konfirmasiPembayaran[id][0]['kuantitas'] + " unit\nHarga: " + formatRupiah(konfirmasiPembayaran[id][0]['total'] + "\nPembayaran: " + metodePembayaran)
+              } else {
+                chat += "\n\nPenywaan!\nKode produk: " + konfirmasiPembayaran[id][0]['id'] + "\nTipe: " +  konfirmasiPembayaran[id][0]['tipe'] + "\nKuantitas: " +  konfirmasiPembayaran[id][0]['kuantitas'] + " unit\nDurasi Sewa: " + konfirmasiPembayaran[id][0]['durasiSewa'] + "\nHarga: " + formatRupiah(konfirmasiPembayaran[id][0]['total'] + "\nPembayaran: " + metodePembayaran) 
+              }
+            }
+            if (pesan.length > 0) {
+              chat += "\n\nNOTES!\n" + notes
+            }
+            return chat += "\n\n Apakah pesanan tersebut telah sesuai?"
+          }
+
+        
+      
 </script>
