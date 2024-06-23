@@ -4,13 +4,266 @@
     {% include "header_landingpage.html" %}
 
     <script>
-      
-    </script>
+      $(document).ready(function () {
+        $(document).on("change", ".form-select", function () {
+          updateSelection(this);
+        });
+        getKeranjang();
+      });
 
+      function formatRupiah(angka) {
+        let reverse = angka.toString().split("").reverse().join(""),
+          ribuan = reverse.match(/\d{1,3}/g);
+        ribuan = ribuan.join(".").split("").reverse().join("");
+        return "Rp " + ribuan;
+      }
+
+      function increaseQuantity(id) {
+        let newQuantity = parseInt($(`#quantity-${id}`).val()) + 1;
+        updateQuantity(id, newQuantity);
+      }
+
+      function decreaseQuantity(id) {
+        let newQuantity = parseInt($(`#quantity-${id}`).val()) - 1;
+        if (newQuantity < 1) newQuantity = 1;
+        updateQuantity(id, newQuantity);
+      }
+
+      function increaseDurasi(id) {
+        let newDurasi = parseInt($(`#duration-${id}`).val()) + 1;
+        updateDurasi(id, newDurasi);
+      }
+
+      function decreaseDurasi(id) {
+        let newDurasi = parseInt($(`#duration-${id}`).val()) - 1;
+        if (newDurasi < 1) newDurasi = 1;
+        updateDurasi(id, newDurasi);
+      }
+
+      function updateQuantity(id, newQuantity) {
+        $.ajax({
+          url: `/update_quantity/${id}`,
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ kuantitas: newQuantity }),
+          success: function (response) {
+            $(`#quantity-${id}`).val(newQuantity);
+            $(`#total-${id}`).text(
+              formatRupiah(response.dataKeranjang[id][0]["total"])
+            );
+          },
+          error: function (error) {
+            console.error("Error updating quantity:", error);
+          },
+        });
+      }
+
+      function updateSelection(selectElement) {
+        let selectedValue = $(selectElement).val();
+        let row = $(selectElement).closest("tr");
+        let id = row.find(".kuantitas-barang").attr("id").split("-")[1];
+        let harga;
+
+        if (selectedValue === "beli") {
+          row.find(".durasi-sewa").prop("disabled", true);
+          row.find(".kuantitas-barang").prop("disabled", false);
+          $(`#decrease-durasi-${id}`).prop("disabled", true);
+          $(`#increase-durasi-${id}`).prop("disabled", true);
+          updateQuantity(id, 1);
+          harga = dataKeranjang[id][0]["hargaJual"];
+        } else if (selectedValue === "sewa") {
+          row.find(".durasi-sewa").prop("disabled", false);
+          row.find(".kuantitas-barang").prop("disabled", false);
+          updateDurasi(id, 1);
+          harga = dataKeranjang[id][0]["hargaSewa"];
+          $(`#decrease-durasi-${id}`).prop("disabled", false);
+          $(`#increase-durasi-${id}`).prop("disabled", false);
+        }
+
+        row.find(".harga").text(formatRupiah(harga));
+
+        updateTipePemasukan(
+          id,
+          selectedValue === "beli" ? "Penjualan" : "Penyewaan"
+        );
+      }
+
+      function updateTipePemasukan(id, tipePemasukan) {
+        $.ajax({
+          url: `/update_tipe_pemasukan/${id}`,
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ tipePemasukan: tipePemasukan }),
+          success: function (response) {
+            console.log("Tipe pemasukan updated successfully");
+          },
+          error: function (error) {
+            console.error("Error updating tipe pemasukan:", error);
+          },
+        });
+      }
+
+      function updateDurasi(id, newDurasi) {
+        $.ajax({
+          url: `/update_durasi/${id}`,
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ durasiSewa: newDurasi }), // Ensure correct field name
+          success: function (response) {
+            $(`#duration-${id}`).val(newDurasi);
+            $(`#total-${id}`).text(
+              formatRupiah(response.dataKeranjang[id][0]["total"])
+            );
+          },
+          error: function (error) {
+            console.error("Error updating durasi:", error);
+          },
+        });
+      }
+
+      function getKeranjang() {
+        $.ajax({
+          url: `/get_cart`,
+          method: "GET",
+          success: function (response) {
+            dataKeranjang = response["dataKeranjang"];
+            $("#data-keranjang").empty();
+            let total = 0;
+            for (let id in dataKeranjang) {
+              let imageUrl = `${window.location.origin}/static/assets/img/produk/${dataKeranjang[id][0]["foto"]}`;
+              let tipeProduk = dataKeranjang[id][0]["tipeProduk"] === "toner";
+              let harga =
+                dataKeranjang[id][0]["tipeProduk"] === "toner"
+                  ? dataKeranjang[id][0]["hargaJual"]
+                  : dataKeranjang[id][0]["hargaSewa"];
+              let keranjang_temp = `
+                          <tr>
+                              <td class="product-category">
+                                  <select class="form-select" onchange="updateSelection(this)" ${
+                                    tipeProduk ? "disabled" : ""
+                                  }>
+                                      <option value="beli" ${
+                                        dataKeranjang[id][0]["tipePemasukan"] ==
+                                        "Penjualan"
+                                          ? "selected"
+                                          : ""
+                                      }>Beli</option>
+                                      <option value="sewa" ${
+                                        dataKeranjang[id][0]["tipePemasukan"] ==
+                                        "Penyewaan"
+                                          ? "selected"
+                                          : ""
+                                      }>Sewa</option>
+                                  </select>
+                              </td>
+                              <td class="product-thumbnail">
+                                  <img src="${imageUrl}" alt="Image" class="img-fluid"/>
+                              </td>
+                              <td class="product-name">
+                                  <h2 class="h5 text-black">${
+                                    dataKeranjang[id][0]["tipe"]
+                                  }</h2>
+                              </td>
+                              <td class="harga">${formatRupiah(harga)}</td>
+                              <td>
+                                  <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
+                                      <div class="input-group-prepend">
+                                          <button class="btn btn-outline-black decrease" type="button" onclick="decreaseQuantity('${id}')">&minus;</button>
+                                      </div>
+                                      <input
+                                          type="text"
+                                          class="form-control text-center kuantitas-barang"
+                                          id="quantity-${id}"
+                                          value="${
+                                            dataKeranjang[id][0]["kuantitas"]
+                                          }"
+                                          placeholder=""
+                                          aria-label="Example text with button addon"
+                                          aria-describedby="button-addon1"
+                                      />
+                                      <div class="input-group-append">
+                                          <button class="btn btn-outline-black increase" type="button" onclick="increaseQuantity('${id}')">&plus;</button>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="input-group mb-3 d-flex align-items-center durasi-container" style="max-width: 120px">
+                                      <div class="input-group-prepend">
+                                          <button class="btn btn-outline-black decrease" type="button" onclick="decreaseDurasi('${id}')" id="decrease-durasi-${id}">&minus;</button>
+                                      </div>
+                                      <input
+                                          type="text"
+                                          class="form-control text-center durasi-sewa"
+                                          id="duration-${id}"
+                                          value="${
+                                            dataKeranjang[id][0]["durasiSewa"]
+                                          }"
+                                          placeholder=""
+                                          aria-label="Duration"
+                                          aria-describedby="button-addon1"
+                                      />
+                                      <div class="input-group-append">
+                                          <button class="btn btn-outline-black increase" type="button" onclick="increaseDurasi('${id}')" id="increase-durasi-${id}">&plus;</button>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td id="total-${id}">${formatRupiah(
+                dataKeranjang[id][0]["total"]
+              )}</td>
+                              <td><a href="#" class="btn btn-black btn-sm" onclick="deleteKeranjang('${id}')"><i class="fa-solid fa-trash-can"></i></a></td>
+                          </tr>`;
+              $("#data-keranjang").append(keranjang_temp);
+              updateSelection(
+                $(`#quantity-${id}`).closest("tr").find(".form-select")
+              );
+              total += dataKeranjang[id][0]["total"];
+            }
+            if (total === 0) {
+              $("#btnPembayaran").prop("disabled", true);
+            }
+          },
+        })
+      }
+
+      function deleteKeranjang(id) {
+        $.ajax({
+          url: `/delete_cart/${id}`,
+          method: "DELETE",
+          success: function (response) {
+            console.log(response.message);
+            getKeranjang();
+          },
+          error: function (error) {
+            console.error("Error deleting item:", error);
+          },
+        });
+      }
+
+      function payment() {
+        $.ajax({
+          url: `/checkout_keranjang`,
+          method: "GET",
+          success: function (response) {
+            dataCheckout = response["dataCheckout"];
+            console.log(dataCheckout);
+            window.location.href = "/payment";
+          },
+        });
+      }
+
+      function total() {
+        $.ajax({
+          url: `/get_total`,
+          method: "GET",
+          success: function (response) {
+            return response["total"];
+          },
+        });
+      }
+    </script>
   </head>
 
   <body>
-
     {% include "navbar_landingpage.html" %}
 
     <div class="untree_co-section before-footer-section">
@@ -19,124 +272,42 @@
           <form class="col-md-12" method="post">
             <div class="site-blocks-table">
               <table class="table">
-<thead>
-  <tr>
-    <th class="product-category">Kategori</th> 
-    <th class="product-thumbnail">Gambar</th>
-    <th class="product-name">Produk</th>
-    <th class="product-price">Harga</th>
-    <th class="product-quantity">Banyak</th>
-    <th class="sewa-total">Bulan</th> 
-    <th class="product-total">Total</th>
-    <th class="product-remove">Hapus</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-
-  <tr>
-    <td class="product-category">
-      <select class="form-select">
-        <option value="beli">Beli</option>
-        <option value="sewa">Sewa</option>
-      </select>
-    </td>
-    <td class="product-thumbnail">
-      <img
-        src="{{url_for('static', filename='assets/img/produk/printC.png')}}"
-        alt="Image"
-        class="img-fluid"
-      />
-    </td>
-    <td class="product-name">
-      <h2 class="h5 text-black">Product 2</h2>
-    </td>
-    <td>Rp.60.00</td>
-    <td>
-      <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
-        <div class="input-group-prepend">
-          <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-        </div>
-        <input
-          type="text"
-          class="form-control text-center quantity-amount"
-          value="1"
-          placeholder=""
-          aria-label="Example text with button addon"
-          aria-describedby="button-addon1"
-        />
-        <div class="input-group-append">
-          <button class="btn btn-outline-black increase" type="button">&plus;</button>
-        </div>
-      </div>
-    </td>
-    <td>
-      <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px">
-        <div class="input-group-prepend">
-          <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-        </div>
-        <input
-          type="text"
-          class="form-control text-center quantity-amount"
-          value="1"
-          placeholder=""
-          aria-label="Example text with button addon"
-          aria-describedby="button-addon1"
-        />
-        <div class="input-group-append">
-          <button class="btn btn-outline-black increase" type="button">&plus;</button>
-        </div>
-      </div>
-    </td>
-    <td>Rp.70.00</td>
-    
-    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-  </tr>
-</tbody>
-
+                <thead>
+                  <tr>
+                    <th class="product-category">Kategori</th>
+                    <th class="product-thumbnail">Gambar</th>
+                    <th class="product-name">Produk</th>
+                    <th class="product-price">Harga</th>
+                    <th class="product-quantity">Banyak</th>
+                    <th class="sewa-total">Bulan</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Hapus</th>
+                  </tr>
+                </thead>
+                <tbody id="data-keranjang"></tbody>
               </table>
             </div>
           </form>
         </div>
 
+        
+
         <div class="row">
           <div class="col-md-6">
             <div class="row mb-5">
-              <div class="col-md-6 mb-3 mb-md-0">
-              </div>
-              
+              <div class="col-md-6 mb-3 mb-md-0"></div>
             </div>
           </div>
-          <div class="col-md-6 pl-5">
+
+          <div class="col-md-6 pl-5" id="total-payment">
             <div class="row justify-content-end">
               <div class="col-md-7">
-                <div class="row">
-                  <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Total</h3>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Subtotal</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">Rp.230.00</strong>
-                  </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <span class="text-black">Total</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">Rp.230.00</strong>
-                  </div>
-                </div>
-
                 <div class="row">
                   <div class="col-md-12">
                     <button
                       class="btn btn-black btn-lg py-3 btn-block"
-                      onclick="window.location='/payment'"
+                      id="btnPembayaran"
+                      onclick="payment()"
                     >
                       lanjut pembayaran
                     </button>
@@ -150,6 +321,5 @@
     </div>
 
     {% include "footer_landingpage.html" %}
-    
-    </body>
+  </body>
 </html>

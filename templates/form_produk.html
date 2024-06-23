@@ -72,6 +72,18 @@
                                     <input type="file" class="form-control bg-dark" accept=".png,.jpg,.jpeg" id="foto" name="foto" value="{{ dataProduk[0].foto }}">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="inpuTipeProduk" class="form-label">Tipe Produk</label>
+                                    <select class="form-select" name="tipeProduk" id="tipeProduk" value="{{ dataProduk[0].tipe }}">
+                                        {% if dataProduk[0].tipeProduk == "printer" %}
+                                            <option value="printer" selected>Printer</option>
+                                            <option value="toner">Toner</option>
+                                        {% elif dataProduk[0].tipeProduk == "toner" %}
+                                            <option value="printer">Printer</option>
+                                            <option value="toner" selected>Toner</option>
+                                         {% endif %}   
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="inputMerk" class="form-label">Merk</label>
                                     <input type="text" class="form-control" id="merk" name="merk" value="{{ dataProduk[0].merk }}" required>
                                 </div>

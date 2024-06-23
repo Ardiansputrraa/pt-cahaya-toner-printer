@@ -1,40 +1,200 @@
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-    <a href="/" class="navbar-brand d-flex d-lg-none me-4">
-        <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
-    </a>
-    <a href="/" class="sidebar-toggler flex-shrink-0">
-        <i class="fa fa-bars"></i>
-    </a>
-    
-    <div class="navbar-nav align-items-center ms-auto">
-        <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img class="rounded-circle me-lg-2" src="{{ url_for('static', filename=user_info.profilePict) }}" alt="" style="width: 40px; height: 40px;">
-                <span class="d-none d-lg-inline-flex">{{ user_info['profileName'] }}</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                <button onclick="window.location.href='/profile'" class="dropdown-item">Profile Saya</button>
-                <button onclick="logout()" class="dropdown-item">Log Out</button>
-            </div>
-        </div>
+  <a href="/dashboard" class="navbar-brand d-flex d-lg-none me-4">
+    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+  </a>
+  <a href="" class="sidebar-toggler flex-shrink-0">
+    <i class="fa fa-bars"></i>
+  </a>
+
+  <div class="navbar-nav align-items-center ms-auto">
+    <!--Notifikasi Order-->
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-bell me-lg-2"></i>
+        <span class="d-none d-lg-inline-flex">Notifikasi Order</span>
+      </a>
+      <div
+        id="notification-dropdown"
+        class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0"
+      >
+        <div id="notifikasi-order"></div>
+      </div>
     </div>
+
+
+    <div class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <img
+          class="rounded-circle me-lg-2"
+          src="{{ url_for('static', filename=user_info.profilePict) }}"
+          alt=""
+          style="width: 40px; height: 40px"
+        />
+        <span class="d-none d-lg-inline-flex"
+          >{{ user_info['profileName'] }}</span
+        >
+        <input
+          type="text"
+          name="id"
+          id="user"
+          value="{{ user_info['username'] }}"
+          hidden
+        />
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0"
+      >
+        <button onclick="window.location.href='/profile'" class="dropdown-item">
+          Profile Saya
+        </button>
+        <button onclick="logout()" class="dropdown-item">Log Out</button>
+      </div>
+    </div>
+  </div>
 </nav>
 <!-- Navbar End -->
 
 <script>
-    function logout() {
-        $.ajax({
-          url: '/logout',
-          type: 'DELETE',
-          success: function(response) {
-            console.log(response['message'])
-            document.cookie = "mytoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-            window.location.href = "/sign_in"
-          },
-          error: function(xhr, status, error) {
-            console.error(error);
+  function logout() {
+    $.ajax({
+      url: "/logout",
+      type: "DELETE",
+      success: function (response) {
+        console.log(response["message"]);
+        document.cookie =
+          "mytoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/sign_in";
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      },
+    });
+  }
+
+  $(document).ready(function () {
+    getNotifikasi();
+  });
+
+  function formatRupiah(angka) {
+    let reverse = angka.toString().split("").reverse().join(""),
+      ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join(".").split("").reverse().join("");
+    return "Rp " + ribuan;
+  }
+
+  function getNotifikasi() {
+    let total = 0;
+    $.ajax({
+      type: "GET",
+      url: "/get_notifikasi",
+      data: {},
+      success: function (response) {
+        notifikasi = response["notifikasi"];
+        if (notifikasi.length > 0) {
+          for (let i = 0; i < notifikasi.length; i++) {
+            let imageUrl = `${window.location.origin}/static/assets/img/produk/${notifikasi[i]["foto"]}`;
+            total += notifikasi[i].harga;
+            let linkDetail =
+              notifikasi[i]["tipePemasukan"] == "Penjualan"
+                ? `/pesanan`
+                : "/sewa";
+            let id = notifikasi[i]["id"];
+            let tipe = notifikasi[i]["tipe"];
+            let kuantitas = notifikasi[i]["kuantitas"];
+            let namaPenerima = notifikasi[i]["namaPenerima"];
+            let perusahaan = notifikasi[i]["perusahaan"];
+            let alamat = notifikasi[i]["alamat"];
+            let email = notifikasi[i]["email"];
+            let telpone = notifikasi[i]["telpone"];
+            let harga = notifikasi[i]["harga"];
+            let metodePembayaran = notifikasi[i]["metodePembayaran"];
+            let tipePemasukan = notifikasi[i]["tipePemasukan"];
+            let durasiSewa = notifikasi[i]["durasiSewa"];
+            let tempt = `<div class="dropdown-item notification-item border-0" data-id="${notifikasi[i].id}">
+                                <div class="d-flex align-items-center">
+                                    <img class="square-img" src="${imageUrl}" alt="${notifikasi[i]["foto"]}" style="width: 40px; height: 40px;">
+                                    <div class="ms-3">
+                                        <h6 class="fw-normal mb-0">${notifikasi[i]["pesan"]} dengan ID ${notifikasi[i]["id"]}</h6>
+                                        <small class="text-muted">${notifikasi[i]["tanggal"]} ${notifikasi[i]["jam"]}</small>
+                                        <div class="mt-1">
+                                            <small><a onclick="transaksiBerhasil('${id}', '${tipe}', '${kuantitas}', '${namaPenerima}', '${perusahaan}', '${alamat}', '${harga}', '${metodePembayaran}', '${tipePemasukan}', '${durasiSewa}', '${email}', ${telpone})" class="text-primary">konfirmasi Pembayaran</a></small> |
+                                            <small><btn onclick="konfirmasi('${notifikasi[i].telpone}', '${total}')" class="text-primary">konfirmasi Pesanan</btn></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+            $("#notifikasi-order").append(tempt);
           }
-        })
-      }
+        } else {
+          let tempt = `<a  class="dropdown-item notification-item" data-id="">
+                        <h6 class="fw-normal mb-0">Belum ada orderan masuk.</h6>
+                    </a>`;
+          $("#notifikasi-order").append(tempt);
+        }
+      },
+    });
+  }
+
+  function transaksiBerhasil(
+    id,
+    tipe,
+    kuantitas,
+    namaPenerima,
+    perusahaan,
+    alamat,
+    harga,
+    metodePembayaran,
+    tipePemasukan,
+    durasiSewa,
+    email,
+    telpone
+  ) {
+    $.ajax({
+      type: "POST",
+      url: "/success_order",
+      data: {
+        id: id,
+        tipe: tipe,
+        kuantitas: kuantitas,
+        namaPenerima: namaPenerima,
+        perusahaan: perusahaan,
+        alamat: alamat,
+        harga: harga,
+        metodePembayaran: metodePembayaran,
+        tipePemasukan: tipePemasukan,
+        durasiSewa: durasiSewa,
+        email: email,
+        telpone: telpone,
+      },
+      success: function (response) {
+        console.log(response["msg"]);
+        deleteNotifikasi(id);
+      },
+    });
+  }
+  function deleteNotifikasi(id) {
+    $.ajax({
+      url: `/delete_notifikasi`,
+      method: "POST",
+      data: { id: id },
+      success: function (response) {
+        window.location.reload();
+      },
+    });
+  }
+
+  function konfirmasi(telpone, total) {
+    wa = "62" + telpone.substring(1, telpone.length);
+
+    let pesan = `*Pesanan anda telah terkonfirmasi!*\nSilahkan lakukan pembayaran dengan total *${formatRupiah(
+      total
+    )}*
+            \n*BCA* 234234I23O3 *Cahaya Toner Printer*\n*BRI* 234234I23O3 *Cahaya Toner Printer*\n*Mandiri* 234234I23O3 *Cahaya Toner Printer*
+            \nKirimkan bukti transfer disini untuk mengkonfirmasi pembayaran.`;
+
+    let encodedPesan = encodeURIComponent(pesan);
+    let url = `https://wa.me/${wa}?text=` + encodedPesan;
+    window.open(url, "_blank");
+  }
 </script>
