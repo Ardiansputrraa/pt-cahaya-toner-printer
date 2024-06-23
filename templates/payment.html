@@ -86,7 +86,7 @@
         
           $.ajax({
               type: 'POST',
-              url: '/add_order',
+              url: '/add_notifikasi',
               data: {
                 namaPenerima:nama,
                 perusahaan:perusahaan,
@@ -97,7 +97,7 @@
                 notes:pesan,
               },
               success: function(response) {
-                console.log(response.msg)
+                console.log(response.dataPembayaran)
                 Swal.fire({
                   title: 'Informasi',
                   text: 'Pesanan anda berhasil diorder',
@@ -113,28 +113,11 @@
                     $('#alamat').val("")
                     $('#pesan').val("")
                     $('#metodePembayaran').val("Cash")
-                    window.location.href = '/product-jualprinter'
+                    window.location.href = '/produk_printer'
                   }
                 })
               },
           })  
-      }
-
-      function chatOrder(dataCheckout, telpone, pesan, metodePembayaran, nama, perusahaan, email, alamat) {
-        let wa = "+62" + telpone.substring(1, telpone.length)
-        let chat = `Orderan\nNama: ${nama}\nPerusahaan: ${perusahaan}\nEmail: ${email} \nAlamat: ${alamat}`
-        for (let id in dataCheckout) {
-          if (dataCheckout[id][0]['tipePemasukan'] == "Penjualan") {
-            chat += "\n\nPenjualan!\nKode produk: " + dataCheckout[id][0]['id'] + "\nTipe: " +  dataCheckout[id][0]['tipe'] + "\nKuantitas: " +  dataCheckout[id][0]['kuantitas'] + " unit\nHarga: " + formatRupiah(dataCheckout[id][0]['total'] + "\nPembayaran: " + metodePembayaran)
-          } else {
-            chat += "\n\nPenywaan!\nKode produk: " + dataCheckout[id][0]['id'] + "\nTipe: " +  dataCheckout[id][0]['tipe'] + "\nKuantitas: " +  dataCheckout[id][0]['kuantitas'] + " unit\nDurasi Sewa: " + dataCheckout[id][0]['durasiSewa'] + "\nHarga: " + formatRupiah(dataCheckout[id][0]['total'] + "\nPembayaran: " + metodePembayaran) 
-          }
-        }
-        if (pesan.length > 0) {
-          chat += "\n\nNOTES!\n" + pesan
-        }
-        chat += "\n\nLakukan konfirmasi pembaran dengan menghubungi nomer ini\n" + `https://wa.me/${wa}`
-        return chat
       }
 
       function deleteCheckout(){
@@ -239,7 +222,6 @@
                   >Metode Pembayaran <span class="text-danger">*</span></label
                 >
                 <select id="metodePembayaran" class="form-control">
-                  <option value="Cash">Cash</option>
                   <option value="TF BCA">TF BCA</option>
                   <option value="TF BRI">TF BRI</option>
                   <option value="TF Mandiri">TF Mandiri</option>

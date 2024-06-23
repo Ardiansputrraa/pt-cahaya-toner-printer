@@ -210,7 +210,7 @@
                               <td id="total-${id}">${formatRupiah(
                 dataKeranjang[id][0]["total"]
               )}</td>
-                              <td><a href="#" class="btn btn-black btn-sm" onclick="deleteKeranjang('${id}')">X</a></td>
+                              <td><a href="#" class="btn btn-black btn-sm" onclick="deleteKeranjang('${id}')"><i class="fa-solid fa-trash-can"></i></a></td>
                           </tr>`;
               $("#data-keranjang").append(keranjang_temp);
               updateSelection(
@@ -218,31 +218,11 @@
               );
               total += dataKeranjang[id][0]["total"];
             }
-
-            let total_temp = `
-  <div class="row justify-content-end">
-    <div class="col-md-7">
-      <div class="row">
-        <div class="col-md-12">
-          <button
-            class="btn btn-black btn-lg py-3 btn-block"
-            id="btnPembayaran"
-            onclick="payment()"
-          >
-            lanjut pembayaran
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>`;
-
-            $("#total-payment").append(total_temp);
-
             if (total === 0) {
               $("#btnPembayaran").prop("disabled", true);
             }
           },
-        });
+        })
       }
 
       function deleteKeranjang(id) {
@@ -310,6 +290,8 @@
           </form>
         </div>
 
+        
+
         <div class="row">
           <div class="col-md-6">
             <div class="row mb-5">
@@ -317,7 +299,23 @@
             </div>
           </div>
 
-          <div class="col-md-6 pl-5" id="total-payment"></div>
+          <div class="col-md-6 pl-5" id="total-payment">
+            <div class="row justify-content-end">
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-12">
+                    <button
+                      class="btn btn-black btn-lg py-3 btn-block"
+                      id="btnPembayaran"
+                      onclick="payment()"
+                    >
+                      lanjut pembayaran
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
