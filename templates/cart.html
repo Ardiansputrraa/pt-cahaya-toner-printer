@@ -70,11 +70,13 @@
           $(`#decrease-durasi-${id}`).prop("disabled", true);
           $(`#increase-durasi-${id}`).prop("disabled", true);
           updateQuantity(id, 1);
+          updateDurasi(id, 1);
           harga = dataKeranjang[id][0]["hargaJual"];
         } else if (selectedValue === "sewa") {
           row.find(".durasi-sewa").prop("disabled", false);
           row.find(".kuantitas-barang").prop("disabled", false);
           updateDurasi(id, 1);
+          updateQuantity(id, 1);
           harga = dataKeranjang[id][0]["hargaSewa"];
           $(`#decrease-durasi-${id}`).prop("disabled", false);
           $(`#increase-durasi-${id}`).prop("disabled", false);

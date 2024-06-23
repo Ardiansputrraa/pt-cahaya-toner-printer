@@ -795,8 +795,11 @@ def update_durasi(id):
         obj = request.get_json()
         new_durasi = int(obj['durasiSewa'])
         if id in dataKeranjang:
-            dataKeranjang[id][0]['durasiSewa'] = new_durasi 
-            dataKeranjang[id][0]['total'] = (int(dataKeranjang[id][0]['hargaSewa']) * dataKeranjang[id][0]['kuantitas']) * new_durasi
+            if  dataKeranjang[id][0]["tipePemasukan"] == "Penjualan":
+                dataKeranjang[id][0]['total'] = (int(dataKeranjang[id][0]['hargaJual']) * dataKeranjang[id][0]['kuantitas']) * dataKeranjang[id][0]['durasiSewa']
+            else :
+                dataKeranjang[id][0]['durasiSewa'] = new_durasi 
+                dataKeranjang[id][0]['total'] = (int(dataKeranjang[id][0]['hargaSewa']) * dataKeranjang[id][0]['kuantitas']) * new_durasi
             return jsonify({'message': 'Durasi updated successfully', 'dataKeranjang': dataKeranjang}), 200
         else:
             return jsonify({'message': 'Item not found'}), 404
