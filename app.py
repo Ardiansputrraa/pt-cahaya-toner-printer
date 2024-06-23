@@ -5,11 +5,9 @@ import hashlib
 import jwt
 from flask import Flask, make_response, render_template, jsonify, request, redirect, url_for
 from datetime import datetime, timedelta
-from bson import ObjectId 
 from werkzeug.utils import secure_filename
 import random
 import string
-from twilio.rest import Client
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
