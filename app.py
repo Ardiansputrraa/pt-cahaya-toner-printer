@@ -371,6 +371,11 @@ def get_data(page):
         dataPendapatan = list(db.data_pendapatan.find({}, {'_id' : False}))      
         return jsonify({"dataPendapatan":dataPendapatan})
     elif page == "chart":
+        sekarang = datetime.now()
+        tanggal = sekarang.strftime("%d-%m-%Y")
+        hari = tanggal.split("-")[0]
+        bulan = tanggal.split("-")[1]
+        tahun = tanggal.split("-")[2]
         dataPendapatan = list(db.data_pendapatan.find({}, {'_id' : False}))      
         return jsonify({"dataPendapatan":dataPendapatan, "tanggal": tanggal, "hari": hari, "bulan": bulan, "tahun": tahun})
     elif page == 'produk':

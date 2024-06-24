@@ -12,8 +12,7 @@
         let alamat = $('#alamat').val()
         let pesan = $('#pesan').val()
         if (perusahaan == "") {
-          alert("Anda belum memasukan nama perusahaan")
-          return
+          perusahaan = "-"
         }
         if (nama == "") {
           alert("Anda belum memasukan nama anda")
@@ -45,8 +44,15 @@
             telpone: telpone,
             alamat: alamat,
           },
-          success: function(response) {    
-              window.location.href = 'https://wa.me/6287837155937?text=' + pesan
+          success: function(response) {  
+              $('#perusahaan').val("")
+              $('#nama').val("")
+              $('#email').val("")
+              $('#telpone').val("")
+              $('#alamat').val("")
+              $('#pesan').val("")
+              let url = 'https://wa.me/6287837155937?text=' + pesan
+              window.open(url, "_blank");
           }
         })
       }
