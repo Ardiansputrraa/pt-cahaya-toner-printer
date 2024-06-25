@@ -119,7 +119,7 @@
                                         <small class="text-muted">${notifikasi[i]["tanggal"]} ${notifikasi[i]["jam"]}</small>
                                         <div class="mt-1">
                                             <small><a onclick="transaksiBerhasil('${id}', '${tipe}', '${kuantitas}', '${namaPenerima}', '${perusahaan}', '${alamat}', '${harga}', '${metodePembayaran}', '${tipePemasukan}', '${durasiSewa}', '${email}', ${telpone})" class="text-primary">konfirmasi Pembayaran</a></small> |
-                                            <small><btn onclick="konfirmasi('${notifikasi[i].telpone}', '${total}')" class="text-primary">konfirmasi Pesanan</btn></small>
+                                            <small><btn onclick="konfirmasi('${notifikasi[i].telpone}', '${total}', '${id}')" class="text-primary">konfirmasi Pesanan</btn></small>
                                         </div>
                                     </div>
                                 </div>
@@ -184,10 +184,10 @@
     });
   }
 
-  function konfirmasi(telpone, total) {
+  function konfirmasi(telpone, total, id) {
     wa = "62" + telpone.substring(1, telpone.length);
 
-    let pesan = `*Pesanan anda telah terkonfirmasi!*\nSilahkan lakukan pembayaran dengan total *${formatRupiah(
+    let pesan = `*Pesanan anda dengan ID ${id} telah terkonfirmasi!*\nSilahkan lakukan pembayaran dengan total *${formatRupiah(
       total
     )}*
             \n*BCA* 234234I23O3 *Cahaya Toner Printer*\n*BRI* 234234I23O3 *Cahaya Toner Printer*\n*Mandiri* 234234I23O3 *Cahaya Toner Printer*
